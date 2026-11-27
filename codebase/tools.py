@@ -61,6 +61,7 @@ OVERVIEW_NOISE_TOKENS = {
     "day", "ngay", "bai", "noi", "dung", "hoc", "gi", "tom", "tat", "gom", "nhung",
     "chu", "de", "tong", "quan", "muc", "luc", "cac", "phan", "mo", "chuyen", "sang",
     "den", "xem", "nay", "ve", "la", "co", "nao", "giai", "thich", "cho", "minh", "giup",
+    "bat", "dau", "tu", "phut", "thu", "may", "gio", "giay", "moc", "thoi", "gian",
 }
 
 

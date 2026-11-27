@@ -1,26 +1,87 @@
 const DEFAULT_API_BASE = "http://127.0.0.1:8000";
 
 async function getApiBase() {
-  const res = await chrome.storage.local.get(["apiBase"]);
-  return (res.apiBase || DEFAULT_API_BASE).replace(/\/+$/, "");
+  try {
+    const res = await Promise.race([
+      chrome.storage.local.get(["apiBase"]),
+      new Promise((resolve) => setTimeout(() => resolve({}), 1000)),
+    ]);
+    const raw = (res.apiBase || DEFAULT_API_BASE).replace(/\/+$/, "");
+    // Trên Windows, "localhost" thử IPv6 (::1) mất ~2 giây trước khi rơi về 127.0.0.1
+    return raw.replace(/^http:\/\/localhost(?=[:/]|$)/i, "http://127.0.0.1");
+  } catch (e) {
+    return DEFAULT_API_BASE;
+  }
 }
 
-async function callBackend(path, options = {}) {
+async function callBackend(path, options = {}, timeoutMs = 35000) {
   const base = await getApiBase();
   const url = `${base}${path}`;
-  const resp = await fetch(url, options);
-  const text = await resp.text();
-  let data;
-  try {
-    data = JSON.parse(text);
-  } catch (e) {
-    data = { error: text || `HTTP ${resp.status}` };
+  const controller = new AbortController();
+  const isLoopback = /^https?:\/\/(127\.0\.0\.1|localhost|\[::1\])(?::\d+)?\//i.test(url);
+
+  let timer;
+  const timeoutPromise = new Promise((_, reject) => {
+    timer = setTimeout(() => {
+      try {
+        controller.abort();
+      } catch (e) {}
+      const err = new Error(
+        `Quá thời gian chờ (${Math.round(timeoutMs / 1000)} giây) khi gọi ${url}. Nếu dùng Edge/Chrome bản mới, bấm biểu tượng 3m trên thanh extension → "Lưu & Kiểm tra" để cấp quyền Local Network Access, hoặc kiểm tra cửa sổ chạy python frontend/server.py.`
+      );
+      err.name = "TimeoutError";
+      reject(err);
+    }, timeoutMs);
+  });
+
+  const fetchOpts = { ...options, signal: controller.signal, cache: "no-store" };
+  if (isLoopback) {
+    fetchOpts.targetAddressSpace = "loopback";
   }
-  return { ok: resp.ok, status: resp.status, data };
+
+  try {
+    const doFetch = async () => {
+      let resp;
+      try {
+        resp = await fetch(url, fetchOpts);
+      } catch (e) {
+        // Fallback nếu trình duyệt từ chối thuộc tính targetAddressSpace
+        if (isLoopback && fetchOpts.targetAddressSpace && e && e.name === "TypeError") {
+          const fallbackOpts = { ...fetchOpts };
+          delete fallbackOpts.targetAddressSpace;
+          resp = await fetch(url, fallbackOpts);
+        } else {
+          throw e;
+        }
+      }
+      const text = await resp.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        data = { error: text || `HTTP ${resp.status}` };
+      }
+      return { ok: resp.ok, status: resp.status, data };
+    };
+
+    return await Promise.race([doFetch(), timeoutPromise]);
+  } catch (err) {
+    if (err && (err.name === "AbortError" || err.name === "TimeoutError")) {
+      throw new Error(
+        err.message && err.message.includes("Quá thời gian chờ")
+          ? err.message
+          : `Quá thời gian chờ (${Math.round(timeoutMs / 1000)} giây). Kiểm tra quyền Local Network Access (bấm icon extension 3m → Lưu & Kiểm tra) hoặc cửa sổ python frontend/server.py.`
+      );
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
-// Chạy trong MAIN world của mọi frame thuộc tab bài giảng để tua thẳng tới mốc thời gian / slide.
-function seekInPageMain(seconds, slide) {
+// Chạy trong MAIN world của từng frame thuộc tab (allFrames: true) để tua thẳng tới mốc thời gian / slide.
+// Chỉ tác động lên frame ĐANG HIỂN THỊ và khớp đúng ngày học (targetDay) nếu có chỉ định.
+function seekInPageMain(seconds, slide, targetDay, viewerOnly) {
   function parseTimeLabel(str) {
     if (!str) return null;
     const m = String(str).trim().match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
@@ -29,27 +90,33 @@ function seekInPageMain(seconds, slide) {
     return Number(m[1]) * 60 + Number(m[2]);
   }
 
-  function collectContexts(win, out, seen) {
-    if (!win || seen.has(win)) return;
-    seen.add(win);
-    let doc;
+  function extractDayKey(str) {
+    const s = String(str || "");
+    const m = s.match(/(?:^|[^a-z0-9])day[\s_-]*0?(\d{1,2})(?:[^0-9]|$)/i);
+    if (!m) return "";
+    const n = parseInt(m[1], 10);
+    if (isNaN(n) || n < 1 || n > 15) return "";
+    return `Day${String(n).padStart(2, "0")}`;
+  }
+
+  function isFrameVisible(win) {
     try {
-      doc = win.document;
-    } catch (e) {
-      return;
-    }
-    if (!doc) return;
-    out.push({ win, doc });
-    let frames = [];
-    try {
-      frames = Array.from(doc.querySelectorAll("iframe"));
-    } catch (e) {}
-    for (const f of frames) {
-      try {
-        if (f.contentWindow && f.contentDocument) {
-          collectContexts(f.contentWindow, out, seen);
+      if (win.innerWidth < 120 || win.innerHeight < 80) return false;
+      const fe = win.frameElement;
+      if (fe) {
+        const r = fe.getBoundingClientRect();
+        if (!r || r.width < 120 || r.height < 80) return false;
+        const st =
+          fe.ownerDocument && fe.ownerDocument.defaultView
+            ? fe.ownerDocument.defaultView.getComputedStyle(fe)
+            : null;
+        if (st && (st.display === "none" || st.visibility === "hidden" || parseFloat(st.opacity) === 0)) {
+          return false;
         }
-      } catch (e) {}
+      }
+      return true;
+    } catch (e) {
+      return win.innerWidth >= 120 && win.innerHeight >= 80;
     }
   }
 
@@ -71,7 +138,8 @@ function seekInPageMain(seconds, slide) {
   }
 
   function pickBestMedia(doc) {
-    const list = queryAllDeep(doc, "video, audio");
+    const direct = Array.from(doc.querySelectorAll("video, audio"));
+    const list = direct.length ? direct : queryAllDeep(doc, "video, audio");
     if (!list.length) return null;
     const scored = list.map((el) => {
       let score = el.tagName === "VIDEO" ? 10 : 5;
@@ -104,25 +172,39 @@ function seekInPageMain(seconds, slide) {
     return true;
   }
 
-  const hasSeconds = typeof seconds === "number" && isFinite(seconds) && seconds >= 0;
-  const hasSlide = typeof slide === "number" && isFinite(slide) && slide >= 1;
-  const contexts = [];
-  collectContexts(window, contexts, new Set());
-
   function pauseAllMedia(doc) {
-    queryAllDeep(doc, "video, audio").forEach((m) => {
+    doc.querySelectorAll("video, audio").forEach((m) => {
       try {
         m.pause();
       } catch (e) {}
     });
   }
 
+  const win = window;
+  const doc = document;
+  if (!doc) return { ok: false };
+
+  const isViewerFrame = win.name === "tm-3mien-viewer-frame";
+  if (viewerOnly && !isViewerFrame) return { ok: false };
+  if (!isFrameVisible(win)) return { ok: false, skippedHidden: true };
+
+  const frameDay = extractDayKey(`${win.location.href} ${doc.title || ""}`);
+  if (targetDay && frameDay && frameDay !== targetDay) {
+    return { ok: false, skippedWrongDay: frameDay };
+  }
+  if (targetDay && !frameDay && !isViewerFrame) {
+    return { ok: false, skippedNoDay: true };
+  }
+
+  const hasSeconds = typeof seconds === "number" && isFinite(seconds) && seconds >= 0;
+  const hasSlide = typeof slide === "number" && isFinite(slide) && slide >= 1;
+  const contexts = [{ win, doc }];
+
   const results = [];
 
   for (const { win, doc } of contexts) {
-    // Chống chạy trùng 2 lần trên cùng 1 frame khi vừa quét đệ quy vừa chạy allFrames
     const now = Date.now();
-    if (win.__tm3mienLastSeekAt && now - win.__tm3mienLastSeekAt < 250) {
+    if (win.__tm3mienLastSeekAt && now - win.__tm3mienLastSeekAt < 180) {
       continue;
     }
 
@@ -134,7 +216,7 @@ function seekInPageMain(seconds, slide) {
       if (hasSeconds) {
         const targetMs = seconds * 1000;
         for (let i = 0; i < cues.length; i++) {
-          if (typeof cues[i].start === "number" && cues[i].start <= targetMs) {
+          if (typeof cues[i].start === "number" && cues[i].start <= targetMs + 1000) {
             idx = i;
           }
         }
@@ -164,7 +246,9 @@ function seekInPageMain(seconds, slide) {
         const chosen = cues[idx] || {};
         results.push({
           ok: true,
-          rank: 5,
+          rank: isViewerFrame ? 6 : 5,
+          isViewer: isViewerFrame,
+          day: frameDay,
           mode: "VinTutor",
           cueIndex: idx,
           slide: typeof chosen.slide === "number" ? chosen.slide + 1 : null,
@@ -332,7 +416,25 @@ function seekInPageMain(seconds, slide) {
   return { ok: false };
 }
 
-// Đọc trạng thái player hiện tại (mốc giây, slide, tiêu đề bài giảng) trên mọi frame của tab.
+// Dừng toàn bộ âm thanh trong khung chiếu nổi (Floating Viewer) trước khi đóng
+function stopViewerMain() {
+  if (window.name !== "tm-3mien-viewer-frame") return { ok: false };
+  try {
+    if (window.VinTutor && typeof window.VinTutor.pause === "function") {
+      window.VinTutor.pause();
+    }
+  } catch (e) {}
+  try {
+    document.querySelectorAll("video, audio").forEach((m) => {
+      try {
+        m.pause();
+      } catch (e) {}
+    });
+  } catch (e) {}
+  return { ok: true };
+}
+
+// Đọc trạng thái player hiện tại (chỉ tính các frame đang HIỂN THỊ thật sự, bỏ qua iframe ẩn của SPA)
 function inspectPlayerMain() {
   function parseTimeLabel(str) {
     if (!str) return null;
@@ -342,172 +444,145 @@ function inspectPlayerMain() {
     return Number(m[1]) * 60 + Number(m[2]);
   }
 
-  function collectContexts(win, out, seen) {
-    if (!win || seen.has(win)) return;
-    seen.add(win);
-    let doc;
+  function isFrameVisible(win) {
     try {
-      doc = win.document;
+      if (win.innerWidth < 120 || win.innerHeight < 80) return false;
+      const fe = win.frameElement;
+      if (fe) {
+        const r = fe.getBoundingClientRect();
+        if (!r || r.width < 120 || r.height < 80) return false;
+        const st =
+          fe.ownerDocument && fe.ownerDocument.defaultView
+            ? fe.ownerDocument.defaultView.getComputedStyle(fe)
+            : null;
+        if (st && (st.display === "none" || st.visibility === "hidden" || parseFloat(st.opacity) === 0)) {
+          return false;
+        }
+      }
+      return true;
     } catch (e) {
-      return;
-    }
-    if (!doc) return;
-    out.push({ win, doc });
-    let frames = [];
-    try {
-      frames = Array.from(doc.querySelectorAll("iframe"));
-    } catch (e) {}
-    for (const f of frames) {
-      try {
-        if (f.contentWindow && f.contentDocument) {
-          collectContexts(f.contentWindow, out, seen);
-        }
-      } catch (e) {}
+      return win.innerWidth >= 120 && win.innerHeight >= 80;
     }
   }
 
-  function queryAllDeep(root, selector) {
-    const found = [];
-    const stack = [root];
-    while (stack.length) {
-      const node = stack.pop();
-      if (!node || !node.querySelectorAll) continue;
-      try {
-        found.push(...node.querySelectorAll(selector));
-        const all = node.querySelectorAll("*");
-        for (const el of all) {
-          if (el.shadowRoot) stack.push(el.shadowRoot);
-        }
-      } catch (e) {}
-    }
-    return found;
+  const win = window;
+  const doc = document;
+  if (!doc || !isFrameVisible(win)) return { found: false, frameUrl: location.href, iframes: [] };
+  const isViewer = win.name === "tm-3mien-viewer-frame";
+
+  // 1. Nhanh nhất (O(1)): VinTutor trực tiếp trên window
+  if (win.VinTutor && Array.isArray(win.VinTutor.cues) && win.VinTutor.cues.length > 0) {
+    const idx = Math.max(0, Math.min(win.VinTutor.cues.length - 1, win.VinTutor.index || 0));
+    const cue = win.VinTutor.cues[idx] || {};
+    const timeEl = doc.querySelector(".tt-time");
+    let seconds = Math.round((cue.start || 0) / 1000);
+    const parsed = parseTimeLabel(timeEl ? timeEl.textContent : "");
+    if (parsed !== null) seconds = parsed;
+    return {
+      found: true,
+      rank: 5,
+      mode: "VinTutor",
+      seconds,
+      totalSeconds: Math.round((win.VinTutor.total || 0) / 1000),
+      slide: typeof cue.slide === "number" ? cue.slide + 1 : (win.VinDeck ? win.VinDeck.index + 1 : null),
+      totalSlides: win.VinDeck ? win.VinDeck.count : null,
+      playing: !!win.VinTutor.playing,
+      title: doc.title || "",
+      href: win.location.href,
+    };
   }
 
-  const contexts = [];
-  collectContexts(window, contexts, new Set());
-  const hits = [];
-  const iframeHints = [];
+  // 2. HTML5 video / audio trực tiếp trên DOM (không quét toàn bộ "*" trừ khi cần)
+  const media = doc.querySelector("video") || doc.querySelector("audio");
+  if (media) {
+    return {
+      found: true,
+      rank: 4,
+      mode: media.tagName === "VIDEO" ? "HTML5 Video" : "HTML5 Audio",
+      seconds: Math.floor(media.currentTime || 0),
+      totalSeconds: isFinite(media.duration) ? Math.floor(media.duration) : 0,
+      slide: null,
+      playing: !media.paused,
+      title: doc.title || "",
+      href: win.location.href,
+    };
+  }
 
-  for (const { win, doc } of contexts) {
-    if (win.VinTutor && Array.isArray(win.VinTutor.cues) && win.VinTutor.cues.length > 0) {
-      const idx = Math.max(0, Math.min(win.VinTutor.cues.length - 1, win.VinTutor.index || 0));
-      const cue = win.VinTutor.cues[idx] || {};
-      const timeEl = doc.querySelector(".tt-time");
-      let seconds = Math.round((cue.start || 0) / 1000);
-      const parsed = parseTimeLabel(timeEl ? timeEl.textContent : "");
-      if (parsed !== null) seconds = parsed;
-      hits.push({
-        found: true,
-        rank: 5,
-        mode: "VinTutor",
-        seconds,
-        totalSeconds: Math.round((win.VinTutor.total || 0) / 1000),
-        slide: typeof cue.slide === "number" ? cue.slide + 1 : (win.VinDeck ? win.VinDeck.index + 1 : null),
-        totalSlides: win.VinDeck ? win.VinDeck.count : null,
-        playing: !!win.VinTutor.playing,
-        title: doc.title || "",
-        href: win.location.href,
-      });
-      continue;
-    }
+  // 3. Thanh tua DOM VinTutor
+  const ttTrack = doc.querySelector(".tt-track");
+  if (ttTrack) {
+    const timeEl = doc.querySelector(".tt-time");
+    const totalEl = doc.querySelector(".tt-total");
+    const titleEl = doc.querySelector(".tt-start b, h1, h2");
+    return {
+      found: true,
+      rank: 3,
+      mode: "VinTutor Track",
+      seconds: parseTimeLabel(timeEl ? timeEl.textContent : ""),
+      totalSeconds: parseTimeLabel(totalEl ? totalEl.textContent : "") || 0,
+      slide: null,
+      playing: doc.documentElement.classList.contains("tt-playing"),
+      title: (titleEl && titleEl.textContent.trim()) || doc.title || "",
+      href: win.location.href,
+    };
+  }
 
-    const media = queryAllDeep(doc, "video")[0] || queryAllDeep(doc, "audio")[0];
-    if (media) {
-      hits.push({
-        found: true,
-        rank: 4,
-        mode: media.tagName === "VIDEO" ? "HTML5 Video" : "HTML5 Audio",
-        seconds: Math.floor(media.currentTime || 0),
-        totalSeconds: isFinite(media.duration) ? Math.floor(media.duration) : 0,
-        slide: null,
-        playing: !media.paused,
-        title: doc.title || "",
-        href: win.location.href,
-      });
-      continue;
-    }
-
-    const ttTrack = queryAllDeep(doc, ".tt-track")[0];
-    if (ttTrack) {
-      const timeEl = queryAllDeep(doc, ".tt-time")[0];
-      const totalEl = queryAllDeep(doc, ".tt-total")[0];
-      const titleEl = queryAllDeep(doc, ".tt-start b, h1, h2")[0];
-      hits.push({
+  // 4. Slider custom trên DOM
+  const sliders = doc.querySelectorAll('input[type="range"], [role="slider"]');
+  for (const sl of sliders) {
+    const rect = sl.getBoundingClientRect();
+    if (!rect || rect.width < 80) continue;
+    const maxVal = sl.tagName === "INPUT" ? parseFloat(sl.max) : parseFloat(sl.getAttribute("aria-valuemax"));
+    const curVal = sl.tagName === "INPUT" ? parseFloat(sl.value) : parseFloat(sl.getAttribute("aria-valuenow"));
+    if (isFinite(maxVal) && maxVal >= 30) {
+      return {
         found: true,
         rank: 3,
-        mode: "VinTutor Track",
-        seconds: parseTimeLabel(timeEl ? timeEl.textContent : ""),
-        totalSeconds: parseTimeLabel(totalEl ? totalEl.textContent : "") || 0,
+        mode: "Player Slider",
+        seconds: isFinite(curVal) ? Math.floor(curVal) : 0,
+        totalSeconds: Math.floor(maxVal),
         slide: null,
-        playing: doc.documentElement.classList.contains("tt-playing"),
-        title: (titleEl && titleEl.textContent.trim()) || doc.title || "",
-        href: win.location.href,
-      });
-      continue;
-    }
-
-    const sliders = queryAllDeep(doc, 'input[type="range"], [role="slider"]');
-    for (const sl of sliders) {
-      const rect = sl.getBoundingClientRect();
-      if (!rect || rect.width < 80) continue;
-      const maxVal = sl.tagName === "INPUT" ? parseFloat(sl.max) : parseFloat(sl.getAttribute("aria-valuemax"));
-      const curVal = sl.tagName === "INPUT" ? parseFloat(sl.value) : parseFloat(sl.getAttribute("aria-valuenow"));
-      if (isFinite(maxVal) && maxVal >= 30) {
-        hits.push({
-          found: true,
-          rank: 3,
-          mode: "Player Slider",
-          seconds: isFinite(curVal) ? Math.floor(curVal) : 0,
-          totalSeconds: Math.floor(maxVal),
-          slide: null,
-          playing: false,
-          title: doc.title || "",
-          href: win.location.href,
-        });
-        break;
-      }
-    }
-
-    if (win.VinDeck) {
-      hits.push({
-        found: true,
-        rank: 2,
-        mode: "VinDeck",
-        seconds: null,
-        slide: (win.VinDeck.index || 0) + 1,
-        totalSlides: win.VinDeck.count || null,
         playing: false,
         title: doc.title || "",
         href: win.location.href,
-      });
-      continue;
+      };
     }
-
-    const yt = doc.querySelector('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]');
-    if (yt) {
-      hits.push({ found: true, rank: 1, mode: "YouTube Embed", seconds: null, title: doc.title || "", href: win.location.href });
-      continue;
-    }
-    const vm = doc.querySelector('iframe[src*="player.vimeo.com"]');
-    if (vm) {
-      hits.push({ found: true, rank: 1, mode: "Vimeo Embed", seconds: null, title: doc.title || "", href: win.location.href });
-      continue;
-    }
-
-    try {
-      const iframes = Array.from(doc.querySelectorAll("iframe"));
-      for (const f of iframes.slice(0, 3)) {
-        const src = f.getAttribute("src") || (f.hasAttribute("srcdoc") ? "[srcdoc]" : "[no-src]");
-        const sandbox = f.getAttribute("sandbox") || "";
-        iframeHints.push({ src: src.slice(0, 120), sandbox });
-      }
-    } catch (e) {}
   }
 
-  if (hits.length) {
-    hits.sort((a, b) => (b.rank || 0) - (a.rank || 0));
-    return hits[0];
+  // 5. VinDeck slide thuần
+  if (win.VinDeck) {
+    return {
+      found: true,
+      rank: 2,
+      mode: "VinDeck",
+      seconds: null,
+      slide: (win.VinDeck.index || 0) + 1,
+      totalSlides: win.VinDeck.count || null,
+      playing: false,
+      title: doc.title || "",
+      href: win.location.href,
+    };
   }
+
+  // 6. Embed YouTube / Vimeo
+  const yt = doc.querySelector('iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]');
+  if (yt) {
+    return { found: true, rank: 1, mode: "YouTube Embed", seconds: null, title: doc.title || "", href: win.location.href };
+  }
+  const vm = doc.querySelector('iframe[src*="player.vimeo.com"]');
+  if (vm) {
+    return { found: true, rank: 1, mode: "Vimeo Embed", seconds: null, title: doc.title || "", href: win.location.href };
+  }
+
+  const iframeHints = [];
+  try {
+    const iframes = Array.from(doc.querySelectorAll("iframe"));
+    for (const f of iframes.slice(0, 3)) {
+      const src = f.getAttribute("src") || (f.hasAttribute("srcdoc") ? "[srcdoc]" : "[no-src]");
+      const sandbox = f.getAttribute("sandbox") || "";
+      iframeHints.push({ src: src.slice(0, 120), sandbox });
+    }
+  } catch (e) {}
 
   return { found: false, frameUrl: location.href, iframes: iframeHints };
 }
@@ -523,32 +598,56 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (!msg || !msg.type) return;
 
   if (msg.type === "GET_INFO") {
-    callBackend("/api/info")
+    callBackend("/api/info", {}, 8000)
       .then((r) => sendResponse(r))
       .catch((e) => sendResponse({ ok: false, error: `Chưa bật server cục bộ (${e.message}). Hãy chạy: python frontend/server.py` }));
     return true;
   }
 
   if (msg.type === "GET_LESSONS") {
-    callBackend("/api/lessons")
+    callBackend("/api/lessons", {}, 10000)
       .then((r) => sendResponse(r))
       .catch((e) => sendResponse({ ok: false, error: e.message }));
     return true;
   }
 
   if (msg.type === "CHAT") {
-    callBackend("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: msg.message || "" }),
-    })
+    callBackend(
+      "/api/chat",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: msg.message || "" }),
+      },
+      35000
+    )
       .then((r) => sendResponse(r))
       .catch((e) =>
         sendResponse({
           ok: false,
-          error: `Không kết nối được tới server cục bộ (${e.message}). Kiểm tra đã chạy python frontend/server.py chưa.`,
+          error: e.message.includes("Quá thời gian chờ")
+            ? e.message
+            : `Không kết nối được tới server cục bộ (${e.message}). Kiểm tra đã chạy python frontend/server.py chưa.`,
         })
       );
+    return true;
+  }
+
+  if (msg.type === "STOP_VIEWER") {
+    resolveTargetTabId(msg, sender)
+      .then(async (tabId) => {
+        if (!tabId) {
+          sendResponse({ ok: false });
+          return;
+        }
+        await chrome.scripting.executeScript({
+          target: { tabId, allFrames: true },
+          world: "MAIN",
+          func: stopViewerMain,
+        });
+        sendResponse({ ok: true });
+      })
+      .catch(() => sendResponse({ ok: false }));
     return true;
   }
 
@@ -566,6 +665,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           args: [
             typeof msg.seconds === "number" ? msg.seconds : null,
             typeof msg.slide === "number" ? msg.slide : null,
+            typeof msg.targetDay === "string" ? msg.targetDay : "",
+            Boolean(msg.viewerOnly),
           ],
         });
         const hits = results

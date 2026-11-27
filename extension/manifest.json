@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "3mien · Trợ giảng Pre-class có căn cứ",
-  "version": "1.2.2",
-  "description": "Trợ giảng AI có căn cứ (Track A1 - Nhóm 3mien) gắn trực tiếp trên preclass-online.com: trả lời kèm mã đoạn [Dxx-Syy · mm:ss], bấm để tua thẳng video/slide, hỏi ngược khi thiếu ngữ cảnh và từ chối ngoài bài.",
+  "version": "1.3.1",
+  "description": "Trợ giảng AI có căn cứ (Track A1 - Nhóm 3mien) cho cả 15 ngày Pre-class trên preclass-online.com: trích dẫn [Dxx-Syy · mm:ss], tua video/slide, hỏi đoạn đang xem, chip G9 1 chạm và bản nháp hỏi TA Discord.",
   "permissions": [
     "storage",
     "activeTab",
@@ -14,8 +14,8 @@
     "https://preclass.com/*",
     "https://*.preclass.com/*",
     "https://*/*",
-    "http://127.0.0.1:8000/*",
-    "http://localhost:8000/*"
+    "http://127.0.0.1/*",
+    "http://localhost/*"
   ],
   "background": {
     "service_worker": "background.js"

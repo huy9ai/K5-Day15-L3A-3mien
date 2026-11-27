@@ -228,7 +228,8 @@ class TutorHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Request-Private-Network")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()
         self.wfile.write(raw)
 
@@ -236,7 +237,8 @@ class TutorHandler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Access-Control-Request-Private-Network")
+        self.send_header("Access-Control-Allow-Private-Network", "true")
         self.end_headers()
 
     def _send_file(self, base_dir: str, rel_path: str, sanitize_lecture_html: bool = False) -> None:
@@ -323,7 +325,7 @@ class TutorHandler(BaseHTTPRequestHandler):
             data = _read_lessons()
             segs = data.get("segments", [])
             days = sorted({s.get("day", "") for s in segs if s.get("day")})
-            lectures = _discover_lectures(force=True)
+            lectures = _discover_lectures(force=False)
             public_lectures = {
                 d: {
                     "day": v["day"],

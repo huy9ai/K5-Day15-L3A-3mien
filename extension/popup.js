@@ -34,29 +34,70 @@ function checkPlayer() {
   });
 }
 
-function checkServer() {
+function normalizeBase(url) {
+  return (url || DEFAULT_API_BASE).trim().replace(/\/+$/, "").replace(/^http:\/\/localhost(?=[:/]|$)/i, "http://127.0.0.1");
+}
+
+async function checkServer() {
   statusEl.textContent = "Đang kiểm tra…";
   statusEl.className = "status";
+  const base = normalizeBase(apiInput.value);
+
+  // Thử gọi trực tiếp từ cửa sổ popup (có UI để Edge/Chrome bản mới hiện hộp thoại cấp quyền Local Network Access nếu cần)
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 5000);
+    let resp;
+    try {
+      resp = await fetch(`${base}/api/info`, {
+        signal: controller.signal,
+        cache: "no-store",
+        targetAddressSpace: "loopback",
+      });
+    } catch (e) {
+      if (e && e.name === "TypeError") {
+        resp = await fetch(`${base}/api/info`, { signal: controller.signal, cache: "no-store" });
+      } else {
+        throw e;
+      }
+    } finally {
+      clearTimeout(timer);
+    }
+    if (resp.ok) {
+      const d = await resp.json();
+      const daysPart = d.days_count ? `${d.days_count} ngày · ` : "";
+      statusEl.textContent = `Đã kết nối: ${d.provider} · ${d.model || "fake"} (${daysPart}${d.segments_count} đoạn)`;
+      statusEl.className = "status ok";
+      checkPlayer();
+      return;
+    }
+  } catch (e) {
+    // Rơi về kiểm tra qua service worker để hiển thị lỗi chi tiết
+  }
+
   chrome.runtime.sendMessage({ type: "GET_INFO" }, (res) => {
     if (chrome.runtime.lastError || !res || !res.ok) {
-      statusEl.textContent = "Chưa kết nối được server (chạy: python frontend/server.py)";
+      const detail = (res && res.error) || "Chưa kết nối được server (chạy: python frontend/server.py)";
+      statusEl.textContent = detail;
       statusEl.className = "status err";
       return;
     }
     const d = res.data;
-    statusEl.textContent = `Đã kết nối: ${d.provider} · ${d.model || "fake"} (${d.segments_count} đoạn)`;
+    const daysPart = d.days_count ? `${d.days_count} ngày · ` : "";
+    statusEl.textContent = `Đã kết nối: ${d.provider} · ${d.model || "fake"} (${daysPart}${d.segments_count} đoạn)`;
     statusEl.className = "status ok";
   });
   checkPlayer();
 }
 
 chrome.storage.local.get(["apiBase"], (res) => {
-  apiInput.value = res.apiBase || DEFAULT_API_BASE;
+  apiInput.value = normalizeBase(res.apiBase || DEFAULT_API_BASE);
   checkServer();
 });
 
 btnSave.addEventListener("click", () => {
-  const val = (apiInput.value || DEFAULT_API_BASE).trim().replace(/\/+$/, "");
+  const val = normalizeBase(apiInput.value);
+  apiInput.value = val;
   chrome.storage.local.set({ apiBase: val }, () => checkServer());
 });
 
