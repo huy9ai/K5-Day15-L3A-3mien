@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "3mien · Trợ giảng Pre-class có căn cứ",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "Trợ giảng AI có căn cứ (Track A1 - Nhóm 3mien) cho cả 15 ngày Pre-class trên preclass-online.com: trích dẫn [Dxx-Syy · mm:ss], tua video/slide, hỏi đoạn đang xem, chip G9 1 chạm và bản nháp hỏi TA Discord.",
   "permissions": [
     "storage",

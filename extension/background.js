@@ -480,7 +480,8 @@ function inspectPlayerMain() {
     if (parsed !== null) seconds = parsed;
     return {
       found: true,
-      rank: 5,
+      rank: isViewer ? 6 : 5,
+      isViewer,
       mode: "VinTutor",
       seconds,
       totalSeconds: Math.round((win.VinTutor.total || 0) / 1000),
@@ -630,6 +631,229 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
             : `Không kết nối được tới server cục bộ (${e.message}). Kiểm tra đã chạy python frontend/server.py chưa.`,
         })
       );
+    return true;
+  }
+
+// Điều hướng trực tiếp tới mục bài học (Day XX / Ngày XX) ngay bên trong trang web preclass-online.com (không mở tab mới)
+function navigateInPreclassMain(targetDay, dayNum, lessonTitle, allowStep) {
+  function strip(str) {
+    return String(str || "")
+      .replace(/đ/g, "d")
+      .replace(/Đ/g, "D")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+  }
+
+  function isVisible(el) {
+    if (!el || !el.getBoundingClientRect) return false;
+    if (el.closest && el.closest("#tm-3mien-root")) return false;
+    const r = el.getBoundingClientRect();
+    if (!r || r.width < 12 || r.height < 12) return false;
+    const st = window.getComputedStyle(el);
+    if (st && (st.display === "none" || st.visibility === "hidden" || parseFloat(st.opacity) === 0)) return false;
+    return true;
+  }
+
+  function clickableTarget(el) {
+    return (
+      el.closest('a, button, [role="button"], [role="link"], [role="tab"], [role="menuitem"], [onclick]') ||
+      el.closest("li") ||
+      el
+    );
+  }
+
+  function clickEl(el) {
+    try {
+      el.scrollIntoView({ behavior: "instant", block: "center" });
+    } catch (e) {}
+    try {
+      el.click();
+      return true;
+    } catch (e) {
+      try {
+        el.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window }));
+        return true;
+      } catch (err) {
+        return false;
+      }
+    }
+  }
+
+  const num = Number(dayNum);
+  const pad2 = String(num).padStart(2, "0");
+  const dayUrlRe = new RegExp(`(?:^|[^a-z0-9])(?:day|ngay|buoi|d)[-_]?0?${num}(?:[^0-9]|$)`, "i");
+  const dayTextRe = new RegExp(`(?:^|[^a-z0-9])(?:day|ngay|buoi)\\s*0?${num}(?:[^0-9]|$)`, "i");
+  const anyOtherDayRe = /(?:^|[^a-z0-9])(?:day|ngay|buoi)\s*0?(\d{1,2})(?:[^0-9]|$)/i;
+
+  // Rút cụm từ khoá đặc trưng từ tiêu đề bài (vd "ai sdlc", "evaluation", "workflow")
+  const cleanTitle = strip(lessonTitle || "")
+    .replace(/^day\s*\d+\s*[-–—:.·]*/i, "")
+    .replace(/^ngay\s*\d+\s*[-–—:.·]*/i, "")
+    .trim();
+  const titleWords = cleanTitle
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length >= 4 && !["cho", "cac", "nhung", "trong", "agent", "bai"].includes(w));
+
+  const maxArea = window.innerWidth * window.innerHeight * 0.42;
+  const candidates = [];
+  const seen = new Set();
+
+  const selectors = 'a[href], button, [role="button"], [role="link"], [role="tab"], [role="menuitem"], li, [class*="lesson"], [class*="day"], [class*="module"], [class*="chapter"], [class*="item"], [class*="card"]';
+  document.querySelectorAll(selectors).forEach((rawEl) => {
+    if (!isVisible(rawEl)) return;
+    const el = clickableTarget(rawEl);
+    if (!el || seen.has(el) || !isVisible(el)) return;
+    seen.add(el);
+
+    const rect = el.getBoundingClientRect();
+    if (rect.width * rect.height > maxArea) return;
+
+    const href = el.getAttribute("href") || "";
+    const text = (el.innerText || el.textContent || "").replace(/\s+/g, " ").trim();
+    const norm = strip(text);
+    if (!href && (!norm || norm.length > 180)) return;
+
+    let score = 0;
+    if (href && dayUrlRe.test(href)) score += 12;
+    if (norm && norm.length <= 150 && dayTextRe.test(norm)) score += 10;
+
+    // Tránh nhầm sang bài ngày khác nếu text chứa số ngày khác
+    const otherMatch = norm.match(anyOtherDayRe);
+    if (otherMatch && parseInt(otherMatch[1], 10) !== num) {
+      return;
+    }
+
+    if (titleWords.length > 0 && norm.length <= 150) {
+      let kwHits = 0;
+      for (const w of titleWords.slice(0, 4)) {
+        if (norm.includes(w)) kwHits += 1;
+      }
+      if (kwHits >= 2) score += 6 + kwHits;
+      else if (kwHits === 1 && score > 0) score += 3;
+    }
+
+    if (score >= 8) {
+      // Ưu tiên link/button nhỏ gọn, nằm trong danh sách/sidebar hơn khung lớn
+      const tagBonus = el.tagName === "A" || el.tagName === "BUTTON" ? 2 : 0;
+      const lenBonus = norm.length <= 80 ? 1 : 0;
+      candidates.push({ el, score: score + tagBonus + lenBonus, label: text.slice(0, 70) || href });
+    }
+  });
+
+  if (candidates.length > 0) {
+    candidates.sort((a, b) => b.score - a.score);
+    const best = candidates[0];
+    if (clickEl(best.el)) {
+      return { ok: true, status: "clicked_day", label: best.label, targetDay };
+    }
+  }
+
+  // Bước phụ: nếu đang ở Trang chủ hoặc sidebar bài học đang đóng, mở mục Khoá học / Mục lục để lộ danh sách ngày
+  if (allowStep) {
+    const stepCandidates = [];
+    document.querySelectorAll('a, button, [role="button"], [role="link"], [class*="card"], [class*="course"]').forEach((rawEl) => {
+      if (!isVisible(rawEl)) return;
+      const el = clickableTarget(rawEl);
+      if (!el || !isVisible(el)) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.width * rect.height > maxArea) return;
+      const text = (el.innerText || el.textContent || "").replace(/\s+/g, " ").trim();
+      const norm = strip(text);
+      const aria = strip(el.getAttribute("aria-label") || el.getAttribute("title") || "");
+      let score = 0;
+      if (norm.includes("nen tang ai") || norm.includes("context engineering") || (norm.includes("dang hoc") && norm.length < 140)) {
+        score = 10;
+      } else if (norm === "khoa hoc cua toi" || norm.startsWith("khoa hoc cua toi")) {
+        score = 8;
+      } else if (
+        (aria.includes("menu") || aria.includes("sidebar") || aria.includes("muc luc") || aria.includes("danh sach") || norm === "muc luc") &&
+        rect.width <= 180 &&
+        rect.height <= 60
+      ) {
+        score = 7;
+      }
+      if (score > 0) {
+        stepCandidates.push({ el, score, label: text.slice(0, 50) || aria || "menu" });
+      }
+    });
+
+    if (stepCandidates.length > 0) {
+      stepCandidates.sort((a, b) => b.score - a.score);
+      if (clickEl(stepCandidates[0].el)) {
+        return { ok: true, status: "opened_step", label: stepCandidates[0].label, targetDay };
+      }
+    }
+  }
+
+  return { ok: false, status: "not_found", targetDay };
+}
+
+  if (msg.type === "REMEMBER_DAY_URL") {
+    const day = typeof msg.day === "string" ? msg.day : "";
+    const url = typeof msg.url === "string" ? msg.url : "";
+    if (day && /^https:\/\/[^/]*preclass(?:-online)?\.com\/.+/i.test(url) && !/\/decks\//i.test(url)) {
+      chrome.storage.local.get(["learnedDayUrls"], (res) => {
+        const map = (res && res.learnedDayUrls && typeof res.learnedDayUrls === "object") ? res.learnedDayUrls : {};
+        if (map[day] !== url) {
+          map[day] = url;
+          chrome.storage.local.set({ learnedDayUrls: map });
+        }
+        sendResponse({ ok: true });
+      });
+      return true;
+    }
+    sendResponse({ ok: false });
+    return;
+  }
+
+  if (msg.type === "NAVIGATE_TO_DAY") {
+    resolveTargetTabId(msg, sender)
+      .then(async (tabId) => {
+        if (!tabId) {
+          sendResponse({ ok: false, status: "no_tab" });
+          return;
+        }
+        const targetDay = typeof msg.targetDay === "string" ? msg.targetDay : "";
+        const dayMatch = targetDay.match(/(\d{1,2})/);
+        const dayNum = dayMatch ? parseInt(dayMatch[1], 10) : 0;
+        if (!targetDay || !dayNum) {
+          sendResponse({ ok: false, status: "invalid_day" });
+          return;
+        }
+
+        // Ưu tiên 1: Thử bấm trực tiếp vào mục Day XX trong DOM trang web hiện tại (SPA mượt, không reload)
+        const results = await chrome.scripting.executeScript({
+          target: { tabId, allFrames: false },
+          world: "MAIN",
+          func: navigateInPreclassMain,
+          args: [targetDay, dayNum, String(msg.lessonTitle || ""), Boolean(msg.allowStep)],
+        });
+        const r0 = results && results[0] && results[0].result;
+        if (r0 && r0.ok && r0.status === "clicked_day") {
+          sendResponse(r0);
+          return;
+        }
+
+        // Ưu tiên 2: Nếu đã học được URL thật trong web cho ngày này -> chuyển cùng tab tới đúng URL đó
+        const stored = await chrome.storage.local.get(["learnedDayUrls"]);
+        const learnedUrl = stored && stored.learnedDayUrls && stored.learnedDayUrls[targetDay];
+        const tab = await chrome.tabs.get(tabId).catch(() => null);
+        if (learnedUrl && (!tab || tab.url !== learnedUrl)) {
+          await chrome.tabs.update(tabId, { url: learnedUrl });
+          sendResponse({ ok: true, status: "navigated_url", url: learnedUrl, targetDay });
+          return;
+        }
+
+        // Ưu tiên 3: Nếu bước 1 vừa mở được trang Khoá học / sidebar -> báo lại để content.js thử bấm Day XX sau khi DOM render
+        if (r0 && r0.ok && r0.status === "opened_step") {
+          sendResponse(r0);
+          return;
+        }
+
+        sendResponse({ ok: false, status: "not_found", targetDay });
+      })
+      .catch((e) => sendResponse({ ok: false, status: "error", error: e.message }));
     return true;
   }
 

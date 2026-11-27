@@ -779,7 +779,7 @@
         </div>
         <div class="viewer-actions">
           <button id="btnViewerSeek" class="viewer-btn" type="button" title="Tua lại đúng mốc trích dẫn">↺ Đúng mốc</button>
-          <button id="btnViewerNewTab" class="viewer-btn" type="button" title="Mở toàn màn hình ở tab mới">↗ Tab mới</button>
+          <button id="btnViewerOpenInWeb" class="viewer-btn" type="button" title="Chuyển tới đúng mục bài học trong web (cùng tab)">↪ Mở trong web</button>
           <button id="btnViewerClose" class="viewer-btn close-btn" type="button" title="Đóng khung chiếu">✕ Đóng</button>
         </div>
       </div>
@@ -862,7 +862,7 @@
   const viewerStatus = $("viewerStatus");
   const viewerFrame = $("viewerFrame");
   const btnViewerSeek = $("btnViewerSeek");
-  const btnViewerNewTab = $("btnViewerNewTab");
+  const btnViewerOpenInWeb = $("btnViewerOpenInWeb");
   const btnViewerClose = $("btnViewerClose");
   const drawer = $("drawer");
   const btnCatalog = $("btnCatalog");
@@ -1063,6 +1063,20 @@
     renderPlayerHint();
   }
 
+  const PENDING_SEEK_KEY = "tm3mien_pending_seek";
+
+  function savePendingSeek(cite) {
+    try {
+      sessionStorage.setItem(PENDING_SEEK_KEY, JSON.stringify({ ...cite, ts: Date.now() }));
+    } catch (e) {}
+  }
+
+  function clearPendingSeek() {
+    try {
+      sessionStorage.removeItem(PENDING_SEEK_KEY);
+    } catch (e) {}
+  }
+
   function refreshPlayerState(onDone) {
     const pageDay = detectDayFromText(`${document.title} ${location.href}`);
     chrome.runtime.sendMessage({ type: "GET_PLAYER_STATE" }, (res) => {
@@ -1071,6 +1085,10 @@
         state.player = res;
         const innerDay = detectDayFromText(`${res.title || ""} ${res.href || ""}`);
         state.detectedDay = innerDay || pageDay;
+        // Tự học URL trang bài học thật trên preclass-online.com khi người dùng đang xem trực tiếp trong web
+        if (!res.isViewer && innerDay && location.pathname && location.pathname !== "/") {
+          chrome.runtime.sendMessage({ type: "REMEMBER_DAY_URL", day: innerDay, url: location.href }, () => {});
+        }
       } else {
         state.player = null;
         state.detectedDay = pageDay;
@@ -1177,6 +1195,94 @@
     viewerFrame.src = fullUrl;
   }
 
+  function pollNativeWebSeek(cite, seq, attempt = 0) {
+    if (seq !== state.viewerSeekSeq) return;
+    const label = cite.timeStr || (cite.slide ? `Slide ${cite.slide}` : cite.code);
+    chrome.runtime.sendMessage(
+      {
+        type: "SEEK_VIDEO",
+        seconds: typeof cite.seconds === "number" ? cite.seconds : null,
+        slide: typeof cite.slide === "number" ? cite.slide : null,
+        targetDay: cite.day || "",
+        viewerOnly: false,
+      },
+      (res) => {
+        if (seq !== state.viewerSeekSeq) return;
+        if (!chrome.runtime.lastError && res && res.ok && !res.isViewer) {
+          clearPendingSeek();
+          if (state.viewerOpen) closeFloatingViewer();
+          const detail = [];
+          if (typeof res.seconds === "number") detail.push(formatSeconds(res.seconds));
+          else if (label) detail.push(label);
+          if (res.slide) detail.push(`Slide ${res.slide}`);
+          const detailStr = detail.join(" · ") || label;
+          citeSeekStatus.className = "cite-seek-status ok";
+          citeSeekStatus.textContent = `✓ Đã chuyển tới ${cite.day || "bài học"} trong web (${detailStr})`;
+          refreshPlayerState();
+          return;
+        }
+        if (attempt < 18) {
+          setTimeout(() => pollNativeWebSeek(cite, seq, attempt + 1), 300);
+        } else {
+          clearPendingSeek();
+          // Nếu web chưa mở ra player đúng ngày (vd mục bị khoá hoặc không nằm trên giao diện hiện tại)
+          // -> chiếu trực tiếp trong khung nổi cùng tab (không mở tab mới)
+          if (cite.day && PRECLASS_DECK_URLS[cite.day]) {
+            openFloatingViewer(cite);
+          } else {
+            citeSeekStatus.className = "cite-seek-status err";
+            citeSeekStatus.textContent = `Đã điều hướng tới ${cite.day || "bài học"} nhưng chưa thấy player — bấm lại nút Tua để thử lại.`;
+          }
+        }
+      }
+    );
+  }
+
+  function navigateToDayInWeb(cite, allowStep = true, stepCount = 0) {
+    if (!cite || !cite.day) return;
+    const seg = state.segmentByCode.get(cite.code);
+    const label = cite.timeStr || (cite.slide ? `Slide ${cite.slide}` : cite.code);
+    const mySeq = ++state.viewerSeekSeq;
+
+    savePendingSeek(cite);
+    citeSeekStatus.className = "cite-seek-status";
+    citeSeekStatus.textContent = `Đang mở mục ${cite.day} ngay trong trang web…`;
+
+    chrome.runtime.sendMessage(
+      {
+        type: "NAVIGATE_TO_DAY",
+        targetDay: cite.day,
+        lessonTitle: (seg && seg.lesson_title) || "",
+        allowStep,
+      },
+      (navRes) => {
+        if (mySeq !== state.viewerSeekSeq) return;
+        if (!chrome.runtime.lastError && navRes && navRes.ok) {
+          if (navRes.status === "opened_step" && stepCount < 2) {
+            citeSeekStatus.textContent = `Đang vào danh sách bài học để chọn ${cite.day}…`;
+            setTimeout(() => navigateToDayInWeb(cite, stepCount === 0, stepCount + 1), 700);
+            return;
+          }
+          if (navRes.status === "clicked_day" || navRes.status === "navigated_url") {
+            if (state.viewerOpen) closeFloatingViewer();
+            citeSeekStatus.textContent = `Đã chọn ${cite.day} trong web, đang tua tới ${label}…`;
+            setTimeout(() => pollNativeWebSeek(cite, mySeq, 0), 350);
+            return;
+          }
+        }
+
+        // Không tìm thấy nút/link trực tiếp cho ngày học trong DOM hiện tại -> chiếu ngay trong khung nổi (cùng tab, KHÔNG mở tab mới)
+        clearPendingSeek();
+        if (PRECLASS_DECK_URLS[cite.day]) {
+          openFloatingViewer(cite);
+        } else {
+          citeSeekStatus.className = "cite-seek-status err";
+          citeSeekStatus.textContent = `Chưa tìm thấy mục ${cite.day} trên giao diện hiện tại.`;
+        }
+      }
+    );
+  }
+
   function seekPageVideo(cite) {
     if (!cite) return;
     const label = cite.timeStr || (cite.slide ? `Slide ${cite.slide}` : cite.code);
@@ -1193,6 +1299,7 @@
       },
       (res) => {
         if (!chrome.runtime.lastError && res && res.ok) {
+          clearPendingSeek();
           const detail = [];
           if (typeof res.seconds === "number") detail.push(formatSeconds(res.seconds));
           else if (label) detail.push(label);
@@ -1209,10 +1316,10 @@
           return;
         }
 
-        // Không có player bài tương ứng đang hiển thị trên trang (vd đang ở Trang chủ hoặc bài ngày khác)
-        // -> tự mở khung chiếu nổi đúng bài giảng & tua thẳng tới mốc trích dẫn!
-        if (cite.day && PRECLASS_DECK_URLS[cite.day]) {
-          openFloatingViewer(cite);
+        // Ưu tiên điều hướng thẳng vào đúng mục bài học bên trong trang web (cùng tab, không mở tab mới);
+        // chỉ mở khung chiếu nổi khi trang web không có mục trực tiếp để bấm.
+        if (cite.day) {
+          navigateToDayInWeb(cite, true, 0);
           return;
         }
 
@@ -1611,10 +1718,10 @@
     pollViewerSeek(state.activeCite, state.viewerSeekSeq, 0);
   });
 
-  btnViewerNewTab.addEventListener("click", () => {
-    if (state.viewerUrl) {
-      window.open(state.viewerUrl, "_blank", "noopener");
-    }
+  btnViewerOpenInWeb.addEventListener("click", () => {
+    if (!state.activeCite) return;
+    closeFloatingViewer();
+    navigateToDayInWeb(state.activeCite, true, 0);
   });
 
   btnViewerClose.addEventListener("click", () => closeFloatingViewer());
@@ -1725,4 +1832,23 @@
 
   detectPageDay();
   refreshPlayerState();
+
+  // Nếu vừa điều hướng sang trang bài học khác trong cùng tab -> tự động tua tiếp tới đúng mốc trích dẫn
+  try {
+    const rawPending = sessionStorage.getItem(PENDING_SEEK_KEY);
+    if (rawPending) {
+      const pending = JSON.parse(rawPending);
+      if (pending && pending.ts && Date.now() - pending.ts < 15000) {
+        state.activeCite = pending;
+        toggleDrawer(true);
+        citeTitle.textContent = `${pending.code}${pending.timeStr ? ` · ${pending.timeStr}` : ""}`;
+        citeBody.textContent = "Đang đồng bộ mốc trích dẫn sau khi chuyển bài trong trang web…";
+        citePreview.classList.add("show");
+        const mySeq = ++state.viewerSeekSeq;
+        setTimeout(() => pollNativeWebSeek(pending, mySeq, 0), 400);
+      } else {
+        clearPendingSeek();
+      }
+    }
+  } catch (e) {}
 })();
