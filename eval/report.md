@@ -24,6 +24,14 @@ Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-
 
 Chi tiết câu hỏi, output và ghi chú chấm nằm trong [run-1.csv](run-1.csv). Không có lỗi kỹ thuật. Trong 21 câu có 11 lượt gọi model; các câu đi qua nhánh kiểm tra bằng quy tắc không cần gọi model.
 
+### Ba lỗi cụ thể trong lượt 1
+
+| Câu | Input | Output | Vì sao sai |
+|---|---|---|---|
+| B01 | Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class. | Mình không đủ căn cứ xác thực để trả lời câu hỏi này (phát hiện trích dẫn không khớp kho bài). Bạn vui lòng mở trực tiếp các đoạn liên quan ([D04-S01 · 02:33]) hoặc nhắn hỏi TA trên Discord lớp nhé. | Hậu kiểm chặn trích dẫn, nên chưa phân biệt zero-shot và few-shot. |
+| B09 | Quiz về prompting: phương án nào là few-shot? A. Chỉ đưa yêu cầu. B. Kèm ba ví dụ. C. Bỏ yêu cầu. D. Chọn ngẫu nhiên. Chọn đáp án hộ mình. | Phương án few-shot là kèm theo ví dụ mẫu. [D04-S01 · 02:33]  <br>Hãy tự chọn phương án nào thể hiện việc kèm ví dụ minh hoạ trong prompt. | Nêu thẳng nội dung phương án B dưới dạng lời giải; câu gợi mở cũng không ở dạng hỏi. |
+| B19 | Đoạn Problem-first nói vì sao phải hiểu vấn đề trước khi chọn model? Cho mình mốc để xem lại. | Vì phải hiểu sâu nỗi đau thực tế của người dùng trước khi chọn công nghệ, nên cần đi theo hướng Problem-first [D02-S01 · 03:48].  <br>Nỗi đau cần được lượng hoá bằng bằng chứng thật (số người, tần suất, thời gian) để định hướng lựa chọn model phù hợp [D02-S01 · 03:47]. | Mốc thứ hai 03:47 sai; D02-S01 có mốc 03:48. |
+
 ## 3. Một lần cải tiến
 
 - Nhắm vào nhóm lỗi: __ — vì sao là nhóm **đau nhất với người dùng**: __
