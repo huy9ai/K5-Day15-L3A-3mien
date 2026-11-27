@@ -1,0 +1,557 @@
+const state = {
+  segments: [],
+  segmentByCode: new Map(),
+  lectures: {},
+  currentDay: "Day08",
+  activeCode: "D08-S01",
+  isSending: false,
+};
+
+// Ánh xạ chính xác mốc phút:giây trong Day 8 → số Slide tương ứng trong deck HTML (Slide 01–44)
+const DAY8_TIME_TO_SLIDE = {
+  "00:00": 1, "00:37": 2, "01:09": 3, "01:53": 4, "02:19": 5, "02:48": 6,
+  "03:23": 7, "03:55": 8, "04:17": 9, "04:32": 10, "04:56": 11, "05:22": 12,
+  "05:52": 13, "07:02": 16, "07:17": 17, "07:51": 18, "08:26": 19, "08:56": 20,
+  "10:24": 23, "10:38": 24, "11:02": 25, "11:30": 26, "12:58": 29, "13:14": 30,
+  "13:47": 31, "14:10": 32, "14:40": 33, "15:12": 34, "16:38": 37, "16:52": 38,
+  "17:23": 39, "17:53": 40, "18:46": 42, "19:32": 44,
+};
+
+const DAY8_CODE_TO_SLIDE = {
+  "D08-S01": { slide: 5, time: "02:19" },
+  "D08-S02": { slide: 10, time: "04:32" },
+  "D08-S03": { slide: 17, time: "07:17" },
+  "D08-S04": { slide: 25, time: "11:02" },
+  "D08-S05": { slide: 31, time: "13:47" },
+  "D08-S06": { slide: 39, time: "17:23" },
+};
+
+const els = {
+  workspace: document.getElementById("workspace"),
+  sidebar: document.getElementById("sidebar"),
+  btnToggleSidebar: document.getElementById("btnToggleSidebar"),
+  btnCloseSidebar: document.getElementById("btnCloseSidebar"),
+  modelStatus: document.getElementById("modelStatus"),
+  modelStatusText: document.getElementById("modelStatusText"),
+  lessonStats: document.getElementById("lessonStats"),
+  lessonSearchInput: document.getElementById("lessonSearchInput"),
+  lessonList: document.getElementById("lessonList"),
+  stagePhaseTag: document.getElementById("stagePhaseTag"),
+  stageTitle: document.getElementById("stageTitle"),
+  lectureSelect: document.getElementById("lectureSelect"),
+  lectureFrame: document.getElementById("lectureFrame"),
+  playerFallback: document.getElementById("playerFallback"),
+  playerJumpBadge: document.getElementById("playerJumpBadge"),
+  audioBar: document.getElementById("audioBar"),
+  lectureAudio: document.getElementById("lectureAudio"),
+  timelineLabel: document.getElementById("timelineLabel"),
+  chapterTimeline: document.getElementById("chapterTimeline"),
+  citationCard: document.getElementById("citationCard"),
+  citationCode: document.getElementById("citationCode"),
+  citationMeta: document.getElementById("citationMeta"),
+  citationTopic: document.getElementById("citationTopic"),
+  citationText: document.getElementById("citationText"),
+  btnJumpSlide: document.getElementById("btnJumpSlide"),
+  chatMessages: document.getElementById("chatMessages"),
+  welcomeCard: document.getElementById("welcomeCard"),
+  chatForm: document.getElementById("chatForm"),
+  chatInput: document.getElementById("chatInput"),
+  btnSend: document.getElementById("btnSend"),
+  charCount: document.getElementById("charCount"),
+  btnClearChat: document.getElementById("btnClearChat"),
+};
+
+const BRANCH_LABELS = {
+  grounded: { text: "Có căn cứ", cls: "badge-grounded" },
+  clarify: { text: "Hỏi ngược G10", cls: "badge-clarify" },
+  refuse: { text: "Ngoài phạm vi", cls: "badge-refuse" },
+  guardrail: { text: "Chặn Guardrail", cls: "badge-guardrail" },
+};
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function stripAccents(str) {
+  return String(str)
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function parseTimeToSeconds(timeStr) {
+  const m = String(timeStr || "").match(/^(\d{1,2}):(\d{2})$/);
+  return m ? Number(m[1]) * 60 + Number(m[2]) : null;
+}
+
+function renderLectureSelect() {
+  const days = Object.keys(state.lectures).sort();
+  els.lectureSelect.innerHTML = "";
+  if (days.length === 0) {
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "Chưa có bài HTML trong data-btc/lectures/";
+    els.lectureSelect.appendChild(opt);
+    return;
+  }
+  for (const d of days) {
+    const lec = state.lectures[d];
+    const opt = document.createElement("option");
+    opt.value = d;
+    opt.textContent = `${d} — ${lec.title}`;
+    opt.selected = d === state.currentDay;
+    els.lectureSelect.appendChild(opt);
+  }
+}
+
+function renderChapterTimeline(day) {
+  const daySegs = state.segments.filter((s) => (s.day || s.lesson) === day);
+  els.timelineLabel.textContent = `Nhảy nhanh mốc ${day} (${daySegs.length} đoạn):`;
+  els.chapterTimeline.innerHTML = "";
+
+  daySegs.forEach((seg, idx) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chapter-pill" + (state.activeCode === seg.code ? " active" : "");
+    btn.dataset.code = seg.code;
+    btn.textContent = `${String(idx + 1).padStart(2, "0")} · ${seg.timestamp} ${(seg.title || seg.topic).slice(0, 32)}`;
+    btn.addEventListener("click", () => inspectSegment(seg.code, seg.timestamp, true));
+    els.chapterTimeline.appendChild(btn);
+  });
+}
+
+function selectLectureDay(day, initialSlide = 1) {
+  state.currentDay = day;
+  if (els.lectureSelect.value !== day && state.lectures[day]) {
+    els.lectureSelect.value = day;
+  }
+  const lec = state.lectures[day];
+  const sampleSeg = state.segments.find((s) => (s.day || s.lesson) === day);
+
+  els.stagePhaseTag.textContent = `${day.toUpperCase()} · BÀI GIẢNG PRE-CLASS`;
+  els.stageTitle.textContent = (sampleSeg && sampleSeg.lesson_title) || (lec && lec.title) || day;
+
+  if (lec && lec.html_url) {
+    const base = lec.html_url.split("#")[0];
+    els.lectureFrame.src = `${base}#${initialSlide}`;
+    els.playerFallback.classList.add("hidden");
+  } else {
+    els.lectureFrame.removeAttribute("src");
+    els.playerFallback.classList.remove("hidden");
+  }
+
+  if (lec && lec.audio_url) {
+    if (els.lectureAudio.getAttribute("src") !== lec.audio_url) {
+      els.lectureAudio.src = lec.audio_url;
+    }
+    els.audioBar.classList.remove("hidden");
+  } else {
+    els.audioBar.classList.add("hidden");
+  }
+
+  renderChapterTimeline(day);
+}
+
+function seekAudioToTime(timeStr, autoPlay = true) {
+  const sec = parseTimeToSeconds(timeStr);
+  const lec = state.lectures[state.currentDay];
+  if (sec === null || !lec || !lec.audio_url || !els.lectureAudio) return;
+  try {
+    els.lectureAudio.currentTime = sec;
+    if (autoPlay) {
+      els.lectureAudio.play().catch(() => {});
+    }
+  } catch (e) {}
+}
+
+function jumpLectureToSlide(day, slideNum, timeLabel = "", code = "") {
+  const lec = state.lectures[day];
+  if (!lec || !lec.html_url) return;
+
+  const base = lec.html_url.split("#")[0];
+  const num = Math.max(1, Number(slideNum) || 1);
+
+  if (state.currentDay !== day) {
+    selectLectureDay(day, num);
+  } else {
+    try {
+      const win = els.lectureFrame.contentWindow;
+      if (win && win.location && win.location.pathname.includes(`/lectures/${day}/`)) {
+        if (win.VinDeck && typeof win.VinDeck.go === "function") {
+          win.VinDeck.go(num - 1);
+        } else {
+          win.location.hash = `#${num}`;
+        }
+      } else {
+        els.lectureFrame.src = `${base}#${num}`;
+      }
+    } catch (e) {
+      els.lectureFrame.src = `${base}#${num}`;
+    }
+  }
+
+  seekAudioToTime(timeLabel, true);
+
+  const timePart = timeLabel ? ` · ${timeLabel}` : "";
+  const codePart = code ? ` (${code})` : "";
+  els.playerJumpBadge.textContent = `Đang mở: ${day} Slide ${String(num).padStart(2, "0")}${timePart}${codePart}`;
+
+  document.querySelectorAll(".chapter-pill").forEach((pill) => {
+    pill.classList.toggle("active", pill.dataset.code === code);
+  });
+}
+
+async function loadInfo() {
+  try {
+    const res = await fetch("/api/info");
+    const info = await res.json();
+    const label = `${info.provider} · ${info.model || "fake"}`;
+    if (info.provider === "fake") {
+      els.modelStatus.className = "status-pill warn";
+      els.modelStatusText.textContent = "Chế độ giả (fake)";
+    } else if (!info.has_api_key && info.provider !== "ollama") {
+      els.modelStatus.className = "status-pill warn";
+      els.modelStatusText.textContent = `${label} (thiếu key)`;
+    } else {
+      els.modelStatus.className = "status-pill ready";
+      els.modelStatusText.textContent = label;
+    }
+    els.lessonStats.textContent = `${info.days_count} ngày học · ${info.segments_count} đoạn có mã`;
+    state.lectures = info.lectures || {};
+    if (info.default_lecture_day) {
+      state.currentDay = info.default_lecture_day;
+    }
+    renderLectureSelect();
+    selectLectureDay(state.currentDay, 1);
+  } catch (err) {
+    els.modelStatus.className = "status-pill warn";
+    els.modelStatusText.textContent = "Mất kết nối server";
+  }
+}
+
+async function loadLessons() {
+  try {
+    const res = await fetch("/api/lessons");
+    const data = await res.json();
+    state.segments = data.segments || [];
+    state.segmentByCode.clear();
+    for (const seg of state.segments) {
+      state.segmentByCode.set(seg.code.toUpperCase(), seg);
+    }
+    renderLessons("");
+    renderChapterTimeline(state.currentDay);
+    if (state.segmentByCode.has("D08-S01")) {
+      inspectSegment("D08-S01", "", false);
+    }
+  } catch (err) {
+    els.lessonList.innerHTML = `<p class="muted" style="padding:12px;">Không tải được data/lessons.json.</p>`;
+  }
+}
+
+function renderLessons(filterText) {
+  const q = stripAccents((filterText || "").trim());
+  const grouped = new Map();
+
+  for (const seg of state.segments) {
+    if (q) {
+      const hay = stripAccents(
+        `${seg.code} ${seg.day} ${seg.lesson_title} ${seg.title || seg.topic} ${(seg.keywords || []).join(" ")}`
+      );
+      if (!hay.includes(q)) continue;
+    }
+    if (!grouped.has(seg.day)) {
+      grouped.set(seg.day, { title: seg.lesson_title, items: [] });
+    }
+    grouped.get(seg.day).items.push(seg);
+  }
+
+  if (grouped.size === 0) {
+    els.lessonList.innerHTML = `<p class="muted" style="padding:12px;">Không tìm thấy đoạn bài giảng phù hợp.</p>`;
+    return;
+  }
+
+  els.lessonList.innerHTML = "";
+  for (const [day, group] of grouped.entries()) {
+    const card = document.createElement("div");
+    const hasDeck = Boolean(state.lectures[day] && state.lectures[day].html_url);
+    const shouldExpand = Boolean(q) || day === state.currentDay || group.items.some((s) => s.code === state.activeCode);
+    card.className = "day-group" + (shouldExpand ? "" : " collapsed");
+    card.dataset.day = day;
+
+    const header = document.createElement("button");
+    header.type = "button";
+    header.className = "day-header";
+    header.innerHTML = `
+      <span class="day-title">${escapeHtml(group.title)}${hasDeck ? " 🎬" : ""}</span>
+      <span class="day-header-right">
+        <span class="day-count">${group.items.length}</span>
+        <span class="day-chevron" aria-hidden="true">▾</span>
+      </span>
+    `;
+
+    const segList = document.createElement("div");
+    segList.className = "day-segments";
+
+    for (const seg of group.items) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "segment-item" + (state.activeCode === seg.code ? " active" : "");
+      btn.dataset.code = seg.code;
+      btn.innerHTML = `
+        <div class="segment-top">
+          <span class="code-chip">${escapeHtml(seg.code)}</span>
+          <span class="segment-time">⏱ ${escapeHtml(seg.timestamp)}</span>
+        </div>
+        <div class="segment-topic">${escapeHtml(seg.title || seg.topic)}</div>
+      `;
+      btn.addEventListener("click", () => inspectSegment(seg.code, seg.timestamp, true));
+      segList.appendChild(btn);
+    }
+
+    header.addEventListener("click", () => card.classList.toggle("collapsed"));
+    card.appendChild(header);
+    card.appendChild(segList);
+    els.lessonList.appendChild(card);
+  }
+}
+
+function resolveTargetSlide(seg, citedTime) {
+  const day = seg.day || seg.lesson;
+  if (!state.lectures[day] || !state.lectures[day].html_url) return null;
+  if (day === "Day08") {
+    const cleanTime = (citedTime || "").trim();
+    if (cleanTime && DAY8_TIME_TO_SLIDE[cleanTime]) {
+      return { day, slide: DAY8_TIME_TO_SLIDE[cleanTime], time: cleanTime };
+    }
+    const upper = seg.code.toUpperCase();
+    if (DAY8_CODE_TO_SLIDE[upper]) {
+      return { day, ...DAY8_CODE_TO_SLIDE[upper] };
+    }
+  }
+  return { day, slide: 1, time: citedTime || seg.timestamp };
+}
+
+function inspectSegment(code, citedTime = "", shouldJumpPlayer = true) {
+  const seg = state.segmentByCode.get(String(code).toUpperCase());
+  if (!seg) return;
+
+  state.activeCode = seg.code;
+  const dayKey = seg.day || seg.lesson;
+  const dayGroup = document.querySelector(`.day-group[data-day="${dayKey}"]`);
+  if (dayGroup) {
+    dayGroup.classList.remove("collapsed");
+  }
+
+  document.querySelectorAll(".segment-item").forEach((el) => {
+    const isMatch = el.dataset.code === seg.code;
+    el.classList.toggle("active", isMatch);
+    if (isMatch && shouldJumpPlayer) {
+      el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  });
+
+  const displayTime = citedTime || seg.timestamp;
+  els.citationCode.textContent = `${seg.code} · ${displayTime}`;
+  els.citationMeta.textContent = `${seg.lesson_title} · ${seg.video_title || ""}`;
+  els.citationTopic.textContent = seg.title || seg.topic;
+  els.citationText.textContent = seg.text;
+
+  const target = resolveTargetSlide(seg, citedTime);
+  if (target) {
+    els.btnJumpSlide.classList.remove("hidden");
+    els.btnJumpSlide.onclick = () => jumpLectureToSlide(target.day, target.slide, target.time, seg.code);
+    if (shouldJumpPlayer) {
+      jumpLectureToSlide(target.day, target.slide, target.time, seg.code);
+    }
+  } else {
+    els.btnJumpSlide.classList.add("hidden");
+  }
+}
+
+function renderFormattedText(text) {
+  const escaped = escapeHtml(text);
+  return escaped.replace(/\[?(D\d{2}-S\d{2})(?:\s*·\s*(\d{2}:\d{2}))?\]?/gi, (match, code, timeStr) => {
+    const upper = code.toUpperCase();
+    if (state.segmentByCode.has(upper)) {
+      const label = timeStr ? `[${upper} · ${timeStr}]` : `[${upper}]`;
+      const tAttr = timeStr ? ` data-time="${timeStr}"` : "";
+      return `<button type="button" class="cite-link" data-cite="${upper}"${tAttr} title="Bấm để mở căn cứ & nhảy tới mốc bài giảng">${label}</button>`;
+    }
+    return match;
+  });
+}
+
+function appendUserMessage(text) {
+  if (els.welcomeCard) els.welcomeCard.style.display = "none";
+  const row = document.createElement("div");
+  row.className = "msg-row user";
+  row.innerHTML = `<div class="msg-bubble"><div class="msg-body">${escapeHtml(text)}</div></div>`;
+  els.chatMessages.appendChild(row);
+  scrollToBottom();
+}
+
+function appendTypingIndicator() {
+  const row = document.createElement("div");
+  row.className = "msg-row assistant";
+  row.innerHTML = `
+    <div class="msg-bubble">
+      <div class="msg-head"><span class="msg-sender">Trợ giảng 3mien</span></div>
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+    </div>
+  `;
+  els.chatMessages.appendChild(row);
+  scrollToBottom();
+  return row;
+}
+
+function appendAssistantMessage(data, isError = false) {
+  const row = document.createElement("div");
+  row.className = "msg-row assistant" + (isError ? " error" : "");
+
+  if (isError) {
+    row.innerHTML = `
+      <div class="msg-bubble">
+        <div class="msg-head"><span class="msg-sender">Lỗi kết nối model</span></div>
+        <div class="msg-body">${escapeHtml(data.error || "Đã xảy ra lỗi.")}</div>
+      </div>
+    `;
+    els.chatMessages.appendChild(row);
+    scrollToBottom();
+    return;
+  }
+
+  const branchInfo = BRANCH_LABELS[data.branch] || BRANCH_LABELS.grounded;
+  const s = data.summary || {};
+  const modelText = s.models && s.models.length ? s.models.join(", ") : "không gọi model";
+
+  row.innerHTML = `
+    <div class="msg-bubble">
+      <div class="msg-head">
+        <span class="msg-sender">Trợ giảng 3mien</span>
+        <span class="branch-badge ${branchInfo.cls}">${branchInfo.text}</span>
+      </div>
+      <div class="msg-body">${renderFormattedText(data.output || "")}</div>
+      <div class="trace-bar">
+        <span>Model: <strong>${escapeHtml(modelText)}</strong></span>
+        <span>Tool: <strong>${s.tool_calls ?? 0}</strong></span>
+        <span>Token: <strong>${s.tokens_in ?? 0}/${s.tokens_out ?? 0}</strong></span>
+        <span><strong>${data.elapsed_s ?? 0}s</strong></span>
+      </div>
+    </div>
+  `;
+
+  const citeButtons = row.querySelectorAll(".cite-link");
+  citeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => inspectSegment(btn.dataset.cite, btn.dataset.time || "", true));
+  });
+
+  if (citeButtons.length > 0) {
+    const first = citeButtons[0];
+    inspectSegment(first.dataset.cite, first.dataset.time || "", true);
+  }
+
+  els.chatMessages.appendChild(row);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  els.chatMessages.scrollTop = els.chatMessages.scrollHeight;
+}
+
+async function sendMessage(text) {
+  const trimmed = text.trim();
+  if (!trimmed || state.isSending) return;
+
+  state.isSending = true;
+  els.btnSend.disabled = true;
+  els.chatInput.value = "";
+  updateCharCount();
+  autoResizeTextarea();
+
+  appendUserMessage(trimmed);
+  const typingRow = appendTypingIndicator();
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: trimmed }),
+    });
+    const data = await res.json();
+    typingRow.remove();
+    appendAssistantMessage(data, !res.ok);
+  } catch (err) {
+    typingRow.remove();
+    appendAssistantMessage({ error: "Không thể kết nối server: " + err.message }, true);
+  } finally {
+    state.isSending = false;
+    els.btnSend.disabled = false;
+    els.chatInput.focus();
+  }
+}
+
+function updateCharCount() {
+  els.charCount.textContent = `${els.chatInput.value.length} ký tự`;
+}
+
+function autoResizeTextarea() {
+  els.chatInput.style.height = "auto";
+  els.chatInput.style.height = Math.min(els.chatInput.scrollHeight, 110) + "px";
+}
+
+// Event listeners
+els.chatForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  sendMessage(els.chatInput.value);
+});
+
+els.chatInput.addEventListener("input", () => {
+  updateCharCount();
+  autoResizeTextarea();
+});
+
+els.chatInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage(els.chatInput.value);
+  }
+});
+
+els.lessonSearchInput.addEventListener("input", (e) => renderLessons(e.target.value));
+
+els.lectureSelect.addEventListener("change", (e) => {
+  if (e.target.value) {
+    selectLectureDay(e.target.value, 1);
+  }
+});
+
+els.btnClearChat.addEventListener("click", () => {
+  els.chatMessages.querySelectorAll(".msg-row").forEach((el) => el.remove());
+  if (els.welcomeCard) els.welcomeCard.style.display = "block";
+  els.chatInput.focus();
+});
+
+document.querySelectorAll(".quick-chip").forEach((btn) => {
+  btn.addEventListener("click", () => sendMessage(btn.dataset.prompt));
+});
+
+els.btnToggleSidebar.addEventListener("click", () => {
+  if (window.innerWidth <= 1180) {
+    els.sidebar.classList.toggle("open");
+  } else {
+    els.workspace.classList.toggle("sidebar-collapsed");
+  }
+});
+
+if (els.btnCloseSidebar) {
+  els.btnCloseSidebar.addEventListener("click", () => els.sidebar.classList.remove("open"));
+}
+
+// Init
+loadInfo().then(loadLessons);
