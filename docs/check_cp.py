@@ -305,16 +305,29 @@ def check_cp3():
 
     # [Thai] personas.yaml + simulate-try.csv
     per_txt = read_text("cost/personas.yaml")
-    if per_txt and "<" not in per_txt and "____" not in per_txt:
+    if per_txt and "(ví dụ)" not in per_txt and "<" not in per_txt and "____" not in per_txt:
         print_row("OK", "Thai", "cost/personas.yaml da dien")
     else:
-        print_row("CANH BAO", "Thai", "cost/personas.yaml con cho mau <...> hoac ____")
+        print_row("CHUA DAT", "Thai", "cost/personas.yaml van con dong mau (vi du) / <...> / ____")
 
     sim_files = list((ROOT / "cost").glob("simulate-*.csv")) if (ROOT / "cost").is_dir() else []
     if sim_files:
         print_row("OK", "Thai", "Da co file mo phong chi phi", ", ".join(p.name for p in sorted(sim_files)))
     else:
         print_row("CANH BAO", "Thai", "Chua thay cost/simulate-try.csv (nen thu 10 phien truoc CP3)")
+
+    # [Hau/Thai] Kiem tra doi chieu 2 nguoi cham (R4) & bang >=3 loi cu the (R5)
+    eval_readme = read_text("eval/README.md")
+    if "Đối chiếu giữa hai người chấm:** Chưa có" in eval_readme or "khớp __/5" in eval_readme:
+        print_row("CANH BAO", "Hau/Thai", "eval/README.md chua ghi ket qua cham cheo 5 output giua 2 nguoi (can khop >=4/5 cho R4)")
+    else:
+        print_row("OK", "Hau/Thai", "eval/README.md da co ket qua doi chieu 2 nguoi cham")
+
+    eval_rep = read_text("eval/report.md")
+    if "| Input | Output |" in eval_rep or "| Câu | Input | Output |" in eval_rep:
+        print_row("OK", "Hau", "eval/report.md da co bang chi tiet >=3 loi cu the (Input/Output/Vi sao sai)")
+    else:
+        print_row("CANH BAO", "Hau", "eval/report.md nen bo sung bang >=3 loi cu the (Cau | Input | Output | Vi sao sai) cho R5")
 
 
 def check_cp4():

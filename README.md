@@ -83,8 +83,9 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (bắt buộc từ CP3) | Model: ____ |
-|  |  |  |
+| Lời gọi AI ở quyết định trung tâm | **Thật** (từ CP3) | Model lượt 1: `qwen3:4b-instruct-2507-q4_K_M` (qua Ollama cục bộ, `eval/run-1.csv`, Run ID `run-1@20261127-172625`); `codebase/ai.py` hỗ trợ thêm OpenRouter / OpenAI / Anthropic |
+| Tiền kiểm, 2 công cụ đọc (`search_lesson`, `get_passage`) & hậu kiểm mã đoạn | **Thật** | Code Python tất định chạy trên `data/lessons.json`, chặn tấn công và mã bịa (đã chặn mã bịa `D07-S01` ở câu `B01`) |
+| Kho bài giảng mẫu (`data/lessons.json`) | **Tự dựng / viết lại** | 27 đoạn tóm tắt (`synthetic`) phủ `Day01`–`Day13` bám khung `kc_code` & `transcript_ref` thật từ `data/preclass/` (xem `data/DATA_CARD.md`) |
 
 ## Dùng AI vào việc gì
 
@@ -122,5 +123,5 @@ Nhóm sử dụng coding agent để hỗ trợ viết script phân tích dữ l
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | slide trong repo (PDF, PPTX, HTML…) hoặc link slide ở form CP4 · link video: ____ |
+| 7 | Slide + demo + video dự phòng | slide trong repo (PDF, PPTX, HTML…) hoặc link slide ở form CP4 · video CP3 trong repo: `slides/demo-cp3.mp4` (cập nhật link YouTube/Drive khi nộp CP3/CP4) |
 | + | *Bonus:* người dùng thử | `validation/log.md` |

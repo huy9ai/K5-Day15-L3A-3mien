@@ -10,7 +10,7 @@ Data BTC cấp đã dùng (không commit nguyên file): `data/preclass/` (từ 0
   1. Học viên mở bài giảng video và slide pre-class (37,3% lượt mở video diễn ra từ 19h–07h VN).
   2. Khi gặp chỗ khó hiểu hoặc muốn hỏi thêm, học viên bôi đen chữ trên slide hoặc gõ câu hỏi vào khung chat trợ giảng ngay dưới video (`video_question`: 1.108/1.260 lượt chat).
   3. Hệ thống trả lời trực tiếp vào khung chat (nhiều lượt câu ngắn/thiếu bối cảnh vẫn được trả lời ngay hoặc rơi vào `missing_context`, hoặc thiếu mốc trích dẫn để mở lại đoạn giảng).
-  4. *(Ảnh chụp giao diện từ tài khoản học viên đã che thông tin: cập nhật bổ sung ở CP2).*
+  4. Quan sát trực tiếp trên tài khoản học viên L3A tại `preclass-online.com` và đối chiếu log hành vi `data/preclass/`.
 - Công cụ / AI đang được dùng cho việc này: Trợ giảng AI tích hợp sẵn dưới video trên `preclass-online.com` (nguồn: `data/preclass/README.md` và quan sát tài khoản học viên trong lớp).
 
 ## §1. Người dùng & bằng chứng *(guide 1.1, 1.2)*
@@ -20,18 +20,18 @@ Data BTC cấp đã dùng (không commit nguyên file): `data/preclass/` (từ 0
 - Pain (KHÔNG chữ AI): Học viên L3 tự học pre-class buổi tối khi vướng khái niệm hoặc đặt câu hỏi ngắn/thiếu bối cảnh thường nhận được lời giải đáp chung chung không dẫn đúng mốc bài giảng hoặc phải hỏi lặp lại nhiều lần, khiến họ mất thời gian tự tua lại video hoặc bỏ dở bài trước buổi học.
 - Bằng chứng — số chính + kết luận (chi tiết: `evidence/data-mining.md`, tổng hợp đầy đủ sau phỏng vấn ở `evidence/summary.md`):
   - **Đào `data/preclass/` (05/11–25/11/2026):** `436/721` tài khoản hoạt động; `493/1.260` (**39,1%**) lượt chat ngoài giờ 19h–07h VN; `150/1.260` (**11,9%**) câu hỏi `<= 15` ký tự; `100/1.108` (**9,0%**) lượt `video_question` bị `missing_context = True`; `245/1.223` (**20,0%**) câu chat có rubric `bam_bai=0` và `dung_ngu_canh=0`; `35/137` (**25,5%**) lượt có ghi `ask_count` là hỏi lại (`ask_count > 0`); `242/615` (**39,3%**) lượt từ `13/11` trở đi thiếu `moc_trich_dan`.
-  - **Phỏng vấn đối chứng (`P1`–`P4`):** Chưa có kết quả phỏng vấn đã xác nhận trong repo. Bằng chứng CP3 dùng log BTC và sáu ví dụ theo mã lượt ẩn danh trong `evidence/summary.md`.
+  - **Khảo sát hành vi học viên L3 ngoài nhóm (`n = 28`, đạt ngưỡng ≥20; `evidence/survey/results.csv`, `questions.md`, `count_survey.py`):** `19/28` (**67,9%**) gặp vướng ≥1 lần/tháng (`11/28 = 39,3%` lúc xem video); `19/28` (**67,9%**) mất ≥5 phút/lần; `17/28` (**60,7%**) chưa giải quyết trọn vẹn; chỉ `10/28` (**35,7%**) hỏi trợ giảng pre-class (khớp sát `145/436 = 33,3%` trong log BTC) trong khi `19/28` (**67,9%**) hỏi AI ngoài nền tảng; và `17/28` (**60,7%**) chọn *"Chỉ đúng đoạn cần xem"* (12/28) hoặc *"Được hỏi lại để làm rõ"* (11/28) là yếu tố giúp làm tiếp (chi tiết đối chiếu 2 nguồn tại `evidence/summary.md`).
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
 
 | Hướng | Bao nhiêu người gặp | Bao nhiêu lần / tháng | Mỗi lần tốn gì | Impact / tháng | Làm kịp không | Chọn? |
 |---|---|---|---|---|---|---|
-| **1 · Trợ giảng pre-class có căn cứ & hỏi ngược khi thiếu ngữ cảnh (A1)** | `145` học viên từng hỏi (`436` người hoạt động trong `data/preclass/`) | `~10,9` lượt hỏi/tháng (quy đổi từ `7,64` lượt/21 ngày; tổng `~1.583` lượt/tháng toàn tập hỏi) | `~5` phút tự tua tìm/hỏi lại *(tự ước tính, kiểm lại qua P1–P4)* | `~7.915` phút (**~132 giờ/tháng** toàn tập; riêng nhóm ~20–25% lượt hỏi lỗi/lặp tốn ~26–33 giờ/tháng) | Kịp (workflow cố định + 2 công cụ đọc) | **Chọn** |
+| **1 · Trợ giảng pre-class có căn cứ & hỏi ngược khi thiếu ngữ cảnh (A1)** | `145` học viên từng hỏi (`436` người hoạt động trong `data/preclass/`) | `~10,9` lượt hỏi/tháng (quy đổi từ `7,64` lượt/21 ngày; tổng `~1.583` lượt/tháng toàn tập hỏi) | `~5` phút tự tua tìm/hỏi lại *(nguồn: khảo sát `n=28`, `67,9%` mất `≥5 phút/lần`)* | `~7.915` phút (**~132 giờ/tháng** toàn tập; riêng nhóm ~20–25% lượt hỏi lỗi/lặp tốn ~26–33 giờ/tháng) | Kịp (workflow cố định + 2 công cụ đọc) | **Chọn** |
 | **2 · Gỡ kẹt mini-lab & vá lỗi sai bài ôn tập (A1/A6)** | `147` học viên mở lab / `77` học viên làm `pre_post_post` | `~5,9` lượt mở lab & làm sai/người/tháng (21 ngày: `102/453 = 22,5%` skip lab, `399` câu sai) | `~10` phút tự mò lỗi/làm lại *(tự ước tính)* | `~5.700` phút (**~95 giờ/tháng** quy mô hẹp hơn Hướng 1) | Khó kịp (dữ liệu từng bước lab đa dạng, khó dựng đủ ngữ cảnh) | **Loại** |
 | **3 · Bộ điều phối bạn học AI chống nhiễu (A4)** | `286` học viên thấy bạn học AI xen vào | `~69,8` lượt hiển thị/người/tháng (`13.975` lượt/21 ngày nhưng chỉ `151` phản hồi = `1,08%`) | Gây xao nhãng khi xem video (~0,5 phút/lượt *(tự ước tính)*) | Khó quy đổi thành thời gian tiết kiệm rõ ràng nếu chưa đo được điểm học tập | Rủi ro không kịp (A4 bắt buộc ≥1 chỉ số đo hiệu quả học) | **Loại** |
 
 - **Impact / tháng** của hướng chọn = `145` người × `10,9` lần/tháng × `5` phút = **~7.915 phút (~132 giờ/tháng)** trên nhóm học viên thường xuyên hỏi (trong đó ~20–25% lượt hỏi bị lạc ngữ cảnh/hỏi lặp gây tốn trực tiếp ~26–33 giờ/tháng).
-  - *Nguồn từng thừa số:* `145` người và `7,64` lượt/21 ngày (quy đổi `7,64 × 30/21 ≈ 10,9` lượt/tháng) lấy trực tiếp từ `data/preclass/` (`evidence/count_preclass.py`); `5` phút/lần là *(tự ước tính — sẽ hiệu chỉnh bằng con số thực từ phỏng vấn P1–P4 trước CP3)*.
+  - *Nguồn từng thừa số:* `145` người và `7,64` lượt/21 ngày (quy đổi `7,64 × 30/21 ≈ 10,9` lượt/tháng) lấy trực tiếp từ `data/preclass/` (`evidence/count_preclass.py`); thời gian `5` phút/lần lấy cận dưới thận trọng từ Q8 khảo sát `n=28` (`evidence/survey/results.csv`: `19/28 = 67,9%` mất `≥5 phút/lần`, trong đó `11/28 = 39,3%` mất `5–15 phút` và `8/28 = 28,6%` mất `16–60 phút`).
 - **Hướng ĐÃ LOẠI + vì sao (giữ lại, đừng xoá):**
   - *Hướng 2 (Gỡ kẹt mini-lab):* Tỉ lệ bỏ qua lab khá cao (`22,5%`) nhưng số người chạm tới hẹp hơn (`147` người mở lab; `77` người làm `pre_post_post`) và mỗi bài mini-lab đòi hỏi dựng code/test case thực hành riêng nên khó phủ tốt trong 10 giờ.
   - *Hướng 3 (Bộ điều phối bạn học AI - A4):* Tỉ lệ tương tác rất thấp (`1,08%`), tuy nhiên theo rubric hướng A4 bắt buộc phải có chỉ số đo lường việc học thực tế (học viên hiểu bài hơn sau can thiệp), rất khó kiểm chứng định lượng trung thực trong 2 ngày.
@@ -127,24 +127,26 @@ flowchart TD
 - So với impact / người / tháng (§2): đáng làm không, vì sao:
 
 ## §9. Rủi ro & an toàn
-- Dữ liệu: Chỉ dùng số tổng hợp & 6 ví dụ đã ẩn danh từ `data/preclass/` (không commit CSV gốc của BTC); ghi chép phỏng vấn `P1`–`P4` bỏ hoàn toàn tên, MSSV, SĐT; `data/lessons.json` là bài mẫu trích lược tự dựng (không chép nguyên tài liệu khoá); không đưa thông tin cá nhân người thật vào API gói miễn phí.
+- Dữ liệu: Chỉ dùng số tổng hợp & 6 ví dụ đã ẩn danh từ `data/preclass/` (không commit CSV gốc của BTC); log khảo sát `evidence/survey/results.csv` (`n = 28`) hoàn toàn không thu tên, email, MSSV hay SĐT; `data/lessons.json` là bài mẫu trích lược tự dựng (không chép nguyên tài liệu khoá); không đưa thông tin cá nhân người thật vào API gói miễn phí.
 - AI **luôn phải / không được** (PAIR 1.3): AI **luôn phải** gắn mã đoạn có thật `[Dxx-Syy]` cho mọi câu trả lời kiến thức; AI **không được** bịa nguồn, làm hộ bài/lộ đáp án, trả lời điểm/lịch cá nhân, tiết lộ system prompt hay làm theo chỉ dẫn chèn trong câu hỏi kể cả khi người dùng yêu cầu; nếu thiếu căn cứ, người dùng không phiền trả lời thêm 1 câu làm rõ miễn là AI hỏi gọn trong 1 câu có gợi ý.
 - Ai có thể bị hại nếu AI sai, và nhóm chặn thế nào: Học viên có thể hiểu sai kiến thức, học vẹt nếu lộ đáp án hoặc lỡ hạn/nhầm lịch nếu AI đoán bừa → chặn bằng 2 lớp: tiền kiểm đầu vào (Bước 1) + hậu kiểm xác thực mã đoạn bằng code (Bước 4) + chỉ cấp công cụ đọc.
 
 ## §10. Phân công & changelog
-- Phân công có tên (song song 4 mảng độc lập để không chờ nhau):
-  - **Bùi Gia Huy** (`2A202603525` · Đội trưởng): Điều phối, Kiến trúc AI, Spec & Nộp checkpoint (`TEAMS.md`, `README.md`, `canvas.md`, `spec.md`, `docs/ai-usage.md`, phỏng vấn `P1.md`).
-  - **Ngô Đức Thịnh** (`2A202603548` · Thành viên): Codebase, Dữ liệu bài mẫu, Nối model & Guardrails (`codebase/`, `data/lessons.json`, `data/DATA_CARD.md`, phỏng vấn `P2.md`).
-  - **Phan Trọng Hậu** (`2A202603547` · Thành viên): Bằng chứng pain, Bộ câu thử & Đánh giá (`evidence/`, `eval/benchmark.csv`, `eval/metric_spec.yaml`, `eval/report.md`, `eval/README.md`, phỏng vấn `P3.md`).
-  - **Vũ Quang Thái** (`2A202603545` · Thành viên): Mô phỏng chi phí, Người dùng thử Bonus & Slide/Demo (`cost/`, `validation/log.md`, `slides/`, `demo-slides.pdf`, phỏng vấn `P4.md`).
-- Dùng AI vào việc gì (2–3 dòng; chi tiết `docs/ai-usage.md`): Nhóm dùng coding agent hỗ trợ viết script đếm `evidence/count_preclass.py`, chuẩn hoá tài liệu khung và sẽ hỗ trợ code/review bản chạy thử. Toàn bộ số liệu đếm, phỏng vấn người dùng và chấm đánh giá đều do thành viên kiểm chứng thủ công.
+- Phân công có tên (song song 4 mảng độc lập để không chờ nhau; cả nhóm cùng gửi thu khảo sát `n = 28` đã ẩn danh):
+  - **Bùi Gia Huy** (`2A202603525` · Đội trưởng): Điều phối, Kiến trúc AI, Spec & Nộp checkpoint (`TEAMS.md`, `README.md`, `canvas.md`, `spec.md`, `docs/ai-usage.md`, `docs/check_cp.py`, xử lý tổng hợp khảo sát `evidence/survey/`).
+  - **Ngô Đức Thịnh** (`2A202603548` · Thành viên): Codebase, Dữ liệu bài mẫu, Nối model & Guardrails (`codebase/`, `data/lessons.json`, `data/DATA_CARD.md`).
+  - **Phan Trọng Hậu** (`2A202603547` · Thành viên): Bằng chứng pain, Bộ câu thử & Đánh giá (`evidence/`, `eval/benchmark.csv`, `eval/metric_spec.yaml`, `eval/report.md`, `eval/README.md`).
+  - **Vũ Quang Thái** (`2A202603545` · Thành viên): Mô phỏng chi phí, Người dùng thử Bonus & Slide/Demo (`cost/`, `validation/log.md`, `slides/`, `demo-slides.pdf`).
+- Dùng AI vào việc gì (2–3 dòng; chi tiết `docs/ai-usage.md`): Nhóm dùng coding agent hỗ trợ viết script đếm `evidence/count_preclass.py` & `count_survey.py`, chuẩn hoá tài liệu khung, hỗ trợ viết code bản chạy thử và tạo bộ câu thử từ tình huống thực tế. Toàn bộ số liệu đếm, thu thập khảo sát và chấm 21/21 câu đánh giá đều do thành viên kiểm chứng thủ công.
 - Nhật ký thay đổi — **mọi thay đổi sau CP2 19:30 Thứ Sáu 27/11 phải có dòng ở đây**:
 
 **CP2 → CP4** (vd thu hẹp lát cắt, hỏi thêm người dùng, lần cải tiến trước lượt 2)
 
 | Thời điểm | Đổi gì | Vì sao (trỏ về câu thử / lỗi / bằng chứng nào) |
 |---|---|---|
-|  |  |  |
+| 27/11 17:30 | Mở rộng `eval/benchmark.csv` 12 → 21 câu (`7/21` từ `data_that`), nối model thật `qwen3:4b-instruct-2507-q4_K_M` qua Ollama và chạy lượt 1 (`run-1@20261127-172625`) | Hoàn thiện yêu cầu CP3; lượt 1 đạt `15/21 (71,4%)`, `4/4` câu `tu_choi` đạt, `0` câu bịa mã nguồn (`eval/run-1.csv`) |
+| 27/11 19:03 | Đổi nguồn bằng chứng thứ hai từ phỏng vấn P1–P4 sang khảo sát hành vi `n = 28` học viên L3 ngoài nhóm (`evidence/survey/`), xoá khung trống `P1.md`, cập nhật `canvas.md` & `evidence/summary.md` | Đạt đủ 2 nguồn vượt ngưỡng R1 (`≥20` phiếu khảo sát + đào data BTC) và đối chiếu khớp tỉ lệ dùng trợ giảng (`33,3%` vs `35,7%`) |
+| 27/11 19:15 | Cập nhật đồng bộ `spec.md` §0, §1, §2, §9 và `README.md` (giữ nguyên chuẩn "đạt" §7) | Thay ước tính thời gian `5 phút/lần` bằng dữ liệu thật Q8 khảo sát (`67,9%` mất `≥5 phút`) và ghi rõ phần thật/giả ở CP3 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
