@@ -13,6 +13,6 @@ README của nhóm có mục "Dùng AI vào việc gì" (2–3 dòng, bắt bu�
 | Viết câu thử (benchmark) | | | Mỗi câu thử có `source`; câu thử AI viết được ghi rõ | Phan Trọng Hậu |
 | Sinh data `synthetic` (nếu có) | | | Seed __ · kiểm tay __ dòng | Ngô Đức Thịnh |
 | Chấm cột `pass` bằng LLM (nếu có) | | | Kiểm tra thủ công __ câu thử, khớp __/__ | Phan Trọng Hậu |
-| Slide, văn bản | Coding agent | Hỗ trợ chuẩn hoá bố cục `canvas.md`, `spec.md` §0–§2 và `README.md` | Rà nội dung bám đúng kết quả data thật và phân công nhóm | Bùi Gia Huy, Vũ Quang Thái |
+| Slide, văn bản | Coding agent | Hỗ trợ chuẩn hoá bố cục `canvas.md`, `README.md`, `spec.md` §0–§7, §9 và viết script kiểm tra tiến độ `docs/check_cp.py` | Rà nội dung bám đúng kết quả data thật, kiểm tra hợp đồng công cụ/metric và đối chiếu với thành viên | Bùi Gia Huy, Vũ Quang Thái |
 
 **Không dùng AI để:** tạo người được phỏng vấn, trích dẫn, câu trả lời khảo sát; sửa kết quả các lượt đã chạy (`eval/run-*.csv`, `cost/simulate-*.csv`, `traces/`).
