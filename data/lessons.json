@@ -150,8 +150,8 @@
       "video_title": "d04-r3-v01 · Viết Prompt cụ thể, Few-shot và Chain-of-Thought",
       "timestamp": "02:33",
       "kc_codes": ["prompt_quality_specificity", "prompt_scope_types", "zero_one_few_shot_selection", "cot_task_fit"],
-      "keywords": ["prompt", "prompt engineering", "zero shot", "one shot", "few shot", "cot", "chain of thought", "cu the"],
-      "text": "Prompt chất lượng cần cụ thể hoá nhiệm vụ, đầu vào, định dạng đầu ra và tiêu chí ràng buộc. Dùng zero-shot khi tác vụ rõ ràng, thêm one-shot hoặc few-shot (ví dụ mẫu) khi cần giữ chuẩn định dạng/giọng điệu, và chỉ dùng Chain-of-Thought (CoT) cho các bài toán suy luận nhiều bước thay vì việc tra cứu đơn giản."
+      "keywords": ["prompt", "prompting", "prompt engineering", "zero shot", "one shot", "few shot", "zero-shot", "few-shot", "cot", "chain of thought", "vi du mau", "cu the"],
+      "text": "Prompt chất lượng cần cụ thể hoá nhiệm vụ, đầu vào, định dạng đầu ra và tiêu chí ràng buộc. Zero-shot prompting là đưa thẳng yêu cầu mà không kèm ví dụ minh hoạ (dùng khi tác vụ đã rõ ràng), còn few-shot prompting là kèm theo một số ví dụ mẫu đầu vào/đầu ra để mô hình bám đúng định dạng hoặc cách phân loại; chỉ dùng Chain-of-Thought (CoT) cho bài toán suy luận nhiều bước."
     },
     {
       "code": "D04-S02",
@@ -255,8 +255,8 @@
       "video_title": "d07-r2-v01 · Chunking, ngữ cảnh trước khi index và đo Recall@k",
       "timestamp": "02:38",
       "kc_codes": ["chunk_context_before_indexing", "chunk_size_tradeoff", "retrieval_pipeline_order", "recall_at_k_measurement"],
-      "keywords": ["rag", "retrieval", "chunk", "chunking", "chunk size", "indexing", "recall@k", "recall", "truy xuat", "grounding"],
-      "text": "Trong RAG, kích thước chunk luôn có đánh đổi: chunk quá nhỏ làm mất ngữ cảnh, chunk quá lớn gây nhiễu và tốn token. Cần gắn siêu dữ liệu/ngữ cảnh (tên bài, mã đoạn, tiêu đề mục) vào từng chunk trước khi đánh chỉ mục (chunk context before indexing) và đo Recall@k để kiểm tra xem đoạn đúng có lọt vào top-k truy xuất hay không."
+      "keywords": ["rag", "retrieval", "buoc truy xuat", "truy xuat", "chunk", "chunking", "chunk size", "indexing", "recall@k", "recall", "ngu canh", "grounding"],
+      "text": "Trong quy trình RAG, bước truy xuất (retrieval) chạy trước khi mô hình trả lời để tìm các đoạn tài liệu liên quan nhất từ kho tri thức và đưa vào ngữ cảnh làm căn cứ. Kích thước chunk luôn có đánh đổi (quá nhỏ mất ngữ cảnh, quá lớn gây nhiễu); cần gắn siêu dữ liệu vào từng chunk trước khi đánh chỉ mục và đo Recall@k để kiểm tra độ phủ truy xuất."
     },
     {
       "code": "D07-S02",
@@ -315,8 +315,8 @@
       "video_title": "d09-r2-v01 · Phân loại lỗi (Failure Taxonomy) và kiểm chứng số Eval",
       "timestamp": "03:05",
       "kc_codes": ["failure_taxonomy_process", "failure_note_first_error", "eval_number_evidence_checks"],
-      "keywords": ["evaluation", "eval", "failure analysis", "failure taxonomy", "phan loai loi", "first error", "benchmark", "pass"],
-      "text": "Đánh giá (eval) hệ thống AI không chỉ nhìn con số % đạt tổng mà phải làm Failure Analysis: mở trace của từng câu trượt, ghi lại lỗi đầu tiên gây hỏng kết quả (first error), rồi gom nhóm thành bảng phân loại lỗi (failure taxonomy) để sửa đúng nút thắt lớn nhất thay vì chỉnh prompt cảm tính."
+      "keywords": ["evaluation", "eval", "bo cau thu", "doi prompt", "truoc va sau", "so sanh", "failure analysis", "failure taxonomy", "phan loai loi", "first error", "benchmark", "pass"],
+      "text": "Trước khi sửa đổi prompt hay luồng xử lý, cần có một bộ câu thử (benchmark) cố định để chạy đánh giá trước và sau thay đổi trên cùng tập câu hỏi; nhờ đó phát hiện khách quan xem bản mới thật sự cải thiện hay làm phát sinh lỗi mới. Khi phân tích lỗi (Failure Analysis), mở trace câu trượt, ghi lỗi đầu tiên (first error) và gom thành failure taxonomy để sửa đúng nút thắt."
     },
     {
       "code": "D09-S02",
