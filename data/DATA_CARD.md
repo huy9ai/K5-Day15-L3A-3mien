@@ -4,19 +4,19 @@
 > Một trang. Mỗi dataset một mục. Dữ liệu chạy thử để trong thư mục `data/`.
 > Không commit nguyên tài liệu khoá, dữ liệu cá nhân thật hay nguyên file data BTC cấp — chỉ đoạn trích ngắn, bản viết lại, hoặc số đã tổng hợp.
 
-## Dataset 1 · `data/lessons.json` (Kho đoạn bài giảng pre-class có mã đoạn `Dxx-Syy` — Day01 → Day13)
+## Dataset 1 · `data/lessons.json` (Kho đoạn bài giảng pre-class có mã đoạn `Dxx-Syy` — đủ Day01 → Day15)
 
 | | |
 |---|---|
 | Dùng để làm gì | Nguồn tri thức cục bộ cho 2 công cụ đọc `search_lesson(query, top_k=3)` và `get_passage(code)` trong `codebase/tools.py`, phục vụ bản chạy thử Trợ giảng pre-class có căn cứ (`codebase/agent.py`) |
-| Từ đâu | **Khung siêu dữ liệu lấy từ data BTC cấp:** 13 `program_lesson_id` (`completed_items.csv`), mã ý kiến thức `kc_code` (`answers.csv`), đường dẫn `transcript` và mốc trích dẫn `moc_trich_dan` được hỏi nhiều nhất (`chat.csv`, `events.csv`), đối chiếu tên chuyên đề L3 ở `teaching-schedule.xlsx` (sheet `Tong_hop`). **Phần chữ tóm tắt (`text`)** do nhóm tự biên soạn/viết lại ngắn gọn (3–4 câu/đoạn) vì bộ log BTC không chứa nguyên văn transcript gốc |
-| Xử lý những bước gì | Chuẩn hoá mã đoạn duy nhất dạng `Dxx-Syy` (`D01-S01` → `D13-S01`) theo đúng `spec.md` §4 · gắn đầy đủ các trường `code`, `lesson`, `timestamp`, `title`, `text`, `transcript_ref`, `kc_codes`, `keywords` · kiểm tra JSON hợp lệ và chạy kiểm thử tra cứu 13/13 ngày bằng `codebase/tools.py` |
-| Số dòng / số đoạn | **27 đoạn** phủ đủ **13 ngày học** (`Day01`: 3, `Day02`: 3, `Day03`: 3, `Day04`: 3, `Day05`: 2, `Day06`: 2, `Day07`: 2, `Day08`: 2, `Day09`: 2, `Day10`: 1, `Day11`: 2, `Day12`: 1, `Day13`: 1; trọng tâm `Day01`, `Day02`, `Day04`, `Day09` có đủ các đoạn chốt cho CP2) |
-| Phiên bản / ngày lấy | `v2.1-cp2-spec` · 27/11/2026 |
-| Nhãn | `synthetic` (nội dung tóm tắt viết lại) trên khung siêu dữ liệu `thật` từ `data/preclass/` |
-| Giới hạn | Mỗi bài mới tóm gọn 1–3 đoạn khái niệm cốt lõi, chưa phải nguyên văn transcript dài theo từng giây của mọi video và chưa bao gồm chi tiết từng bước bài tập mini-lab |
+| Từ đâu | **Khung mục lục, tiêu đề phần, ý chốt ngắn và mốc thời gian thực (`mm:ss`)** trích lược từ 15 bài giảng pre-class AI20K L3 (`Day01` → `Day15`), đối chiếu với log `data/preclass/` và `teaching-schedule.xlsx`. Không sao chép hay commit nguyên văn tài liệu/file HTML gốc của khoá |
+| Xử lý những bước gì | Chuẩn hoá mã đoạn duy nhất dạng `Dxx-Syy` (`D01-S01` → `D15-S03`) theo đúng `spec.md` §4 · gắn đầy đủ `code`, `lesson`, `slide`, `timestamp`, `end_timestamp`, `title`, `text`, `sub_slides`, `keywords` · kiểm tra JSON hợp lệ và chạy kiểm thử tra cứu 15/15 ngày bằng `codebase/tools.py` |
+| Số dòng / số đoạn | **86 đoạn** phủ đầy đủ **15 ngày học** (`Day01`: 5, `Day02`–`Day14`: 6 phần/ngày, `Day15`: 3) |
+| Phiên bản / ngày lấy | `v3.0-all-15-days` · 27/11/2026 |
+| Nhãn | `synthetic` (bản tóm tắt rút gọn) trên khung mục lục và mốc thời gian `thật` của 15 bài giảng |
+| Giới hạn | Mỗi đoạn mới tóm gọn các ý chốt chính và mốc slide con (3–5 câu), chưa chứa toàn bộ lời thoại chi tiết từng giây hay bài tập mini-lab |
 
-**Data `synthetic` (phần văn bản tóm tắt):** Biên soạn thủ công bám sát `kc_code` thật của khoá L3 bởi **Ngô Đức Thịnh**, không sinh ngẫu nhiên (không dùng seed); đã kiểm tay **27/27 đoạn** về tính chính xác khái niệm, mã đoạn duy nhất `Dxx-Syy` và khớp `transcript_ref`. Dữ liệu này chỉ phục vụ bản chạy thử và kiểm thử kỹ thuật, **không phải bằng chứng pain**.
+**Data `synthetic` (phần văn bản tóm tắt):** Biên soạn/trích lược ngắn gọn theo từng phần chính bởi **Ngô Đức Thịnh**, không sinh ngẫu nhiên (không dùng seed); đã kiểm tra đủ **86/86 đoạn** về mã đoạn duy nhất `Dxx-Syy`, mốc thời gian và độ phủ tra cứu 15/15 ngày. Dữ liệu này chỉ phục vụ bản chạy thử và kiểm thử kỹ thuật, **không phải bằng chứng pain**.
 
 ---
 

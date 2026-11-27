@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>3mien Pre-class Tutor</title>
+  <style>
+    body {
+      width: 300px;
+      margin: 0;
+      padding: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f6f8fc;
+      color: #0f172a;
+      font-size: 13px;
+    }
+    .head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #0b5374, #0ea5e9);
+      color: #fff;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+    h1 { font-size: 14px; margin: 0; color: #0b5374; }
+    .sub { font-size: 11px; color: #64748b; }
+    .card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .status { font-size: 12px; font-weight: 600; }
+    .ok { color: #047857; }
+    .err { color: #be123c; }
+    label { display: block; font-size: 11.5px; font-weight: 600; color: #475569; margin-bottom: 5px; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 7px 9px;
+      border: 1px solid #cbd5e1;
+      border-radius: 7px;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+    .row { display: flex; gap: 6px; }
+    button {
+      flex: 1;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-primary { background: #0b5374; color: #fff; }
+    .btn-secondary { background: #e2e8f0; color: #0f172a; }
+    .hint { font-size: 11px; color: #64748b; line-height: 1.45; }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <div class="logo">3m</div>
+    <div>
+      <h1>Trợ giảng Pre-class 3mien</h1>
+      <div class="sub">Day 01–15 · Gắn trực tiếp trên preclass-online.com</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="status" class="status">Đang kiểm tra server cục bộ…</div>
+    <div id="playerStatus" class="hint" style="margin-top:6px;">Đang dò player video trên tab…</div>
+  </div>
+
+  <div class="card">
+    <label for="apiBase">Địa chỉ server cục bộ</label>
+    <input id="apiBase" type="url" value="http://127.0.0.1:8000" />
+    <div class="row">
+      <button id="btnSave" class="btn-secondary" type="button">Lưu & Kiểm tra</button>
+      <button id="btnToggle" class="btn-primary" type="button">Mở / Ẩn khung chat</button>
+    </div>
+  </div>
+
+  <div class="hint">
+    1. Chạy <code>python frontend/server.py</code> trên máy.<br />
+    2. Mở <strong>preclass-online.com</strong> → bấm nút <em>3m · Trợ giảng có căn cứ</em> góc phải dưới.
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

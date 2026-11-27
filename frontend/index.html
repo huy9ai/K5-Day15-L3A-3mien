@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3mien · Trợ giảng Pre-class có căn cứ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header (preclass-online.com inspired light teal accent) -->
+    <header class="topbar">
+      <div class="brand">
+        <button id="btnToggleSidebar" class="btn btn-ghost" type="button" title="Ẩn/hiện Mục lục">☰ Mục lục</button>
+        <div class="brand-logo" aria-hidden="true">3m</div>
+        <div>
+          <h1 class="brand-title">Trợ giảng Pre-class có căn cứ</h1>
+          <p class="brand-subtitle">Nhóm 3mien · Track A1 · Bấm mã đoạn để nhảy thẳng tới đúng mốc bài giảng</p>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div id="modelStatus" class="status-pill" title="Trạng thái kết nối model">
+          <span class="status-dot"></span>
+          <span id="modelStatusText">Đang tải cấu hình…</span>
+        </div>
+        <button id="btnClearChat" class="btn btn-secondary" type="button">Làm mới chat</button>
+      </div>
+    </header>
+
+    <!-- 3-Column Workspace: Sidebar | Video/Slide Stage | Grounded Tutor Chat -->
+    <main id="workspace" class="workspace">
+      <!-- Left Column: Mục lục 13 ngày học -->
+      <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+          <div>
+            <h2>Mục lục Pre-class</h2>
+            <p id="lessonStats" class="muted">Đang tải dữ liệu…</p>
+          </div>
+          <button id="btnCloseSidebar" class="btn-icon mobile-only" type="button" aria-label="Đóng mục lục">✕</button>
+        </div>
+
+        <div class="sidebar-search">
+          <input
+            id="lessonSearchInput"
+            type="search"
+            placeholder="Tìm bài học, mã D08-S02..."
+            autocomplete="off"
+          />
+        </div>
+
+        <div id="lessonList" class="lesson-list"></div>
+      </aside>
+
+      <!-- Center Column: Bài giảng tương tác (hỗ trợ nhiều ngày + audio MP3 đồng bộ mốc) -->
+      <section class="stage-panel">
+        <div class="stage-header">
+          <div>
+            <span id="stagePhaseTag" class="phase-tag">DAY01 · BÀI GIẢNG PRE-CLASS</span>
+            <h2 id="stageTitle" class="stage-title">Day 01 — AI & LLM Foundation</h2>
+          </div>
+          <div class="stage-controls">
+            <select id="lectureSelect" class="lecture-select" title="Chọn bài giảng đã nạp trong data-btc/lectures/"></select>
+            <div id="playerJumpBadge" class="jump-badge">
+              Đang mở: Slide 01 · 00:00
+            </div>
+          </div>
+        </div>
+
+        <!-- Embedded Lecture Deck / Video Player -->
+        <div class="player-card">
+          <div id="playerFrameWrap" class="player-frame-wrap">
+            <iframe
+              id="lectureFrame"
+              title="Bài giảng Pre-class"
+              allow="autoplay; fullscreen"
+            ></iframe>
+            <div id="playerFallback" class="player-fallback hidden">
+              <p>Chưa có file bài giảng HTML cho ngày này. Thả file <code>.html</code> và thư mục <code>_files/</code> vào <code>data-btc/lectures/DayXX/</code> rồi tải lại trang.</p>
+            </div>
+          </div>
+
+          <!-- Optional Single-File Audio Bar (tự hiện khi có file .mp3/.m4a/.wav trong DayXX/voice/) -->
+          <div id="audioBar" class="audio-bar hidden">
+            <span class="audio-label">🔊 Thuyết minh bài giảng:</span>
+            <audio id="lectureAudio" controls preload="metadata"></audio>
+          </div>
+
+          <!-- Interactive Chapter Timeline Bar (tự sinh theo ngày đang chọn) -->
+          <div class="timeline-bar">
+            <span id="timelineLabel" class="timeline-label">Nhảy nhanh mốc bài giảng:</span>
+            <div id="chapterTimeline" class="chapter-pills"></div>
+          </div>
+        </div>
+
+        <!-- Grounded Citation Inspector (appears when clicking any [Dxx-Syy · mm:ss] in chat or sidebar) -->
+        <section id="citationCard" class="citation-card">
+          <div class="citation-card-head">
+            <div class="citation-head-left">
+              <span class="citation-kicker">Căn cứ trích dẫn đang chọn</span>
+              <span id="citationCode" class="code-chip">D01-S01 · 00:41</span>
+            </div>
+            <button id="btnJumpSlide" class="btn btn-jump hidden" type="button">▶ Mở đúng mốc trên bài giảng</button>
+          </div>
+          <p id="citationMeta" class="citation-meta">Day 01 — AI & LLM Foundation · Phần 01</p>
+          <p id="citationTopic" class="citation-topic">Phần 01 · AI là gì, vì sao giờ mới bùng nổ</p>
+          <p id="citationText" class="citation-text">
+            Bấm vào bất kỳ mã đoạn màu xanh nào trong câu trả lời của trợ giảng (vd [D01-S02 · 05:45], [D03-S02 · 03:54] hay [D08-S05 · 14:13]) để xem nội dung căn cứ và tự động chuyển đúng bài giảng + tua tới đúng mốc phía trên.
+          </p>
+        </section>
+      </section>
+
+      <!-- Right Column: Khung chat Trợ giảng Pre-class -->
+      <section class="chat-panel">
+        <div class="chat-panel-header">
+          <div>
+            <h2>Tương tác trợ giảng AI</h2>
+            <p class="muted">Hỏi bất kỳ bài nào từ Day 01 → Day 15 · Tự chuyển bài & tua đúng mốc</p>
+          </div>
+        </div>
+
+        <div id="chatMessages" class="chat-messages">
+          <div id="welcomeCard" class="welcome-card">
+            <span class="welcome-tag">Phủ đủ 15 bài giảng (Day 01 → Day 15)</span>
+            <p>
+              Hỏi bất kỳ khái niệm nào hoặc yêu cầu mở một bài (vd: <em>"Chuyển sang Day 8 phần 2"</em>). Trợ giảng sẽ trả lời kèm <strong>[mã đoạn · phút:giây]</strong> và <strong>tự động mở đúng ngày + tua đúng slide</strong>!
+            </p>
+
+            <div class="quick-prompts">
+              <button class="quick-chip" data-prompt="Giải thích cách LLM sinh văn bản và giới hạn hallucination ở Day 1?" type="button">
+                <span class="chip-badge badge-grounded">Day01 · LLM Foundation</span>
+                <span>Cách LLM sinh văn bản và giới hạn hallucination ở Day 1?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class?" type="button">
+                <span class="chip-badge badge-grounded">Day03 · Tự nhảy sang Day 3</span>
+                <span>Khác nhau giữa zero-shot và few-shot prompting?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Trong bài Day 8, 5 khuôn workflow gồm những gì và xem ở phút thứ mấy?" type="button">
+                <span class="chip-badge badge-grounded">Day08 · Tự nhảy sang Day 8</span>
+                <span>5 khuôn workflow gồm những gì và xem ở phút thứ mấy?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Canary release và SLO ngân sách lỗi ở Day 14 là gì?" type="button">
+                <span class="chip-badge badge-grounded">Day14 · Tự nhảy sang Day 14</span>
+                <span>Canary release và SLO ngân sách lỗi ở Day 14 là gì?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Cái này khác gì?" type="button">
+                <span class="chip-badge badge-clarify">Hỏi ngược G10</span>
+                <span>Cái này khác gì?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Điểm danh buổi tối qua của mình sao bị vắng?" type="button">
+                <span class="chip-badge badge-refuse">Ngoài phạm vi</span>
+                <span>Điểm danh buổi tối qua của mình sao bị vắng?</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Composer -->
+        <form id="chatForm" class="composer">
+          <!-- Tính năng 1: Hỏi nhanh về phần đang xem (chống lỗi thiếu ngữ cảnh) -->
+          <div class="active-context-bar">
+            <span id="activeContextText" class="active-context-text">📌 Đang xem: D01-S01 · 00:41</span>
+            <button id="btnAskCurrent" class="btn-context-ask" type="button">Hỏi đoạn đang xem</button>
+          </div>
+          <div class="composer-box">
+            <textarea
+              id="chatInput"
+              rows="1"
+              placeholder="Hỏi bất kỳ bài nào Day 01–15 hoặc gõ: Mở bài Day 7 phần 2..."
+              required
+            ></textarea>
+            <button id="btnSend" class="btn btn-primary" type="submit" aria-label="Gửi câu hỏi">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
+          <div class="composer-hint">
+            <span><strong>Enter</strong> để gửi · <strong>Shift+Enter</strong> xuống dòng</span>
+            <span id="charCount">0 ký tự</span>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -48,7 +48,7 @@ MODEL_NAME = (os.environ.get("MODEL_NAME") or "").strip()
 API_KEY = (os.environ.get("API_KEY") or "").strip()
 
 
-def post_json(url: str, headers: dict, body: dict, timeout: int = 90) -> dict:
+def post_json(url: str, headers: dict, body: dict, timeout: int = 30) -> dict:
     """Gửi POST JSON, trả về JSON phản hồi. Chỉ dùng thư viện chuẩn (urllib)."""
     all_headers = {"Content-Type": "application/json", "User-Agent": "ai20k-3mien-tutor/1.0"}
     all_headers.update(headers)
@@ -110,6 +110,8 @@ def call_openrouter(system: str, user: str, model_name: str) -> dict:
         "model": model_name,
         "messages": messages,
         "temperature": 0.2,
+        "max_tokens": 500,
+        "reasoning": {"effort": "minimal"},
     }
     data = post_json(URL_OPENROUTER, headers, body)
     if "error" in data:

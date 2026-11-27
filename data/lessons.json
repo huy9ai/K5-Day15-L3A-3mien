@@ -1,412 +1,4262 @@
 {
-  "version": "2.1-cp2-spec",
+  "version": "3.0-all-15-days",
   "updated_at": "2026-11-27",
-  "description": "Kho 27 đoạn bài giảng pre-class rút gọn (Day01 → Day13) chuẩn hoá mã đoạn Dxx-Syy khớp spec.md §4, bám siêu dữ liệu lesson_id, kc_code và mốc trích dẫn từ data/preclass/.",
+  "description": "Kho 86 đoạn bài giảng pre-class rút gọn phủ đầy đủ 15 ngày học (Day01 → Day15), mỗi đoạn tương ứng 1 phần chính kèm mốc thời gian (mm:ss) và số slide trích xuất chính xác từ 15 bài giảng AI20K L3.",
   "segments": [
     {
       "code": "D01-S01",
       "lesson": "Day01",
       "day": "Day01",
-      "program_lesson_id": "program-day01:ai-llm-foundation",
-      "transcript_ref": "Day01/d01-r1-v01.txt@192",
+      "slide": 2,
       "lesson_title": "Day 01 — AI & LLM Foundation",
-      "title": "Chatbot là ứng dụng xây quanh LLM & 3 trụ cột bùng nổ AI",
-      "topic": "Chatbot là ứng dụng xây quanh LLM & 3 trụ cột bùng nổ AI",
-      "video_title": "d01-r1-v01 · Chatbot là ứng dụng quanh model & động lực bùng nổ AI",
-      "timestamp": "03:12",
-      "kc_codes": ["chatbot_is_app_around_model", "ai_boom_data_architecture_hardware"],
-      "keywords": ["chatbot", "llm", "app around model", "ai boom", "transformer", "gpu", "du lieu", "kien truc", "phan cung", "foundation"],
-      "text": "Chatbot không phải là bản thân mô hình ngôn ngữ (LLM) mà là một ứng dụng xây quanh model, bao gồm giao diện, system prompt, lịch sử hội thoại và các công cụ đi kèm. Làn sóng AI hiện đại bùng nổ nhờ sự hội tụ của ba trụ cột: dữ liệu quy mô lớn, kiến trúc Transformer và hạ tầng phần cứng GPU."
+      "title": "Phần 01 · AI là gì, vì sao giờ mới bùng nổ",
+      "topic": "Phần 01 · AI là gì, vì sao giờ mới bùng nổ",
+      "video_title": "Phần 01 · AI là gì, vì sao giờ mới bùng nổ (00:41–05:45 · Slide 02)",
+      "timestamp": "00:41",
+      "end_timestamp": "05:45",
+      "sub_slides": [
+        {
+          "slide": 3,
+          "timestamp": "01:56",
+          "title": "Nhìn vào đầu ra cần có"
+        },
+        {
+          "slide": 4,
+          "timestamp": "02:11",
+          "title": "Bản đồ thuật ngữ"
+        },
+        {
+          "slide": 5,
+          "timestamp": "03:06",
+          "title": "Hai chỗ hay nhầm về LLM"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:28",
+          "title": "Ba nhóm việc"
+        },
+        {
+          "slide": 8,
+          "timestamp": "04:16",
+          "title": "Vì sao đến giờ mới bùng nổ"
+        }
+      ],
+      "keywords": [
+        "ai la gi",
+        "vi sao gio moi bung no",
+        "ai & llm foundation",
+        "nhin vao dau ra can co",
+        "ban do thuat ngu",
+        "hai cho hay nham ve llm",
+        "ba nhom viec",
+        "vi sao den gio moi bung no"
+      ],
+      "text": "AI là lĩnh vực rộng, LLM là một họ mô hình cụ thể. Chatbot là ứng dụng bọc quanh mô hình. Cơn bùng nổ đến từ dữ liệu, kiến trúc và phần cứng cùng hội tụ. Các mốc chi tiết trong bài: Nhìn vào đầu ra cần có (01:56); Bản đồ thuật ngữ (02:11); Hai chỗ hay nhầm về LLM (03:06); Ba nhóm việc (03:28); Vì sao đến giờ mới bùng nổ (04:16)."
     },
     {
       "code": "D01-S02",
       "lesson": "Day01",
       "day": "Day01",
-      "program_lesson_id": "program-day01:ai-llm-foundation",
-      "transcript_ref": "Day01/d01-r1-v02.txt@123",
+      "slide": 10,
       "lesson_title": "Day 01 — AI & LLM Foundation",
-      "title": "Vòng lặp sinh token, Temperature và hiện tượng bịa (Hallucination)",
-      "topic": "Vòng lặp sinh token, Temperature và hiện tượng bịa (Hallucination)",
-      "video_title": "d01-r1-v02 · Vòng lặp sinh token và tham số Temperature",
-      "timestamp": "02:03",
-      "kc_codes": ["token_generation_loop_and_temperature", "temperature_stability_not_truth", "token_generation_loop_count"],
-      "keywords": ["token", "temperature", "nhiet do", "hallucination", "bia thong tin", "ao giac", "on dinh", "su that", "autoregressive", "vong lap sinh token"],
-      "text": "LLM sinh câu trả lời qua vòng lặp dự đoán từng token tiếp theo dựa trên xác suất. Giảm temperature (vd xuống 0–0.2) giúp đầu ra ổn định và ít ngẫu nhiên hơn, nhưng temperature thấp chỉ tạo độ ổn định chứ KHÔNG đảm bảo sự thật: nếu thiếu căn cứ trong ngữ cảnh, mô hình vẫn tự tin bịa thông tin (hallucination)."
+      "title": "Phần 02 · Cách LLM sinh văn bản",
+      "topic": "Phần 02 · Cách LLM sinh văn bản",
+      "video_title": "Phần 02 · Cách LLM sinh văn bản (05:45–11:54 · Slide 10)",
+      "timestamp": "05:45",
+      "end_timestamp": "11:54",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "06:19",
+          "title": "Ở mỗi bước, model chỉ có một bảng khả năng"
+        },
+        {
+          "slide": 12,
+          "timestamp": "06:42",
+          "title": "Cùng một bảng, hai cách chọn cho hai kết quả"
+        },
+        {
+          "slide": 14,
+          "timestamp": "07:13",
+          "title": "Mỗi token vừa chọn trở thành ngữ cảnh cho lần sau"
+        },
+        {
+          "slide": 15,
+          "timestamp": "07:48",
+          "title": "Temperature kéo giãn hoặc dồn lại cái bảng đó"
+        },
+        {
+          "slide": 16,
+          "timestamp": "08:18",
+          "title": "Vòng lặp dừng khi nào?"
+        },
+        {
+          "slide": 17,
+          "timestamp": "08:42",
+          "title": "Token là mảnh chữ, không phải một từ"
+        },
+        {
+          "slide": 19,
+          "timestamp": "09:20",
+          "title": "Một chữ, hai nghĩa"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:40",
+          "title": "Attention là một phép trộn có trọng số"
+        },
+        {
+          "slide": 21,
+          "timestamp": "10:14",
+          "title": "Vì sao phải nhìn được xa"
+        },
+        {
+          "slide": 22,
+          "timestamp": "10:38",
+          "title": "Attention không phải phép màu"
+        }
+      ],
+      "keywords": [
+        "cach llm sinh van ban",
+        "ai & llm foundation",
+        "o moi buoc",
+        "model chi co mot bang kha nang",
+        "cung mot bang",
+        "hai cach chon cho hai ket qua",
+        "temperature keo gian hoac don lai cai bang do",
+        "vong lap dung khi nao?",
+        "token",
+        "temperature",
+        "nhiet do",
+        "sinh van ban",
+        "vong lap",
+        "autoregressive"
+      ],
+      "text": "Model chỉ đoán token kế tiếp, rồi nối vào và lặp lại. Hỏi lại ra câu khác là do rút thăm, không phải lỗi. Temperature đổi độ ổn định, không đổi độ đúng. Cùng một token có thể nhận biểu diễn khác nhau theo ngữ cảnh. Attention dùng trọng số để trộn thông tin từ vị trí khác. Nó chỉ nhìn được những gì đã được đưa vào. Các mốc chi tiết trong bài: Ở mỗi bước, model chỉ có một bảng khả năng (06:19); Cùng một bảng, hai cách chọn cho hai kết quả (06:42); Mỗi token vừa chọn trở thành ngữ cảnh cho lần sau (07:13); Temperature kéo giãn hoặc dồn lại cái bảng đó (07:48); Vòng lặp dừng khi nào? (08:18)."
     },
     {
       "code": "D01-S03",
       "lesson": "Day01",
       "day": "Day01",
-      "program_lesson_id": "program-day01:ai-llm-foundation",
-      "transcript_ref": "Day01/d01-r1-v05.txt@121",
+      "slide": 25,
       "lesson_title": "Day 01 — AI & LLM Foundation",
-      "title": "Ngân sách cửa sổ ngữ cảnh (Context Window Budget)",
-      "topic": "Ngân sách cửa sổ ngữ cảnh (Context Window Budget)",
-      "video_title": "d01-r1-v05 · Ngân sách cửa sổ ngữ cảnh (Context Window Budget)",
-      "timestamp": "02:01",
-      "kc_codes": ["context_window_budget_and_selection"],
-      "keywords": ["context window", "cua so ngu canh", "ngan sach", "budget", "chon loc", "token", "gioi han"],
-      "text": "Cửa sổ ngữ cảnh (context window) là giới hạn tổng số token mà LLM đọc và sinh ra trong một lượt gọi. Vì ngân sách ngữ cảnh có hạn và chi phí tăng theo token, không nên nhồi toàn bộ tài liệu vào prompt mà phải chọn lọc đúng các đoạn cần thiết cho câu hỏi hiện tại."
+      "title": "Phần 03 · Huấn luyện và giới hạn",
+      "topic": "Phần 03 · Huấn luyện và giới hạn",
+      "video_title": "Phần 03 · Huấn luyện và giới hạn (11:54–15:10 · Slide 25)",
+      "timestamp": "11:54",
+      "end_timestamp": "15:10",
+      "sub_slides": [
+        {
+          "slide": 26,
+          "timestamp": "12:14",
+          "title": "Từ cỗ máy đoán chữ thành trợ lý"
+        },
+        {
+          "slide": 27,
+          "timestamp": "12:40",
+          "title": "Giới hạn 1: bong bóng thời gian"
+        },
+        {
+          "slide": 28,
+          "timestamp": "13:11",
+          "title": "Giới hạn 2: nói chắc như đúng rồi"
+        },
+        {
+          "slide": 29,
+          "timestamp": "13:42",
+          "title": "Giới hạn 3: bàn làm việc có hạn"
+        },
+        {
+          "slide": 31,
+          "timestamp": "14:30",
+          "title": "Ba cách giữ bàn gọn"
+        }
+      ],
+      "keywords": [
+        "huan luyen va gioi han",
+        "ai & llm foundation",
+        "tu co may doan chu thanh tro ly",
+        "gioi han 1",
+        "bong bong thoi gian",
+        "gioi han 2",
+        "noi chac nhu dung roi",
+        "gioi han 3",
+        "ban lam viec co han",
+        "ba cach giu ban gon",
+        "hallucination",
+        "bia thong tin",
+        "ao giac",
+        "gioi han",
+        "huan luyen"
+      ],
+      "text": "Kiến thức dừng ở một thời điểm. Câu trả lời trôi chảy vẫn có thể sai. Chiếc bàn làm việc luôn có giới hạn. Các mốc chi tiết trong bài: Từ cỗ máy đoán chữ thành trợ lý (12:14); Giới hạn 1: bong bóng thời gian (12:40); Giới hạn 2: nói chắc như đúng rồi (13:11); Giới hạn 3: bàn làm việc có hạn (13:42); Ba cách giữ bàn gọn (14:30)."
+    },
+    {
+      "code": "D01-S04",
+      "lesson": "Day01",
+      "day": "Day01",
+      "slide": 33,
+      "lesson_title": "Day 01 — AI & LLM Foundation",
+      "title": "Phần 04 · Từ LLM đến Agent",
+      "topic": "Phần 04 · Từ LLM đến Agent",
+      "video_title": "Phần 04 · Từ LLM đến Agent (15:10–17:13 · Slide 33)",
+      "timestamp": "15:10",
+      "end_timestamp": "17:13",
+      "sub_slides": [
+        {
+          "slide": 34,
+          "timestamp": "15:30",
+          "title": "LLM đơn lẻ chưa đủ để làm việc"
+        },
+        {
+          "slide": 35,
+          "timestamp": "15:42",
+          "title": "Những gì bao quanh LLM"
+        },
+        {
+          "slide": 36,
+          "timestamp": "16:04",
+          "title": "Agent là một vòng lặp"
+        },
+        {
+          "slide": 38,
+          "timestamp": "16:42",
+          "title": "Đừng học thuộc tên model"
+        }
+      ],
+      "keywords": [
+        "tu llm den agent",
+        "ai & llm foundation",
+        "llm don le chua du de lam viec",
+        "nhung gi bao quanh llm",
+        "agent la mot vong lap",
+        "dung hoc thuoc ten model"
+      ],
+      "text": "Model trần chỉ sinh chữ. Thêm các lớp bao quanh và đặt vào một vòng lặp, nó trở thành agent. Các mốc chi tiết trong bài: LLM đơn lẻ chưa đủ để làm việc (15:30); Những gì bao quanh LLM (15:42); Agent là một vòng lặp (16:04); Đừng học thuộc tên model (16:42)."
+    },
+    {
+      "code": "D01-S05",
+      "lesson": "Day01",
+      "day": "Day01",
+      "slide": 40,
+      "lesson_title": "Day 01 — AI & LLM Foundation",
+      "title": "Phần 05 · Chọn model, chi phí, gọi API",
+      "topic": "Phần 05 · Chọn model, chi phí, gọi API",
+      "video_title": "Phần 05 · Chọn model, chi phí, gọi API (17:13–21:51 · Slide 40)",
+      "timestamp": "17:13",
+      "end_timestamp": "21:51",
+      "sub_slides": [
+        {
+          "slide": 41,
+          "timestamp": "17:25",
+          "title": "Bốn cách dùng LLM"
+        },
+        {
+          "slide": 42,
+          "timestamp": "17:51",
+          "title": "Chọn model theo việc"
+        },
+        {
+          "slide": 43,
+          "timestamp": "18:29",
+          "title": "Vé vào rẻ, vé ra đắt"
+        },
+        {
+          "slide": 44,
+          "timestamp": "19:08",
+          "title": "Chat càng dài, hoá đơn càng tăng"
+        },
+        {
+          "slide": 46,
+          "timestamp": "19:43",
+          "title": "Giải phẫu một lần gọi API"
+        },
+        {
+          "slide": 48,
+          "timestamp": "20:41",
+          "title": "Model không nhớ gì giữa hai lần gọi"
+        },
+        {
+          "slide": 49,
+          "timestamp": "20:54",
+          "title": "Ba thứ luôn phải cân bằng"
+        },
+        {
+          "slide": 50,
+          "timestamp": "21:10",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "chon model",
+        "chi phi",
+        "goi api",
+        "ai & llm foundation",
+        "bon cach dung llm",
+        "chon model theo viec",
+        "ve vao re",
+        "ve ra dat",
+        "chat cang dai",
+        "hoa don cang tang",
+        "giai phau mot lan goi api"
+      ],
+      "text": "Model có giới hạn, đừng tin chỉ vì nghe trôi chảy. Agent là model trong vòng lặp có khả năng hành động. Chọn model theo việc, đo trên dữ liệu của bạn. Các mốc chi tiết trong bài: Bốn cách dùng LLM (17:25); Chọn model theo việc (17:51); Vé vào rẻ, vé ra đắt (18:29); Chat càng dài, hoá đơn càng tăng (19:08); Giải phẫu một lần gọi API (19:43)."
     },
     {
       "code": "D02-S01",
       "lesson": "Day02",
       "day": "Day02",
-      "program_lesson_id": "program-day02:ai-problem-definition",
-      "transcript_ref": "Day02/d02-r2-v01.txt@228",
-      "lesson_title": "Day 02 — Discovery & Problem Framing",
-      "title": "Tư duy Problem-first, Double Diamond và lượng hoá nỗi đau",
-      "topic": "Tư duy Problem-first, Double Diamond và lượng hoá nỗi đau",
-      "video_title": "d02-r2-v01 · Problem-first Discovery, Double Diamond & Lượng hoá pain",
-      "timestamp": "03:48",
-      "kc_codes": ["problem_first_discovery", "double_diamond_problem_discovery", "quantify_pain_baseline_target_measurement"],
-      "keywords": ["problem first", "discovery", "double diamond", "luong hoa", "pain", "baseline", "target", "bang chung", "gia thuyet", "mom test"],
-      "text": "Khám phá sản phẩm AI phải đi theo hướng Problem-first và mô hình Double Diamond: hiểu sâu nỗi đau thực tế của một vai người dùng trước khi chọn công nghệ. Nỗi đau cần được lượng hoá bằng bằng chứng thật (số người gặp, tần suất, thời gian tốn — baseline) và mục tiêu cải thiện đo được (target)."
+      "slide": 3,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 01 · Nhìn thấy giải pháp trước bài toán",
+      "topic": "Phần 01 · Nhìn thấy giải pháp trước bài toán",
+      "video_title": "Phần 01 · Nhìn thấy giải pháp trước bài toán (01:07–05:53 · Slide 03)",
+      "timestamp": "01:07",
+      "end_timestamp": "05:53",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:04",
+          "title": "“AI chatbot” chưa phải là một bài toán"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:33",
+          "title": "Khoan đã, bạn đã hỏi chưa?"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:27",
+          "title": "Double Diamond: tìm đúng vấn đề trước"
+        },
+        {
+          "slide": 9,
+          "timestamp": "04:44",
+          "title": "Vì sao khó nhận ra mình đang sai bài toán"
+        },
+        {
+          "slide": 10,
+          "timestamp": "05:07",
+          "title": "Quan sát trước, rồi mới phỏng vấn"
+        }
+      ],
+      "keywords": [
+        "nhin thay giai phap truoc bai toan",
+        "xac dinh bai toan cho ai",
+        "“ai chatbot” chua phai la mot bai toan",
+        "khoan da",
+        "ban da hoi chua?",
+        "double diamond",
+        "tim dung van de truoc",
+        "vi sao kho nhan ra minh dang sai bai toan",
+        "quan sat truoc",
+        "roi moi phong van"
+      ],
+      "text": "“Chatbot” là hình hài giải pháp, chưa phải bài toán. Tìm đúng vấn đề trước, rồi mới tìm giải pháp. Sai bài toán thường tốn hơn sai giải pháp. Các mốc chi tiết trong bài: “AI chatbot” chưa phải là một bài toán (02:04); Khoan đã, bạn đã hỏi chưa? (02:33); Double Diamond: tìm đúng vấn đề trước (03:27); Vì sao khó nhận ra mình đang sai bài toán (04:44); Quan sát trước, rồi mới phỏng vấn (05:07)."
     },
     {
       "code": "D02-S02",
       "lesson": "Day02",
       "day": "Day02",
-      "program_lesson_id": "program-day02:ai-problem-definition",
-      "transcript_ref": "Day02/d02-r2-v02.txt@126",
-      "lesson_title": "Day 02 — Discovery & Problem Framing",
-      "title": "Đánh giá AI Fit và chọn đúng bậc Rule → Workflow → Agent",
-      "topic": "Đánh giá AI Fit và chọn đúng bậc Rule → Workflow → Agent",
-      "video_title": "d02-r2-v02 · Đánh giá AI Fit và chọn mức Rule / Workflow / Agent",
-      "timestamp": "02:06",
-      "kc_codes": ["select_rule_workflow_agent_level", "evaluate_ai_fit_and_alternatives"],
-      "keywords": ["ai fit", "rule", "workflow", "agent", "phuong an thay the", "lua chon bac", "muc do"],
-      "text": "Không phải bài toán nào cũng cần LLM hay Agent. Trước khi làm AI, cần so sánh với các phương án thay thế đơn giản hơn và chọn đúng bậc thấp nhất giải quyết được việc: quy tắc cứng (Rule) → chuỗi bước cố định (Workflow) → vòng lặp tự chọn công cụ (Agent)."
+      "slide": 12,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 02 · Problem Statement và định lượng hóa",
+      "topic": "Phần 02 · Problem Statement và định lượng hóa",
+      "video_title": "Phần 02 · Problem Statement và định lượng hóa (05:53–09:05 · Slide 12)",
+      "timestamp": "05:53",
+      "end_timestamp": "09:05",
+      "sub_slides": [
+        {
+          "slide": 13,
+          "timestamp": "06:15",
+          "title": "Quick Problem Card: sáu ô định hình bài toán"
+        },
+        {
+          "slide": 14,
+          "timestamp": "07:13",
+          "title": "Định lượng hóa: hiện trạng, mục tiêu, cách đo"
+        },
+        {
+          "slide": 15,
+          "timestamp": "07:51",
+          "title": "Chỉ số đầu ra và chỉ số đầu vào"
+        }
+      ],
+      "keywords": [
+        "problem statement va dinh luong hoa",
+        "xac dinh bai toan cho ai",
+        "quick problem card",
+        "sau o dinh hinh bai toan",
+        "dinh luong hoa",
+        "hien trang",
+        "muc tieu",
+        "cach do",
+        "chi so dau ra va chi so dau vao"
+      ],
+      "text": "Bài toán viết trong một câu, không chứa giải pháp. Định lượng bằng hiện trạng, mục tiêu, cách đo. Đòn bẩy tăng chưa chắc kết quả tăng. Các mốc chi tiết trong bài: Quick Problem Card: sáu ô định hình bài toán (06:15); Định lượng hóa: hiện trạng, mục tiêu, cách đo (07:13); Chỉ số đầu ra và chỉ số đầu vào (07:51)."
     },
     {
       "code": "D02-S03",
       "lesson": "Day02",
       "day": "Day02",
-      "program_lesson_id": "program-day02:ai-problem-definition",
-      "transcript_ref": "Day02/d02-r2-v03.txt@111",
-      "lesson_title": "Day 02 — Discovery & Problem Framing",
-      "title": "Quyết định Go / Not-yet / No-go, ranh giới phạm vi và Kế hoạch Eval",
-      "topic": "Quyết định Go / Not-yet / No-go, ranh giới phạm vi và Kế hoạch Eval",
-      "video_title": "d02-r2-v03 · Quyết định Go / Not-yet / No-go và Ranh giới phạm vi",
-      "timestamp": "01:51",
-      "kc_codes": ["make_go_not_yet_no_go_decision", "define_scope_boundary_and_hitl", "output_input_metric_design", "construct_eval_plan"],
-      "keywords": ["go", "not yet", "no go", "scope boundary", "ranh gioi pham vi", "hitl", "output metric", "input metric", "eval plan", "eval"],
-      "text": "Kết thúc giai đoạn framing, nhóm đưa ra quyết định Go, Not-yet (cần thêm bằng chứng/dữ liệu) hoặc No-go (bỏ hướng). Nếu Go, phải khoanh rõ ranh giới phạm vi (không làm gì), xác định chỗ con người duyệt (HITL), và thiết kế chỉ số đầu vào/đầu ra kèm kế hoạch eval ngay từ đầu."
+      "slide": 18,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 03 · AI có thật sự đáng làm?",
+      "topic": "Phần 03 · AI có thật sự đáng làm?",
+      "video_title": "Phần 03 · AI có thật sự đáng làm? (09:05–11:59 · Slide 18)",
+      "timestamp": "09:05",
+      "end_timestamp": "11:59",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "09:24",
+          "title": "Ba bước thẩm định một đề xuất dùng AI"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:57",
+          "title": "Khi nào AI có lợi thế, khi nào không"
+        },
+        {
+          "slide": 21,
+          "timestamp": "10:24",
+          "title": "Một hệ thống AI không chỉ có model"
+        },
+        {
+          "slide": 22,
+          "timestamp": "10:48",
+          "title": "AI làm thay, hay chỉ hỗ trợ?"
+        }
+      ],
+      "keywords": [
+        "ai co that su dang lam?",
+        "xac dinh bai toan cho ai",
+        "ba buoc tham dinh mot de xuat dung ai",
+        "khi nao ai co loi the",
+        "khi nao khong",
+        "mot he thong ai khong chi co model",
+        "ai lam thay",
+        "hay chi ho tro?"
+      ],
+      "text": "Thẩm định qua ba bước trước khi dùng AI. Quy trình hoàn toàn xác định thì quy tắc viết sẵn tốt hơn. Làm thay hay hỗ trợ: quyết theo từng việc. Các mốc chi tiết trong bài: Ba bước thẩm định một đề xuất dùng AI (09:24); Khi nào AI có lợi thế, khi nào không (09:57); Một hệ thống AI không chỉ có model (10:24); AI làm thay, hay chỉ hỗ trợ? (10:48)."
+    },
+    {
+      "code": "D02-S04",
+      "lesson": "Day02",
+      "day": "Day02",
+      "slide": 25,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 04 · Rule, Workflow hay Agent",
+      "topic": "Phần 04 · Rule, Workflow hay Agent",
+      "video_title": "Phần 04 · Rule, Workflow hay Agent (11:59–15:05 · Slide 25)",
+      "timestamp": "11:59",
+      "end_timestamp": "15:05",
+      "sub_slides": [
+        {
+          "slide": 26,
+          "timestamp": "12:16",
+          "title": "Ba mức giải pháp"
+        },
+        {
+          "slide": 27,
+          "timestamp": "13:03",
+          "title": "Một tình huống, ba mức giải pháp"
+        },
+        {
+          "slide": 28,
+          "timestamp": "13:47",
+          "title": "Thang năm câu hỏi để chọn mức"
+        }
+      ],
+      "keywords": [
+        "rule",
+        "workflow hay agent",
+        "xac dinh bai toan cho ai",
+        "ba muc giai phap",
+        "mot tinh huong",
+        "thang nam cau hoi de chon muc"
+      ],
+      "text": "Ba mức khác nhau, không phải thang càng cao càng tốt. Workflow: người vẽ đường. Agent: model tự chọn đường. Chọn mức tối giản nhất đủ giải bài toán. Các mốc chi tiết trong bài: Ba mức giải pháp (12:16); Một tình huống, ba mức giải pháp (13:03); Thang năm câu hỏi để chọn mức (13:47)."
+    },
+    {
+      "code": "D02-S05",
+      "lesson": "Day02",
+      "day": "Day02",
+      "slide": 31,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 05 · Đúng/sai và khi AI thất bại",
+      "topic": "Phần 05 · Đúng/sai và khi AI thất bại",
+      "video_title": "Phần 05 · Đúng/sai và khi AI thất bại (15:05–18:49 · Slide 31)",
+      "timestamp": "15:05",
+      "end_timestamp": "18:49",
+      "sub_slides": [
+        {
+          "slide": 32,
+          "timestamp": "15:28",
+          "title": "Bốn kết quả của một hệ thống cảnh báo"
+        },
+        {
+          "slide": 33,
+          "timestamp": "16:13",
+          "title": "Precision và recall: bắt đúng hay bắt đủ"
+        },
+        {
+          "slide": 34,
+          "timestamp": "16:56",
+          "title": "Viết tiêu chí thành công thành một câu nếu… thì…"
+        },
+        {
+          "slide": 35,
+          "timestamp": "17:21",
+          "title": "Khi AI sai: ba loại lỗi, bốn cách xử lý"
+        }
+      ],
+      "keywords": [
+        "dung/sai va khi ai that bai",
+        "xac dinh bai toan cho ai",
+        "bon ket qua cua mot he thong canh bao",
+        "precision va recall",
+        "bat dung hay bat du",
+        "khi ai sai",
+        "ba loai loi",
+        "bon cach xu ly"
+      ],
+      "text": "Báo nhầm và bỏ sót có giá khác nhau. Precision và recall là một đánh đổi có chủ đích. Lỗi ngầm nguy hiểm nhất, phải chủ động kiểm tra. Các mốc chi tiết trong bài: Bốn kết quả của một hệ thống cảnh báo (15:28); Precision và recall: bắt đúng hay bắt đủ (16:13); Viết tiêu chí thành công thành một câu nếu… thì… (16:56); Khi AI sai: ba loại lỗi, bốn cách xử lý (17:21)."
+    },
+    {
+      "code": "D02-S06",
+      "lesson": "Day02",
+      "day": "Day02",
+      "slide": 38,
+      "lesson_title": "Day 02 — Xác định bài toán cho AI",
+      "title": "Phần 06 · Problem Statement và quyết định",
+      "topic": "Phần 06 · Problem Statement và quyết định",
+      "video_title": "Phần 06 · Problem Statement và quyết định (18:49–22:01 · Slide 38)",
+      "timestamp": "18:49",
+      "end_timestamp": "22:01",
+      "sub_slides": [
+        {
+          "slide": 39,
+          "timestamp": "19:11",
+          "title": "Problem Statement: chín trường"
+        },
+        {
+          "slide": 40,
+          "timestamp": "19:57",
+          "title": "Năm câu hỏi gate, ba quyết định"
+        },
+        {
+          "slide": 42,
+          "timestamp": "21:14",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "problem statement va quyet dinh",
+        "xac dinh bai toan cho ai",
+        "problem statement",
+        "chin truong",
+        "nam cau hoi gate",
+        "ba quyet dinh",
+        "ban do ngay hoc"
+      ],
+      "text": "Yêu cầu mơ hồ không thay được Problem Statement. Vẽ quy trình trước khi gắn AI. Điểm đau phải có con số. Phức tạp hơn không có nghĩa là tốt hơn. Go, Not Yet, No-Go dựa trên lập luận và số liệu. Các mốc chi tiết trong bài: Problem Statement: chín trường (19:11); Năm câu hỏi gate, ba quyết định (19:57); Bản đồ ngày học (21:14)."
     },
     {
       "code": "D03-S01",
       "lesson": "Day03",
       "day": "Day03",
-      "program_lesson_id": "program-day03:chatbot-to-agentic-agent",
-      "transcript_ref": "Day03/d03-r2-v01.txt@179",
-      "lesson_title": "Day 03 — From Chatbot to Agentic Agent (ReAct)",
-      "title": "Phổ hệ thống AI (Chatbot → Workflow → Agent) và kiến trúc Agent",
-      "topic": "Phổ hệ thống AI (Chatbot → Workflow → Agent) và kiến trúc Agent",
-      "video_title": "d03-r2-v01 · Phổ hệ thống AI và kiến trúc lõi của Agent",
-      "timestamp": "02:59",
-      "kc_codes": ["ai_system_spectrum_classification", "agent_architecture_components"],
-      "keywords": ["spectrum", "pho he thong", "chatbot", "agentic", "agent architecture", "thanh phan agent", "tools", "memory", "planning"],
-      "text": "Hệ thống AI trải trên một phổ tăng dần quyền tự chủ: Chatbot hỏi-đáp đơn lẻ → Workflow gắn công cụ theo luồng cố định → Agentic Agent tự lập kế hoạch và gọi công cụ qua nhiều bước. Kiến trúc một Agent gồm 4 thành phần chính: mô hình suy luận (LLM), tập công cụ (Tools), bộ nhớ/ngữ cảnh (Memory) và vòng điều phối."
+      "slide": 3,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 01 · Nền tảng viết prompt",
+      "topic": "Phần 01 · Nền tảng viết prompt",
+      "video_title": "Phần 01 · Nền tảng viết prompt (00:58–03:54 · Slide 03)",
+      "timestamp": "00:58",
+      "end_timestamp": "03:54",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "01:48",
+          "title": "Cụ thể thắng hoa mỹ"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:17",
+          "title": "Bốn thành phần: Role, Task, Context, Format"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:07",
+          "title": "Ba loại prompt, và cách nói “đừng”"
+        }
+      ],
+      "keywords": [
+        "nen tang viet prompt",
+        "prompt engineering & tool calling",
+        "cu the thang hoa my",
+        "bon thanh phan",
+        "role",
+        "task",
+        "context",
+        "format",
+        "ba loai prompt",
+        "va cach noi “dung”"
+      ],
+      "text": "Cụ thể thắng hoa mỹ; dài hơn chưa chắc tốt hơn. Bắt đầu từ Task và Format. Nói điều nên làm, đừng chỉ cấm. Các mốc chi tiết trong bài: Cụ thể thắng hoa mỹ (01:48); Bốn thành phần: Role, Task, Context, Format (02:17); Ba loại prompt, và cách nói “đừng” (03:07)."
     },
     {
       "code": "D03-S02",
       "lesson": "Day03",
       "day": "Day03",
-      "program_lesson_id": "program-day03:chatbot-to-agentic-agent",
-      "transcript_ref": "Day03/d03-r2-v03.txt@66",
-      "lesson_title": "Day 03 — From Chatbot to Agentic Agent (ReAct)",
-      "title": "Vòng lặp ReAct (Thought → Action → Observation) và đọc Trace",
-      "topic": "Vòng lặp ReAct (Thought → Action → Observation) và đọc Trace",
-      "video_title": "d03-r2-v03 · Đọc và chẩn đoán Trace vòng lặp ReAct",
-      "timestamp": "01:06",
-      "kc_codes": ["react_trace_interpretation"],
-      "keywords": ["react", "trace", "thought", "action", "observation", "vong lap", "chan doan", "agent loop"],
-      "text": "ReAct (Reason + Act) vận hành theo chu trình lặp: Thought (suy luận bước tiếp) → Action (gọi công cụ với tham số cụ thể) → Observation (nhận kết quả công cụ trả về) cho tới khi đủ thông tin trả lời. Đọc trace từng bước giúp phát hiện chính xác lỗi nằm ở suy luận sai, chọn nhầm công cụ hay dữ liệu trả về thiếu."
+      "slide": 9,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 02 · Kỹ thuật prompt nâng cao",
+      "topic": "Phần 02 · Kỹ thuật prompt nâng cao",
+      "video_title": "Phần 02 · Kỹ thuật prompt nâng cao (03:54–07:03 · Slide 09)",
+      "timestamp": "03:54",
+      "end_timestamp": "07:03",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "04:14",
+          "title": "Zero-shot, few-shot, chain-of-thought"
+        },
+        {
+          "slide": 11,
+          "timestamp": "04:44",
+          "title": "Few-shot: ví dụ phải đúng chỗ"
+        },
+        {
+          "slide": 13,
+          "timestamp": "05:42",
+          "title": "Chain-of-thought: khi giúp, khi hại"
+        },
+        {
+          "slide": 14,
+          "timestamp": "06:21",
+          "title": "Bọc prompt bằng thẻ cấu trúc"
+        }
+      ],
+      "keywords": [
+        "ky thuat prompt nang cao",
+        "prompt engineering & tool calling",
+        "zero",
+        "shot",
+        "few",
+        "chain",
+        "of",
+        "thought",
+        "vi du phai dung cho",
+        "khi giup",
+        "khi hai",
+        "boc prompt bang the cau truc",
+        "zero shot",
+        "few shot",
+        "prompting",
+        "cot",
+        "vi du mau",
+        "khong kem vi du"
+      ],
+      "text": "Thử zero-shot trước; ví dụ mẫu phải đúng chỗ. Suy luận từng bước có lúc giúp, có lúc hại. Thẻ cấu trúc tách chỉ dẫn khỏi dữ liệu. Zero-shot prompting đưa thẳng yêu cầu không kèm ví dụ mẫu, còn few-shot prompting kèm một số ví dụ minh hoạ để model bám đúng định dạng/cách làm. Các mốc chi tiết trong bài: Zero-shot, few-shot, chain-of-thought (04:14); Few-shot: ví dụ phải đúng chỗ (04:44); Chain-of-thought: khi giúp, khi hại (05:42); Bọc prompt bằng thẻ cấu trúc (06:21)."
     },
     {
       "code": "D03-S03",
       "lesson": "Day03",
       "day": "Day03",
-      "program_lesson_id": "program-day03:chatbot-to-agentic-agent",
-      "transcript_ref": "Day03/d03-r2-v04.txt@141",
-      "lesson_title": "Day 03 — From Chatbot to Agentic Agent (ReAct)",
-      "title": "Chấm điểm Agentic Fit và điều kiện ranh giới (Boundary Condition)",
-      "topic": "Chấm điểm Agentic Fit và điều kiện ranh giới (Boundary Condition)",
-      "video_title": "d03-r2-v04 · Tiêu chí Agentic Fit và điều kiện ranh giới",
-      "timestamp": "02:21",
-      "kc_codes": ["agentic_fit_scoring_decision", "agentic_fit_criteria", "agent_boundary_condition"],
-      "keywords": ["agentic fit", "boundary condition", "dieu kien ranh gioi", "max_steps", "cham diem", "tieu chi"],
-      "text": "Agentic Fit đánh giá xem bài toán có thật sự cần agent tự chủ hay không dựa trên độ mở của đường đi, mức độ đa bước và khả năng kiểm chứng kết quả. Khi dùng agent, bắt buộc đặt điều kiện ranh giới (boundary condition) như giới hạn số bước MAX_STEPS, danh sách công cụ được phép và điều kiện dừng an toàn."
+      "slide": 16,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 03 · System prompt production-grade",
+      "topic": "Phần 03 · System prompt production-grade",
+      "video_title": "Phần 03 · System prompt production-grade (07:03–09:47 · Slide 16)",
+      "timestamp": "07:03",
+      "end_timestamp": "09:47",
+      "sub_slides": [
+        {
+          "slide": 17,
+          "timestamp": "07:24",
+          "title": "Năm phần của một system prompt"
+        },
+        {
+          "slide": 18,
+          "timestamp": "08:03",
+          "title": "System prompt hay hỏng ở đâu"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:03",
+          "title": "Khi không biết, hoặc bị hỏi ngoài phạm vi"
+        }
+      ],
+      "keywords": [
+        "system prompt production",
+        "grade",
+        "prompt engineering & tool calling",
+        "nam phan cua mot system prompt",
+        "system prompt hay hong o dau",
+        "khi khong biet",
+        "hoac bi hoi ngoai pham vi",
+        "system prompt",
+        "nam phan",
+        "ngoai pham vi",
+        "anti",
+        "pattern",
+        "tu choi"
+      ],
+      "text": "System prompt là hợp đồng năm phần. Tránh mơ hồ, mâu thuẫn, quá tải; test nhiều lượt. Viết sẵn cách từ chối và khi nào chuyển cho người. Các mốc chi tiết trong bài: Năm phần của một system prompt (07:24); System prompt hay hỏng ở đâu (08:03); Khi không biết, hoặc bị hỏi ngoài phạm vi (09:03)."
+    },
+    {
+      "code": "D03-S04",
+      "lesson": "Day03",
+      "day": "Day03",
+      "slide": 22,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 04 · Quản lý ngữ cảnh",
+      "topic": "Phần 04 · Quản lý ngữ cảnh",
+      "video_title": "Phần 04 · Quản lý ngữ cảnh (09:47–12:19 · Slide 22)",
+      "timestamp": "09:47",
+      "end_timestamp": "12:19",
+      "sub_slides": [
+        {
+          "slide": 23,
+          "timestamp": "10:06",
+          "title": "Context engineering: chọn đúng tập token"
+        },
+        {
+          "slide": 24,
+          "timestamp": "10:39",
+          "title": "Đoạn giữa hay bị bỏ sót"
+        },
+        {
+          "slide": 25,
+          "timestamp": "11:05",
+          "title": "Chatbot “nhớ” bằng cách nào"
+        }
+      ],
+      "keywords": [
+        "quan ly ngu canh",
+        "prompt engineering & tool calling",
+        "context engineering",
+        "chon dung tap token",
+        "doan giua hay bi bo sot",
+        "chatbot “nho” bang cach nao"
+      ],
+      "text": "Chọn đúng tập token, không nạp hết. Điều quan trọng để ở đầu hoặc cuối. Model nhớ nhờ ứng dụng gửi lại; nén có chọn lọc. Các mốc chi tiết trong bài: Context engineering: chọn đúng tập token (10:06); Đoạn giữa hay bị bỏ sót (10:39); Chatbot “nhớ” bằng cách nào (11:05)."
+    },
+    {
+      "code": "D03-S05",
+      "lesson": "Day03",
+      "day": "Day03",
+      "slide": 28,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 05 · An toàn và đánh giá prompt",
+      "topic": "Phần 05 · An toàn và đánh giá prompt",
+      "video_title": "Phần 05 · An toàn và đánh giá prompt (12:19–15:07 · Slide 28)",
+      "timestamp": "12:19",
+      "end_timestamp": "15:07",
+      "sub_slides": [
+        {
+          "slide": 29,
+          "timestamp": "12:40",
+          "title": "Prompt injection đến từ đâu"
+        },
+        {
+          "slide": 30,
+          "timestamp": "13:19",
+          "title": "Phòng thủ nhiều lớp"
+        },
+        {
+          "slide": 31,
+          "timestamp": "13:49",
+          "title": "Prompt hôm nay có tốt hơn hôm qua?"
+        }
+      ],
+      "keywords": [
+        "an toan va danh gia prompt",
+        "prompt engineering & tool calling",
+        "prompt injection den tu dau",
+        "phong thu nhieu lop",
+        "prompt hom nay co tot hon hom qua?",
+        "prompt injection",
+        "bo cau thu",
+        "doi prompt",
+        "danh gia prompt"
+      ],
+      "text": "Injection gián tiếp nguy hiểm hơn trực tiếp. Xếp nhiều lớp: thẻ dữ liệu, quyền tối thiểu, người xác nhận. Bộ test cố định, lưu phiên bản prompt. Các mốc chi tiết trong bài: Prompt injection đến từ đâu (12:40); Phòng thủ nhiều lớp (13:19); Prompt hôm nay có tốt hơn hôm qua? (13:49)."
+    },
+    {
+      "code": "D03-S06",
+      "lesson": "Day03",
+      "day": "Day03",
+      "slide": 34,
+      "lesson_title": "Day 03 — Prompt Engineering & Tool Calling",
+      "title": "Phần 06 · Tool calling và thiết kế tool",
+      "topic": "Phần 06 · Tool calling và thiết kế tool",
+      "video_title": "Phần 06 · Tool calling và thiết kế tool (15:07–19:00 · Slide 34)",
+      "timestamp": "15:07",
+      "end_timestamp": "19:00",
+      "sub_slides": [
+        {
+          "slide": 35,
+          "timestamp": "15:26",
+          "title": "Model đề nghị, ứng dụng chạy"
+        },
+        {
+          "slide": 36,
+          "timestamp": "16:00",
+          "title": "Mô tả tool là một phần của prompt"
+        },
+        {
+          "slide": 37,
+          "timestamp": "16:38",
+          "title": "Khi tool lỗi: thông báo để model tự sửa"
+        },
+        {
+          "slide": 38,
+          "timestamp": "17:02",
+          "title": "Tool tốt: vừa đủ chi tiết"
+        },
+        {
+          "slide": 40,
+          "timestamp": "18:09",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "tool calling va thiet ke tool",
+        "prompt engineering & tool calling",
+        "model de nghi",
+        "ung dung chay",
+        "mo ta tool la mot phan cua prompt",
+        "khi tool loi",
+        "thong bao de model tu sua",
+        "tool tot",
+        "vua du chi tiet",
+        "ban do ngay hoc",
+        "tool calling",
+        "function calling",
+        "thiet ke tool",
+        "mo ta tool",
+        "mcp"
+      ],
+      "text": "Prompt tốt tạo hành vi ổn định, không phải câu nghe hay. System prompt là hợp đồng, phải test nhiều lượt. Ngữ cảnh có giới hạn cả về độ dài lẫn vị trí. Model quyết định, ứng dụng chạy tool. Các mốc chi tiết trong bài: Model đề nghị, ứng dụng chạy (15:26); Mô tả tool là một phần của prompt (16:00); Khi tool lỗi: thông báo để model tự sửa (16:38); Tool tốt: vừa đủ chi tiết (17:02); Bản đồ ngày học (18:09)."
     },
     {
       "code": "D04-S01",
       "lesson": "Day04",
       "day": "Day04",
-      "program_lesson_id": "program-day04:prompt-engineering-tool-calling",
-      "transcript_ref": "Day04/d04-r3-v01.txt@153",
-      "lesson_title": "Day 04 — Prompt Engineering & Tool Calling (MCP)",
-      "title": "Prompt cụ thể, chọn Zero/One/Few-shot và Chain-of-Thought (CoT)",
-      "topic": "Prompt cụ thể, chọn Zero/One/Few-shot và Chain-of-Thought (CoT)",
-      "video_title": "d04-r3-v01 · Viết Prompt cụ thể, Few-shot và Chain-of-Thought",
-      "timestamp": "02:33",
-      "kc_codes": ["prompt_quality_specificity", "prompt_scope_types", "zero_one_few_shot_selection", "cot_task_fit"],
-      "keywords": ["prompt", "prompting", "prompt engineering", "zero shot", "one shot", "few shot", "zero-shot", "few-shot", "cot", "chain of thought", "vi du mau", "cu the"],
-      "text": "Prompt chất lượng cần cụ thể hoá nhiệm vụ, đầu vào, định dạng đầu ra và tiêu chí ràng buộc. Zero-shot prompting là đưa thẳng yêu cầu mà không kèm ví dụ minh hoạ (dùng khi tác vụ đã rõ ràng), còn few-shot prompting là kèm theo một số ví dụ mẫu đầu vào/đầu ra để mô hình bám đúng định dạng hoặc cách phân loại; chỉ dùng Chain-of-Thought (CoT) cho bài toán suy luận nhiều bước."
+      "slide": 3,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 01 · Bốn mức hệ thống AI",
+      "topic": "Phần 01 · Bốn mức hệ thống AI",
+      "video_title": "Phần 01 · Bốn mức hệ thống AI (00:55–03:49 · Slide 03)",
+      "timestamp": "00:55",
+      "end_timestamp": "03:49",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "01:51",
+          "title": "Cùng một yêu cầu, ba hệ thống"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:32",
+          "title": "Phổ bốn mức hệ thống"
+        }
+      ],
+      "keywords": [
+        "bon muc he thong ai",
+        "tu chatbot den agentic agent",
+        "cung mot yeu cau",
+        "ba he thong",
+        "pho bon muc he thong"
+      ],
+      "text": "LLM một mình chỉ nghĩ và viết; công cụ cho nó hành động. Bốn mức: bot, chatbot, agent phản ứng, agent tự chủ. Agent = quyết định, hành động, quan sát, lặp lại. Các mốc chi tiết trong bài: Cùng một yêu cầu, ba hệ thống (01:51); Phổ bốn mức hệ thống (02:32)."
     },
     {
       "code": "D04-S02",
       "lesson": "Day04",
       "day": "Day04",
-      "program_lesson_id": "program-day04:prompt-engineering-tool-calling",
-      "transcript_ref": "Day04/d04-r3-v02.txt@107",
-      "lesson_title": "Day 04 — Prompt Engineering & Tool Calling (MCP)",
-      "title": "Hợp đồng System Prompt và các lỗi phổ biến (Anti-patterns)",
-      "topic": "Hợp đồng System Prompt và các lỗi phổ biến (Anti-patterns)",
-      "video_title": "d04-r3-v02 · Hợp đồng System Prompt và các Anti-pattern cần tránh",
-      "timestamp": "01:47",
-      "kc_codes": ["system_prompt_contract", "system_prompt_antipatterns"],
-      "keywords": ["system prompt", "contract", "anti pattern", "antipattern", "hop dong", "mau thuan", "quy tac", "production grade"],
-      "text": "System Prompt production-grade đóng vai trò như một bản hợp đồng quy định rõ 5 phần: vai trò, phạm vi/nguồn căn cứ, định dạng đầu ra, quy tắc khi không chắc chắn và hành vi từ chối/chuyển người. Các anti-pattern hay gặp là viết lời khuyên chung chung ('hãy trả lời hay'), đặt yêu cầu mâu thuẫn nhau hoặc nhồi quá nhiều luật thừa."
+      "slide": 8,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 02 · Agentic Fit",
+      "topic": "Phần 02 · Agentic Fit",
+      "video_title": "Phần 02 · Agentic Fit (03:49–06:52 · Slide 08)",
+      "timestamp": "03:49",
+      "end_timestamp": "06:52",
+      "sub_slides": [
+        {
+          "slide": 9,
+          "timestamp": "04:10",
+          "title": "Bốn tiêu chí Agentic Fit"
+        },
+        {
+          "slide": 10,
+          "timestamp": "04:40",
+          "title": "Chấm điểm: có cần agent không?"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:34",
+          "title": "Ba lầm tưởng phổ biến về agent"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:05",
+          "title": "Giữa chatbot và agent còn nhiều mức"
+        }
+      ],
+      "keywords": [
+        "agentic fit",
+        "tu chatbot den agentic agent",
+        "bon tieu chi agentic fit",
+        "cham diem",
+        "co can agent khong?",
+        "ba lam tuong pho bien ve agent",
+        "giua chatbot va agent con nhieu muc"
+      ],
+      "text": "Chấm bốn tiêu chí trước khi xây agent. Tổng điểm thấp thì chatbot, hoặc chatbot thêm công cụ. Đắt hơn, nhiều công cụ hơn chưa chắc tốt hơn. Các mốc chi tiết trong bài: Bốn tiêu chí Agentic Fit (04:10); Chấm điểm: có cần agent không? (04:40); Ba lầm tưởng phổ biến về agent (05:34); Giữa chatbot và agent còn nhiều mức (06:05)."
     },
     {
       "code": "D04-S03",
       "lesson": "Day04",
       "day": "Day04",
-      "program_lesson_id": "program-day04:prompt-engineering-tool-calling",
-      "transcript_ref": "Day04/d04-r3-v03.txt@85",
-      "lesson_title": "Day 04 — Prompt Engineering & Tool Calling (MCP)",
-      "title": "Nguyên tắc thiết kế Tool Calling & MCP đáng tin cậy",
-      "topic": "Nguyên tắc thiết kế Tool Calling & MCP đáng tin cậy",
-      "video_title": "d04-r3-v03 · Nguyên tắc thiết kế Tool Calling / MCP đáng tin cậy",
-      "timestamp": "01:25",
-      "kc_codes": ["reliable_tool_design_principles"],
-      "keywords": ["tool calling", "function calling", "mcp", "tool design", "cong cu", "schema", "docstring", "read only"],
-      "text": "Trong Tool Calling (Model đề nghị, ứng dụng thực thi), mô tả công cụ chính là một phần của prompt. Mỗi công cụ đáng tin cậy cần có tên rõ mục đích, mô tả khi nào nên/không nên gọi, lược đồ tham số (schema) chặt chẽ, đầu ra cấu trúc dễ đọc và tách biệt rõ công cụ chỉ đọc (read-only) với công cụ có tác động ghi."
+      "slide": 15,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 03 · Bên trong một agent",
+      "topic": "Phần 03 · Bên trong một agent",
+      "video_title": "Phần 03 · Bên trong một agent (06:52–09:31 · Slide 15)",
+      "timestamp": "06:52",
+      "end_timestamp": "09:31",
+      "sub_slides": [
+        {
+          "slide": 16,
+          "timestamp": "07:09",
+          "title": "Bốn khối kiến trúc của agent"
+        },
+        {
+          "slide": 17,
+          "timestamp": "07:45",
+          "title": "Tool, API, MCP: ba khái niệm hay bị nhầm"
+        },
+        {
+          "slide": 19,
+          "timestamp": "08:44",
+          "title": "Một mô tả tool cần đủ năm phần"
+        }
+      ],
+      "keywords": [
+        "ben trong mot agent",
+        "tu chatbot den agentic agent",
+        "bon khoi kien truc cua agent",
+        "tool",
+        "api",
+        "mcp",
+        "ba khai niem hay bi nham",
+        "mot mo ta tool can du nam phan"
+      ],
+      "text": "Agent = nhận thức, suy luận, hành động, trí nhớ. Tool, API, MCP là ba thứ khác nhau. Mô tả tool tốt có đủ năm phần. Các mốc chi tiết trong bài: Bốn khối kiến trúc của agent (07:09); Tool, API, MCP: ba khái niệm hay bị nhầm (07:45); Một mô tả tool cần đủ năm phần (08:44)."
+    },
+    {
+      "code": "D04-S04",
+      "lesson": "Day04",
+      "day": "Day04",
+      "slide": 21,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 04 · ReAct",
+      "topic": "Phần 04 · ReAct",
+      "video_title": "Phần 04 · ReAct (09:31–12:39 · Slide 21)",
+      "timestamp": "09:31",
+      "end_timestamp": "12:39",
+      "sub_slides": [
+        {
+          "slide": 22,
+          "timestamp": "09:51",
+          "title": "ReAct: nghĩ, hành động, quan sát"
+        },
+        {
+          "slide": 23,
+          "timestamp": "10:21",
+          "title": "Đọc một trace: tìm vé Hà Nội → TP.HCM"
+        },
+        {
+          "slide": 24,
+          "timestamp": "11:05",
+          "title": "Khi công cụ lỗi, agent nên làm gì"
+        },
+        {
+          "slide": 26,
+          "timestamp": "11:53",
+          "title": "ReAct hay function calling?"
+        }
+      ],
+      "keywords": [
+        "react",
+        "tu chatbot den agentic agent",
+        "nghi",
+        "hanh dong",
+        "quan sat",
+        "doc mot trace",
+        "tim ve ha noi → tp.hcm",
+        "khi cong cu loi",
+        "agent nen lam gi",
+        "react hay function calling?",
+        "thought",
+        "action",
+        "observation",
+        "doc trace",
+        "vong lap agent"
+      ],
+      "text": "ReAct: nghĩ, hành động, quan sát, lặp lại. Đọc trace để biết agent dựa vào dữ liệu nào. Công cụ lỗi: không bịa, không lặp vô hạn, có đường lui. Các mốc chi tiết trong bài: ReAct: nghĩ, hành động, quan sát (09:51); Đọc một trace: tìm vé Hà Nội → TP.HCM (10:21); Khi công cụ lỗi, agent nên làm gì (11:05); ReAct hay function calling? (11:53)."
+    },
+    {
+      "code": "D04-S05",
+      "lesson": "Day04",
+      "day": "Day04",
+      "slide": 28,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 05 · Xây và vận hành agent",
+      "topic": "Phần 05 · Xây và vận hành agent",
+      "video_title": "Phần 05 · Xây và vận hành agent (12:39–15:58 · Slide 28)",
+      "timestamp": "12:39",
+      "end_timestamp": "15:58",
+      "sub_slides": [
+        {
+          "slide": 29,
+          "timestamp": "12:58",
+          "title": "Một vòng lặp agent tối thiểu"
+        },
+        {
+          "slide": 30,
+          "timestamp": "13:28",
+          "title": "Ba lớp giúp vòng lặp chịu lỗi"
+        },
+        {
+          "slide": 31,
+          "timestamp": "14:03",
+          "title": "Agent tốn hơn chatbot bao nhiêu?"
+        },
+        {
+          "slide": 32,
+          "timestamp": "14:35",
+          "title": "Agent bị tấn công qua kết quả công cụ"
+        }
+      ],
+      "keywords": [
+        "xay va van hanh agent",
+        "tu chatbot den agentic agent",
+        "mot vong lap agent toi thieu",
+        "ba lop giup vong lap chiu loi",
+        "agent ton hon chatbot bao nhieu?",
+        "agent bi tan cong qua ket qua cong cu"
+      ],
+      "text": "Agent là một vòng lặp có kiểm soát quanh lời gọi model. Bắt lỗi, chặn gọi trùng, giới hạn số vòng. Thêm công cụ là thêm chỗ bị tấn công. Các mốc chi tiết trong bài: Một vòng lặp agent tối thiểu (12:58); Ba lớp giúp vòng lặp chịu lỗi (13:28); Agent tốn hơn chatbot bao nhiêu? (14:03); Agent bị tấn công qua kết quả công cụ (14:35)."
+    },
+    {
+      "code": "D04-S06",
+      "lesson": "Day04",
+      "day": "Day04",
+      "slide": 35,
+      "lesson_title": "Day 04 — Từ chatbot đến agentic agent",
+      "title": "Phần 06 · Demo, debug, khi nào dùng gì",
+      "topic": "Phần 06 · Demo, debug, khi nào dùng gì",
+      "video_title": "Phần 06 · Demo, debug, khi nào dùng gì (15:58–19:11 · Slide 35)",
+      "timestamp": "15:58",
+      "end_timestamp": "19:11",
+      "sub_slides": [
+        {
+          "slide": 36,
+          "timestamp": "16:16",
+          "title": "Năm bước dựng một agent thời tiết"
+        },
+        {
+          "slide": 37,
+          "timestamp": "16:46",
+          "title": "Agent lỗi: nhìn trace, và chấm cả trace"
+        },
+        {
+          "slide": 38,
+          "timestamp": "17:22",
+          "title": "Trả lời câu hỏi đầu ngày"
+        },
+        {
+          "slide": 40,
+          "timestamp": "18:24",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "demo",
+        "debug",
+        "khi nao dung gi",
+        "tu chatbot den agentic agent",
+        "nam buoc dung mot agent thoi tiet",
+        "agent loi",
+        "nhin trace",
+        "va cham ca trace",
+        "tra loi cau hoi dau ngay",
+        "ban do ngay hoc"
+      ],
+      "text": "ReAct là cách dễ nhất để LLM hành động và debug được. Chỉ dùng agent khi bài toán thật sự cần. Chạy thật cần chịu lỗi, chi phí và bảo mật. Các mốc chi tiết trong bài: Năm bước dựng một agent thời tiết (16:16); Agent lỗi: nhìn trace, và chấm cả trace (16:46); Trả lời câu hỏi đầu ngày (17:22); Bản đồ ngày học (18:24)."
     },
     {
       "code": "D05-S01",
       "lesson": "Day05",
       "day": "Day05",
-      "program_lesson_id": "program-day05:ai-product-thinking-and-requirement",
-      "transcript_ref": "Day05/d05-r2-v01.txt@69",
-      "lesson_title": "Day 05 — AI Product Thinking, Requirements & UX",
-      "title": "Chọn mức tự động theo chi phí sai & 4 lớp bất định trong AI",
-      "topic": "Chọn mức tự động theo chi phí sai & 4 lớp bất định trong AI",
-      "video_title": "d05-r2-v01 · Mức tự động theo độ tin cậy & chi phí sai, 4 lớp chỗ khó",
-      "timestamp": "01:09",
-      "kc_codes": ["autonomy_by_confidence_and_error_cost", "ai_uncertainty_layers", "ai_vs_rule_software_behavior"],
-      "keywords": ["autonomy", "muc tu dong", "error cost", "chi phi sai", "uncertainty", "4 lop", "cho kho", "xac suat", "g10"],
-      "text": "Khác với phần mềm quy tắc chạy tất định, sản phẩm AI mang tính xác suất và luôn có 4 lớp chỗ khó: (1) thiếu nguồn sự thật, (2) đầu vào mơ hồ/thiếu thông tin, (3) yêu cầu ngoài phạm vi/thẩm quyền, và (4) rủi ro đặc thù lĩnh vực. Khi chi phí sai đắt, chỉ cho AI tự làm lúc độ tin cậy cao và phải thu hẹp phạm vi (G10) khi không chắc."
+      "slide": 3,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 01 · Demo chạy được, sản phẩm vẫn gãy",
+      "topic": "Phần 01 · Demo chạy được, sản phẩm vẫn gãy",
+      "video_title": "Phần 01 · Demo chạy được, sản phẩm vẫn gãy (01:19–04:49 · Slide 03)",
+      "timestamp": "01:19",
+      "end_timestamp": "04:49",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:10",
+          "title": "Phần mềm chạy theo luật, AI chạy theo xác suất"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:45",
+          "title": "AI bất định ở ba lớp"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:24",
+          "title": "AI sẽ sai, nên ba thứ phải thiết kế khác"
+        }
+      ],
+      "keywords": [
+        "demo chay duoc",
+        "san pham van gay",
+        "ai requirements & ux",
+        "phan mem chay theo luat",
+        "ai chay theo xac suat",
+        "ai bat dinh o ba lop",
+        "ai se sai",
+        "nen ba thu phai thiet ke khac"
+      ],
+      "text": "Phần mềm chạy theo luật, AI chạy theo xác suất. Bất định ở ba lớp: đầu vào, đầu ra, quá trình. Ba trụ thiết kế: yêu cầu, trải nghiệm, đánh giá. Các mốc chi tiết trong bài: Phần mềm chạy theo luật, AI chạy theo xác suất (02:10); AI bất định ở ba lớp (02:45); AI sẽ sai, nên ba thứ phải thiết kế khác (03:24)."
     },
     {
       "code": "D05-S02",
       "lesson": "Day05",
       "day": "Day05",
-      "program_lesson_id": "program-day05:ai-product-thinking-and-requirement",
-      "transcript_ref": "Day05/d05-r2-v03.txt@87",
-      "lesson_title": "Day 05 — AI Product Thinking, Requirements & UX",
-      "title": "Bốn đường đi UX, ngưỡng Fallback và chuyển PRD thành Eval Spec",
-      "topic": "Bốn đường đi UX, ngưỡng Fallback và chuyển PRD thành Eval Spec",
-      "video_title": "d05-r2-v03 · 4 đường đi trải nghiệm UX, Fallback và từ PRD sang Eval Spec",
-      "timestamp": "01:27",
-      "kc_codes": ["ai_four_path_behavior", "ai_eval_spec_from_prd", "ai_requirement_outcome_threshold_fallback", "human_reviewer_role_design"],
-      "keywords": ["4 duong di", "four path", "ux", "fallback", "prd", "eval spec", "nguoi duyet", "reviewer", "threshold"],
-      "text": "Thiết kế UX cho sản phẩm AI phải định nghĩa đầy đủ 4 đường đi: mọi thứ suôn sẻ, không chắc chắn (hỏi ngược làm rõ), không có căn cứ/ngoài phạm vi (từ chối + chỉ đường), và đường cho người dùng sửa/duyệt. Yêu cầu sản phẩm (PRD) phải nối thẳng sang Eval Spec với ngưỡng đạt rõ ràng và phương án fallback khi model không chắc."
+      "slide": 9,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 02 · Tự động hay hỗ trợ",
+      "topic": "Phần 02 · Tự động hay hỗ trợ",
+      "video_title": "Phần 02 · Tự động hay hỗ trợ (04:49–08:30 · Slide 09)",
+      "timestamp": "04:49",
+      "end_timestamp": "08:30",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "05:09",
+          "title": "AI làm thay, hay AI hỗ trợ người làm?"
+        },
+        {
+          "slide": 11,
+          "timestamp": "05:52",
+          "title": "Mức tự chủ = độ chắc chắn × giá phải trả khi sai"
+        },
+        {
+          "slide": 12,
+          "timestamp": "06:43",
+          "title": "Tách việc, rồi leo dần thang tự động"
+        },
+        {
+          "slide": 13,
+          "timestamp": "07:15",
+          "title": "Người duyệt phải có vai trò thật"
+        }
+      ],
+      "keywords": [
+        "tu dong hay ho tro",
+        "ai requirements & ux",
+        "ai lam thay",
+        "hay ai ho tro nguoi lam?",
+        "tach viec",
+        "roi leo dan thang tu dong",
+        "nguoi duyet phai co vai tro that"
+      ],
+      "text": "Làm thay hay hỗ trợ là quyết định cho từng việc. Mức tự chủ theo độ chắc chắn và giá phải trả khi sai. Bắt đầu từ hỗ trợ; người duyệt phải có vai trò thật. Các mốc chi tiết trong bài: AI làm thay, hay AI hỗ trợ người làm? (05:09); Mức tự chủ = độ chắc chắn × giá phải trả khi sai (05:52); Tách việc, rồi leo dần thang tự động (06:43); Người duyệt phải có vai trò thật (07:15)."
+    },
+    {
+      "code": "D05-S03",
+      "lesson": "Day05",
+      "day": "Day05",
+      "slide": 16,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 03 · Viết yêu cầu",
+      "topic": "Phần 03 · Viết yêu cầu",
+      "video_title": "Phần 03 · Viết yêu cầu (08:30–12:17 · Slide 16)",
+      "timestamp": "08:30",
+      "end_timestamp": "12:17",
+      "sub_slides": [
+        {
+          "slide": 17,
+          "timestamp": "08:53",
+          "title": "Yêu cầu mô tả kết quả, ngưỡng, và lúc sai thì làm gì"
+        },
+        {
+          "slide": 18,
+          "timestamp": "09:30",
+          "title": "Bốn mục PRD thường không có, nhưng tính năng AI cần"
+        },
+        {
+          "slide": 19,
+          "timestamp": "10:20",
+          "title": "Liệt kê cách nó có thể sai, trước khi viết tính năng"
+        },
+        {
+          "slide": 20,
+          "timestamp": "10:56",
+          "title": "User story của sản phẩm AI là bốn đường đi"
+        }
+      ],
+      "keywords": [
+        "viet yeu cau",
+        "ai requirements & ux",
+        "yeu cau mo ta ket qua",
+        "nguong",
+        "va luc sai thi lam gi",
+        "bon muc prd thuong khong co",
+        "nhung tinh nang ai can",
+        "liet ke cach no co the sai",
+        "truoc khi viet tinh nang",
+        "user story cua san pham ai la bon duong di"
+      ],
+      "text": "Yêu cầu = kết quả + ngưỡng + lúc sai thì làm gì. Liệt kê kiểu lỗi trước khi viết tính năng. Viết đủ bốn đường: suôn sẻ, không chắc, thất bại, sửa. Các mốc chi tiết trong bài: Yêu cầu mô tả kết quả, ngưỡng, và lúc sai thì làm gì (08:53); Bốn mục PRD thường không có, nhưng tính năng AI cần (09:30); Liệt kê cách nó có thể sai, trước khi viết tính năng (10:20); User story của sản phẩm AI là bốn đường đi (10:56)."
+    },
+    {
+      "code": "D05-S04",
+      "lesson": "Day05",
+      "day": "Day05",
+      "slide": 23,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 04 · Trải nghiệm khi AI không chắc",
+      "topic": "Phần 04 · Trải nghiệm khi AI không chắc",
+      "video_title": "Phần 04 · Trải nghiệm khi AI không chắc (12:17–15:36 · Slide 23)",
+      "timestamp": "12:17",
+      "end_timestamp": "15:36",
+      "sub_slides": [
+        {
+          "slide": 24,
+          "timestamp": "12:34",
+          "title": "Bốn câu mọi sản phẩm AI phải trả lời"
+        },
+        {
+          "slide": 25,
+          "timestamp": "13:13",
+          "title": "Hiệu chỉnh niềm tin: kỳ vọng · giải thích · quyền kiểm soát"
+        },
+        {
+          "slide": 26,
+          "timestamp": "13:58",
+          "title": "Cư xử khác nhau theo mức tự tin"
+        },
+        {
+          "slide": 27,
+          "timestamp": "14:19",
+          "title": "Khi AI đã sai: sửa, hoàn tác, lối thoát"
+        }
+      ],
+      "keywords": [
+        "trai nghiem khi ai khong chac",
+        "ai requirements & ux",
+        "bon cau moi san pham ai phai tra loi",
+        "hieu chinh niem tin",
+        "ky vong · giai thich · quyen kiem soat",
+        "cu xu khac nhau theo muc tu tin",
+        "khi ai da sai",
+        "sua",
+        "hoan tac",
+        "loi thoat"
+      ],
+      "text": "Bốn câu: khi đúng, không chắc, sai, người dùng sửa. Niềm tin vừa khớp năng lực: kỳ vọng, giải thích, kiểm soát. Khi sai: sửa, hoàn tác, và luôn có lối thoát. Các mốc chi tiết trong bài: Bốn câu mọi sản phẩm AI phải trả lời (12:34); Hiệu chỉnh niềm tin: kỳ vọng · giải thích · quyền kiểm soát (13:13); Cư xử khác nhau theo mức tự tin (13:58); Khi AI đã sai: sửa, hoàn tác, lối thoát (14:19)."
+    },
+    {
+      "code": "D05-S05",
+      "lesson": "Day05",
+      "day": "Day05",
+      "slide": 30,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 05 · Từ PRD đến eval spec",
+      "topic": "Phần 05 · Từ PRD đến eval spec",
+      "video_title": "Phần 05 · Từ PRD đến eval spec (15:36–19:18 · Slide 30)",
+      "timestamp": "15:36",
+      "end_timestamp": "19:18",
+      "sub_slides": [
+        {
+          "slide": 31,
+          "timestamp": "15:58",
+          "title": "Đánh giá là nhìn phân bố lỗi, không phải đạt hay trượt"
+        },
+        {
+          "slide": 32,
+          "timestamp": "16:35",
+          "title": "Sai kiểu nào đắt hơn, thì nó quyết định ngưỡng"
+        },
+        {
+          "slide": 33,
+          "timestamp": "17:24",
+          "title": "Một trang eval spec, viết thẳng từ bản yêu cầu"
+        },
+        {
+          "slide": 34,
+          "timestamp": "18:01",
+          "title": "Ba giai đoạn đánh giá"
+        }
+      ],
+      "keywords": [
+        "tu prd den eval spec",
+        "ai requirements & ux",
+        "danh gia la nhin phan bo loi",
+        "khong phai dat hay truot",
+        "sai kieu nao dat hon",
+        "thi no quyet dinh nguong",
+        "mot trang eval spec",
+        "viet thang tu ban yeu cau",
+        "ba giai doan danh gia"
+      ],
+      "text": "Đánh giá là nhìn phân bố lỗi, theo từng nhóm ca. Sai kiểu nào đắt hơn thì quyết định ngưỡng. Eval spec: đo gì, bộ test, ngưỡng, ưu tiên, ai chấm. Các mốc chi tiết trong bài: Đánh giá là nhìn phân bố lỗi, không phải đạt hay trượt (15:58); Sai kiểu nào đắt hơn, thì nó quyết định ngưỡng (16:35); Một trang eval spec, viết thẳng từ bản yêu cầu (17:24); Ba giai đoạn đánh giá (18:01)."
+    },
+    {
+      "code": "D05-S06",
+      "lesson": "Day05",
+      "day": "Day05",
+      "slide": 37,
+      "lesson_title": "Day 05 — AI Requirements & UX",
+      "title": "Phần 06 · Gom lại thành một trang",
+      "topic": "Phần 06 · Gom lại thành một trang",
+      "video_title": "Phần 06 · Gom lại thành một trang (19:18–22:29 · Slide 37)",
+      "timestamp": "19:18",
+      "end_timestamp": "22:29",
+      "sub_slides": [
+        {
+          "slide": 38,
+          "timestamp": "19:34",
+          "title": "AI Product Canvas: Giá trị · Niềm tin · Khả thi"
+        },
+        {
+          "slide": 39,
+          "timestamp": "20:15",
+          "title": "Sau ra mắt, sản phẩm AI phải học"
+        },
+        {
+          "slide": 40,
+          "timestamp": "20:54",
+          "title": "Trả lời câu hỏi đầu ngày"
+        },
+        {
+          "slide": 42,
+          "timestamp": "21:47",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "gom lai thanh mot trang",
+        "ai requirements & ux",
+        "ai product canvas",
+        "gia tri · niem tin · kha thi",
+        "sau ra mat",
+        "san pham ai phai hoc",
+        "tra loi cau hoi dau ngay",
+        "ban do ngay hoc"
+      ],
+      "text": "Mức tự chủ theo độ chắc chắn và giá của sai. Yêu cầu có ngưỡng và bốn đường đi; trải nghiệm có lối thoát. Eval spec nhìn phân bố lỗi; sau ra mắt phải thu tín hiệu. Các mốc chi tiết trong bài: AI Product Canvas: Giá trị · Niềm tin · Khả thi (19:34); Sau ra mắt, sản phẩm AI phải học (20:15); Trả lời câu hỏi đầu ngày (20:54); Bản đồ ngày học (21:47)."
     },
     {
       "code": "D06-S01",
       "lesson": "Day06",
       "day": "Day06",
-      "program_lesson_id": "program-day06:data-engineering-for-agents",
-      "transcript_ref": "Day06/d06-r1-v01.txt@194",
-      "lesson_title": "Day 06 — Data Engineering for Agents",
-      "title": "Kiến trúc Raw → Clean → Serve, ngày hiệu lực và bản cũ (Stale Copies)",
-      "topic": "Kiến trúc Raw → Clean → Serve, ngày hiệu lực và bản cũ (Stale Copies)",
-      "video_title": "d06-r1-v01 · Kiến trúc Raw–Clean–Serve, định danh tài liệu & bản cũ",
-      "timestamp": "03:14",
-      "kc_codes": ["raw_clean_serve_layers", "document_identity_and_effective_date", "more_data_amplifies_stale_copies", "storage_by_query_shape"],
-      "keywords": ["data engineering", "raw clean serve", "document identity", "effective date", "ngay hieu luc", "stale copies", "ban cu", "data card"],
-      "text": "Dữ liệu cho Agent nên tổ chức qua 3 tầng: Raw (dữ liệu gốc nguyên bản), Clean (đã làm sạch, ẩn danh, gắn định danh tài liệu và ngày hiệu lực effective_date), và Serve (tối ưu theo hình dạng câu truy vấn). Đưa thêm nhiều dữ liệu mà không lọc phiên bản chỉ khuếch đại các bản lỗi thời (stale copies), khiến AI trích dẫn nhầm chính sách cũ."
+      "slide": 3,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 01 · Lỗi dữ liệu không báo lỗi",
+      "topic": "Phần 01 · Lỗi dữ liệu không báo lỗi",
+      "video_title": "Phần 01 · Lỗi dữ liệu không báo lỗi (01:25–05:21 · Slide 03)",
+      "timestamp": "01:25",
+      "end_timestamp": "05:21",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:17",
+          "title": "Ba nghi phạm đều làm đúng việc của mình"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:49",
+          "title": "Một đoạn chat chép lại đi tới câu trả lời sai qua năm bước"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:28",
+          "title": "“Thêm dữ liệu là sửa được”, có đúng không?"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:58",
+          "title": "Hôm nay mình chặn chuỗi lỗi ở bốn chỗ"
+        }
+      ],
+      "keywords": [
+        "loi du lieu khong bao loi",
+        "data engineering cho agent",
+        "ba nghi pham deu lam dung viec cua minh",
+        "“them du lieu la sua duoc”",
+        "co dung khong?",
+        "hom nay minh chan chuoi loi o bon cho"
+      ],
+      "text": "Lỗi dữ liệu ở đầu nguồn không báo lỗi; nó thành câu trả lời sai, tự tin. Lần ngược chuỗi lỗi để tìm tầng lẽ ra phải chặn. Thêm dữ liệu không sửa được; cần đúng phiên bản. Các mốc chi tiết trong bài: Ba nghi phạm đều làm đúng việc của mình (02:17); Một đoạn chat chép lại đi tới câu trả lời sai qua năm bước (02:49); “Thêm dữ liệu là sửa được”, có đúng không? (03:28); Hôm nay mình chặn chuỗi lỗi ở bốn chỗ (03:58)."
     },
     {
       "code": "D06-S02",
       "lesson": "Day06",
       "day": "Day06",
-      "program_lesson_id": "program-day06:data-engineering-for-agents",
-      "transcript_ref": "Day06/d06-r1-v03.txt@22",
-      "lesson_title": "Day 06 — Data Engineering for Agents",
-      "title": "Lỗi trích xuất âm thầm (Silent Failures) và Data Quality Gate",
-      "topic": "Lỗi trích xuất âm thầm (Silent Failures) và Data Quality Gate",
-      "video_title": "d06-r1-v03 · Lỗi trích xuất âm thầm và Cổng kiểm soát chất lượng dữ liệu",
-      "timestamp": "00:22",
-      "kc_codes": ["silent_extraction_failures", "silent_data_failure_cascade", "gate_severity_and_strictness", "batch_rules_beyond_schema"],
-      "keywords": ["silent failure", "loi am tham", "extraction", "trich xuat", "cascade", "data gate", "schema", "chat luong du lieu"],
-      "text": "Lỗi trích xuất âm thầm (như đọc PDF mất bảng, gãy dòng, trộn cột hay lỗi mã hoá tiếng Việt) không làm crash hệ thống ngay nhưng tạo hiệu ứng domino làm hỏng truy xuất và câu trả lời của Agent. Vì vậy cần đặt quy tắc kiểm tra dữ liệu vượt ngoài schema cơ bản và phân mức độ nghiêm ngặt của cổng kiểm duyệt (gate severity)."
+      "slide": 10,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 02 · Ba tầng và một định danh",
+      "topic": "Phần 02 · Ba tầng và một định danh",
+      "video_title": "Phần 02 · Ba tầng và một định danh (05:21–09:11 · Slide 10)",
+      "timestamp": "05:21",
+      "end_timestamp": "09:11",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "05:40",
+          "title": "Ba tầng, mỗi tầng một lời hứa"
+        },
+        {
+          "slide": 12,
+          "timestamp": "06:08",
+          "title": "Chạy nạp hai lần: nối thêm thì nhân đôi, gộp theo khoá thì không"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:35",
+          "title": "Bốn trường định danh một tài liệu"
+        },
+        {
+          "slide": 14,
+          "timestamp": "07:08",
+          "title": "Ngày hiệu lực, không phải ngày tải lên, quyết định bản nào đúng"
+        },
+        {
+          "slide": 15,
+          "timestamp": "07:44",
+          "title": "Bản mới thay bản cũ: thêm dòng mới, đóng dòng cũ"
+        }
+      ],
+      "keywords": [
+        "ba tang va mot dinh danh",
+        "data engineering cho agent",
+        "ba tang",
+        "moi tang mot loi hua",
+        "chay nap hai lan",
+        "noi them thi nhan doi",
+        "gop theo khoa thi khong",
+        "bon truong dinh danh mot tai lieu",
+        "ngay hieu luc",
+        "khong phai ngay tai len",
+        "quyet dinh ban nao dung",
+        "ban moi thay ban cu",
+        "them dong moi",
+        "dong dong cu"
+      ],
+      "text": "Raw giữ bytes gốc, clean là nơi làm sạch, serve là thứ agent được thấy. Gộp theo khoá để chạy lại không nhân đôi. Ngày hiệu lực, không phải ngày tải lên, quyết định bản nào đúng. Các mốc chi tiết trong bài: Ba tầng, mỗi tầng một lời hứa (05:40); Chạy nạp hai lần: nối thêm thì nhân đôi, gộp theo khoá thì không (06:08); Bốn trường định danh một tài liệu (06:35); Ngày hiệu lực, không phải ngày tải lên, quyết định bản nào đúng (07:08); Bản mới thay bản cũ: thêm dòng mới, đóng dòng cũ (07:44)."
+    },
+    {
+      "code": "D06-S03",
+      "lesson": "Day06",
+      "day": "Day06",
+      "slide": 18,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 03 · PDF chưa phải là dữ liệu",
+      "topic": "Phần 03 · PDF chưa phải là dữ liệu",
+      "video_title": "Phần 03 · PDF chưa phải là dữ liệu (09:11–12:32 · Slide 18)",
+      "timestamp": "09:11",
+      "end_timestamp": "12:32",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "09:34",
+          "title": "Bản scan không có lớp chữ: kết quả là chuỗi rỗng, và không có lỗi"
+        },
+        {
+          "slide": 20,
+          "timestamp": "10:00",
+          "title": "PDF lưu vị trí chữ, không lưu thứ tự đọc"
+        },
+        {
+          "slide": 21,
+          "timestamp": "10:26",
+          "title": "Tiếng Việt: đúng bảng mã rồi, vẫn phải chuẩn hoá dấu"
+        },
+        {
+          "slide": 22,
+          "timestamp": "11:04",
+          "title": "Đo bộ trích bằng fact ledger: tìm lại được bao nhiêu dữ kiện?"
+        }
+      ],
+      "keywords": [
+        "pdf chua phai la du lieu",
+        "data engineering cho agent",
+        "ban scan khong co lop chu",
+        "ket qua la chuoi rong",
+        "va khong co loi",
+        "pdf luu vi tri chu",
+        "khong luu thu tu doc",
+        "tieng viet",
+        "dung bang ma roi",
+        "van phai chuan hoa dau",
+        "do bo trich bang fact ledger",
+        "tim lai duoc bao nhieu du kien?"
+      ],
+      "text": "Bước trích hỏng im lặng: chuỗi rỗng, sai thứ tự, mất dấu. Với tiếng Việt: đúng bảng mã, rồi chuẩn hoá NFC. Đo bằng fact ledger, báo theo từng loại tài liệu. Các mốc chi tiết trong bài: Bản scan không có lớp chữ: kết quả là chuỗi rỗng, và không có lỗi (09:34); PDF lưu vị trí chữ, không lưu thứ tự đọc (10:00); Tiếng Việt: đúng bảng mã rồi, vẫn phải chuẩn hoá dấu (10:26); Đo bộ trích bằng fact ledger: tìm lại được bao nhiêu dữ kiện? (11:04)."
+    },
+    {
+      "code": "D06-S04",
+      "lesson": "Day06",
+      "day": "Day06",
+      "slide": 25,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 04 · Contract và gate",
+      "topic": "Phần 04 · Contract và gate",
+      "video_title": "Phần 04 · Contract và gate (12:32–16:05 · Slide 25)",
+      "timestamp": "12:32",
+      "end_timestamp": "16:05",
+      "sub_slides": [
+        {
+          "slide": 26,
+          "timestamp": "12:55",
+          "title": "Bản cũ hợp lệ về schema, nhưng sai khi đặt cạnh bản mới"
+        },
+        {
+          "slide": 27,
+          "timestamp": "13:22",
+          "title": "Sáu chiều chất lượng, mỗi chiều thành một phép kiểm"
+        },
+        {
+          "slide": 28,
+          "timestamp": "13:47",
+          "title": "Contract: viết ra trước dữ liệu phải thế nào"
+        },
+        {
+          "slide": 29,
+          "timestamp": "14:22",
+          "title": "Gate: critical thì chặn, warning thì cho qua kèm báo cáo"
+        }
+      ],
+      "keywords": [
+        "contract va gate",
+        "data engineering cho agent",
+        "ban cu hop le ve schema",
+        "nhung sai khi dat canh ban moi",
+        "sau chieu chat luong",
+        "moi chieu thanh mot phep kiem",
+        "contract",
+        "viet ra truoc du lieu phai the nao",
+        "gate",
+        "critical thi chan",
+        "warning thi cho qua kem bao cao"
+      ],
+      "text": "Schema không đủ: lỗi nằm ở quan hệ giữa các record. Contract viết ra trước: kiểu trường, luật ngữ nghĩa, cảnh báo. Gate: critical thì chặn, warning thì cho qua kèm báo cáo. Các mốc chi tiết trong bài: Bản cũ hợp lệ về schema, nhưng sai khi đặt cạnh bản mới (12:55); Sáu chiều chất lượng, mỗi chiều thành một phép kiểm (13:22); Contract: viết ra trước dữ liệu phải thế nào (13:47); Gate: critical thì chặn, warning thì cho qua kèm báo cáo (14:22)."
+    },
+    {
+      "code": "D06-S05",
+      "lesson": "Day06",
+      "day": "Day06",
+      "slide": 32,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 05 · Lưu để agent tìm đúng",
+      "topic": "Phần 05 · Lưu để agent tìm đúng",
+      "video_title": "Phần 05 · Lưu để agent tìm đúng (16:05–19:28 · Slide 32)",
+      "timestamp": "16:05",
+      "end_timestamp": "19:28",
+      "sub_slides": [
+        {
+          "slide": 33,
+          "timestamp": "16:25",
+          "title": "Thang chi phí: chỉ leo lên khi nấc dưới không trả lời được"
+        },
+        {
+          "slide": 34,
+          "timestamp": "16:57",
+          "title": "Câu hỏi về bản hiện hành là một truy vấn có lọc"
+        },
+        {
+          "slide": 35,
+          "timestamp": "17:27",
+          "title": "Tìm theo từ bắt đúng mã, tìm theo nghĩa bắt cách nói khác"
+        },
+        {
+          "slide": 36,
+          "timestamp": "17:57",
+          "title": "Ghép hai cách tìm vẫn không biết bản nào còn hiệu lực"
+        }
+      ],
+      "keywords": [
+        "luu de agent tim dung",
+        "data engineering cho agent",
+        "thang chi phi",
+        "chi leo len khi nac duoi khong tra loi duoc",
+        "tim theo tu bat dung ma",
+        "tim theo nghia bat cach noi khac"
+      ],
+      "text": "Chọn nơi lưu theo cách đọc; chỉ leo thang khi cần. Lọc phiên bản bằng cấu trúc: serve chỉ chứa bản hiện hành. Tìm theo từ bắt đúng mã; tìm theo nghĩa bắt cách nói khác. Các mốc chi tiết trong bài: Thang chi phí: chỉ leo lên khi nấc dưới không trả lời được (16:25); Câu hỏi về bản hiện hành là một truy vấn có lọc (16:57); Tìm theo từ bắt đúng mã, tìm theo nghĩa bắt cách nói khác (17:27); Ghép hai cách tìm vẫn không biết bản nào còn hiệu lực (17:57)."
+    },
+    {
+      "code": "D06-S06",
+      "lesson": "Day06",
+      "day": "Day06",
+      "slide": 39,
+      "lesson_title": "Day 06 — Data Engineering cho Agent",
+      "title": "Phần 06 · Truy vết và gold set",
+      "topic": "Phần 06 · Truy vết và gold set",
+      "video_title": "Phần 06 · Truy vết và gold set (19:28–23:40 · Slide 39)",
+      "timestamp": "19:28",
+      "end_timestamp": "23:40",
+      "sub_slides": [
+        {
+          "slide": 40,
+          "timestamp": "19:49",
+          "title": "Truy vết “14 ngày” về tận bytes gốc"
+        },
+        {
+          "slide": 41,
+          "timestamp": "20:16",
+          "title": "Bỏ tên chưa phải là ẩn danh"
+        },
+        {
+          "slide": 42,
+          "timestamp": "21:05",
+          "title": "Cùng đồng ý 90%, nhưng độ tin cậy rất khác nhau"
+        },
+        {
+          "slide": 43,
+          "timestamp": "21:56",
+          "title": "Trả lời câu hỏi đầu ngày: giờ làm sao biết?"
+        },
+        {
+          "slide": 45,
+          "timestamp": "22:52",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "truy vet va gold set",
+        "data engineering cho agent",
+        "truy vet “14 ngay” ve tan bytes goc",
+        "bo ten chua phai la an danh",
+        "cung dong y 90%",
+        "nhung do tin cay rat khac nhau",
+        "tra loi cau hoi dau ngay",
+        "gio lam sao biet?",
+        "ban do ngay hoc"
+      ],
+      "text": "Lỗi dữ liệu ở đầu nguồn thành câu trả lời sai, tự tin. PDF chưa phải là dữ liệu: đo bộ trích bằng fact ledger. Contract và gate chặn lô lỗi trước khi vào kho sạch. Mọi record truy vết được; đo kappa trước khi tin gold set. Các mốc chi tiết trong bài: Truy vết “14 ngày” về tận bytes gốc (19:49); Bỏ tên chưa phải là ẩn danh (20:16); Cùng đồng ý 90%, nhưng độ tin cậy rất khác nhau (21:05); Trả lời câu hỏi đầu ngày: giờ làm sao biết? (21:56); Bản đồ ngày học (22:52)."
     },
     {
       "code": "D07-S01",
       "lesson": "Day07",
       "day": "Day07",
-      "program_lesson_id": "program-day07:retrieval-context-engineering",
-      "transcript_ref": "Day07/d07-r2-v01.txt@158",
-      "lesson_title": "Day 07 — Retrieval & Context Engineering (RAG)",
-      "title": "Chunking, bổ sung ngữ cảnh trước khi index và đo Recall@k trong RAG",
-      "topic": "Chunking, bổ sung ngữ cảnh trước khi index và đo Recall@k trong RAG",
-      "video_title": "d07-r2-v01 · Chunking, ngữ cảnh trước khi index và đo Recall@k",
-      "timestamp": "02:38",
-      "kc_codes": ["chunk_context_before_indexing", "chunk_size_tradeoff", "retrieval_pipeline_order", "recall_at_k_measurement"],
-      "keywords": ["rag", "retrieval", "buoc truy xuat", "truy xuat", "chunk", "chunking", "chunk size", "indexing", "recall@k", "recall", "ngu canh", "grounding"],
-      "text": "Trong quy trình RAG, bước truy xuất (retrieval) chạy trước khi mô hình trả lời để tìm các đoạn tài liệu liên quan nhất từ kho tri thức và đưa vào ngữ cảnh làm căn cứ. Kích thước chunk luôn có đánh đổi (quá nhỏ mất ngữ cảnh, quá lớn gây nhiễu); cần gắn siêu dữ liệu vào từng chunk trước khi đánh chỉ mục và đo Recall@k để kiểm tra độ phủ truy xuất."
+      "slide": 3,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 01 · Kho sạch, vẫn trả lời sai",
+      "topic": "Phần 01 · Kho sạch, vẫn trả lời sai",
+      "video_title": "Phần 01 · Kho sạch, vẫn trả lời sai (01:11–05:09 · Slide 03)",
+      "timestamp": "01:11",
+      "end_timestamp": "05:09",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:02",
+          "title": "Lúc trả lời, model chỉ thấy những gì nằm trong cửa sổ"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:38",
+          "title": "Cửa sổ lớn không có nghĩa là model đọc kỹ"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:09",
+          "title": "Ngân sách ngữ cảnh: chia trước khi nạp"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:40",
+          "title": "Bốn nguồn cùng tranh một ngân sách"
+        }
+      ],
+      "keywords": [
+        "kho sach",
+        "van tra loi sai",
+        "retrieval va context engineering",
+        "luc tra loi",
+        "model chi thay nhung gi nam trong cua so",
+        "cua so lon khong co nghia la model doc ky",
+        "ngan sach ngu canh",
+        "chia truoc khi nap",
+        "bon nguon cung tranh mot ngan sach"
+      ],
+      "text": "Lúc trả lời, model chỉ biết những gì nằm trong cửa sổ ngữ cảnh. Cửa sổ lớn không sửa được nhiễu: ngữ cảnh càng dài, model càng kém ổn định. Ngữ cảnh là ngân sách: chia trước khi nạp. Các mốc chi tiết trong bài: Lúc trả lời, model chỉ thấy những gì nằm trong cửa sổ (02:02); Cửa sổ lớn không có nghĩa là model đọc kỹ (02:38); Ngân sách ngữ cảnh: chia trước khi nạp (03:09); Bốn nguồn cùng tranh một ngân sách (03:40)."
     },
     {
       "code": "D07-S02",
       "lesson": "Day07",
       "day": "Day07",
-      "program_lesson_id": "program-day07:retrieval-context-engineering",
-      "transcript_ref": "Day07/d07-r2-v04.txt@17",
-      "lesson_title": "Day 07 — Retrieval & Context Engineering (RAG)",
-      "title": "Đóng gói vùng Context (Context Packaging) và chẩn đoán lỗi RAG",
-      "topic": "Đóng gói vùng Context (Context Packaging) và chẩn đoán lỗi RAG",
-      "video_title": "d07-r2-v04 · Đóng gói Context Zones và chẩn đoán lỗi RAG từ log",
-      "timestamp": "00:17",
-      "kc_codes": ["context_budget_allocation", "context_packaging_zones", "context_window_contents", "rag_failure_diagnosis_from_log"],
-      "keywords": ["context engineering", "context packaging", "context budget", "chan doan rag", "rag failure", "log", "trich dan"],
-      "text": "Context Engineering phân bổ ngân sách token rõ ràng theo từng vùng đóng gói: chỉ dẫn hệ thống, đoạn căn cứ truy xuất được, lịch sử gần nhất và câu hỏi người dùng (lưu ý đoạn ở giữa context dài dễ bị bỏ sót). Khi RAG trả lời sai, cần nhìn log để tách đúng nguyên nhân: lỗi truy xuất hay lỗi tổng hợp."
+      "slide": 10,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 02 · Chia đoạn, giữ ngữ cảnh",
+      "topic": "Phần 02 · Chia đoạn, giữ ngữ cảnh",
+      "video_title": "Phần 02 · Chia đoạn, giữ ngữ cảnh (05:09–08:57 · Slide 10)",
+      "timestamp": "05:09",
+      "end_timestamp": "08:57",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "05:28",
+          "title": "Đoạn quá to hay quá nhỏ đều trả giá"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:51",
+          "title": "Chia theo cấu trúc trước, rồi sửa theo triệu chứng"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:23",
+          "title": "Rời khỏi tài liệu, đoạn không còn biết mình nói về gì"
+        },
+        {
+          "slide": 14,
+          "timestamp": "07:00",
+          "title": "Thêm ngữ cảnh cho đoạn, trước khi lập chỉ mục"
+        },
+        {
+          "slide": 15,
+          "timestamp": "07:39",
+          "title": "Số đo được công bố, và cái giá phải trả"
+        }
+      ],
+      "keywords": [
+        "chia doan",
+        "giu ngu canh",
+        "retrieval va context engineering",
+        "doan qua to hay qua nho deu tra gia",
+        "chia theo cau truc truoc",
+        "roi sua theo trieu chung",
+        "roi khoi tai lieu",
+        "doan khong con biet minh noi ve gi",
+        "them ngu canh cho doan",
+        "truoc khi lap chi muc",
+        "so do duoc cong bo",
+        "va cai gia phai tra",
+        "rag",
+        "retrieval",
+        "buoc truy xuat",
+        "truy xuat",
+        "chunk",
+        "chunking"
+      ],
+      "text": "Đoạn quá to thì nhiễu, quá nhỏ thì mất ngữ cảnh. Chia theo cấu trúc trước, rồi sửa theo triệu chứng đã đo. Thêm ngữ cảnh cho đoạn trước khi lập chỉ mục, và giữ nguyên văn. Trong RAG, bước truy xuất (retrieval) chạy trước khi model trả lời để tìm các đoạn tài liệu liên quan nhất đưa vào ngữ cảnh làm căn cứ. Các mốc chi tiết trong bài: Đoạn quá to hay quá nhỏ đều trả giá (05:28); Chia theo cấu trúc trước, rồi sửa theo triệu chứng (05:51); Rời khỏi tài liệu, đoạn không còn biết mình nói về gì (06:23); Thêm ngữ cảnh cho đoạn, trước khi lập chỉ mục (07:00); Số đo được công bố, và cái giá phải trả (07:39)."
+    },
+    {
+      "code": "D07-S03",
+      "lesson": "Day07",
+      "day": "Day07",
+      "slide": 18,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 03 · Tìm đúng rồi mới nạp",
+      "topic": "Phần 03 · Tìm đúng rồi mới nạp",
+      "video_title": "Phần 03 · Tìm đúng rồi mới nạp (08:57–11:46 · Slide 18)",
+      "timestamp": "08:57",
+      "end_timestamp": "11:46",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "09:13",
+          "title": "Lọc trước, tìm bằng hai cách, rồi mới xếp hạng lại"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:56",
+          "title": "Đo khâu tìm trước khi sửa prompt"
+        },
+        {
+          "slide": 21,
+          "timestamp": "10:24",
+          "title": "Nhiều đoạn hơn không có nghĩa là an toàn hơn"
+        }
+      ],
+      "keywords": [
+        "tim dung roi moi nap",
+        "retrieval va context engineering",
+        "loc truoc",
+        "tim bang hai cach",
+        "roi moi xep hang lai",
+        "do khau tim truoc khi sua prompt",
+        "nhieu doan hon khong co nghia la an toan hon"
+      ],
+      "text": "Lọc trước, tìm bằng hai cách, xếp hạng lại khi đáng. Đo khâu tìm bằng recall@k, trước khi sửa prompt. Lấy số đoạn nhỏ nhất mà vẫn đạt mục tiêu. Các mốc chi tiết trong bài: Lọc trước, tìm bằng hai cách, rồi mới xếp hạng lại (09:13); Đo khâu tìm trước khi sửa prompt (09:56); Nhiều đoạn hơn không có nghĩa là an toàn hơn (10:24)."
+    },
+    {
+      "code": "D07-S04",
+      "lesson": "Day07",
+      "day": "Day07",
+      "slide": 24,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 04 · Trả lời có căn cứ",
+      "topic": "Phần 04 · Trả lời có căn cứ",
+      "video_title": "Phần 04 · Trả lời có căn cứ (11:46–14:50 · Slide 24)",
+      "timestamp": "11:46",
+      "end_timestamp": "14:50",
+      "sub_slides": [
+        {
+          "slide": 25,
+          "timestamp": "12:04",
+          "title": "Đóng gói: tách chỉ dẫn, chứng cứ và câu hỏi"
+        },
+        {
+          "slide": 26,
+          "timestamp": "12:46",
+          "title": "Ba câu trả lời cho cùng một câu hỏi"
+        },
+        {
+          "slide": 27,
+          "timestamp": "13:25",
+          "title": "Trả lời sai: đọc ngữ cảnh trong log trước khi sửa prompt"
+        }
+      ],
+      "keywords": [
+        "tra loi co can cu",
+        "retrieval va context engineering",
+        "dong goi",
+        "tach chi dan",
+        "chung cu va cau hoi",
+        "ba cau tra loi cho cung mot cau hoi",
+        "tra loi sai",
+        "doc ngu canh trong log truoc khi sua prompt"
+      ],
+      "text": "Tách chỉ dẫn, chứng cứ và câu hỏi; chứng cứ luôn mang theo nguồn. Trả lời bám chứng cứ, trích nguồn, từ chối có hướng dẫn. Trả lời sai thì đọc ngữ cảnh trong log trước khi sửa prompt. Các mốc chi tiết trong bài: Đóng gói: tách chỉ dẫn, chứng cứ và câu hỏi (12:04); Ba câu trả lời cho cùng một câu hỏi (12:46); Trả lời sai: đọc ngữ cảnh trong log trước khi sửa prompt (13:25)."
+    },
+    {
+      "code": "D07-S05",
+      "lesson": "Day07",
+      "day": "Day07",
+      "slide": 30,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 05 · Tool và quy trình khi cần",
+      "topic": "Phần 05 · Tool và quy trình khi cần",
+      "video_title": "Phần 05 · Tool và quy trình khi cần (14:50–18:34 · Slide 30)",
+      "timestamp": "14:50",
+      "end_timestamp": "18:34",
+      "sub_slides": [
+        {
+          "slide": 31,
+          "timestamp": "15:08",
+          "title": "MCP: một chuẩn để tool và dữ liệu đi vào ngữ cảnh"
+        },
+        {
+          "slide": 32,
+          "timestamp": "15:45",
+          "title": "Mô tả tool cũng tốn chỗ trong cửa sổ"
+        },
+        {
+          "slide": 33,
+          "timestamp": "16:17",
+          "title": "Skill: một quy trình đóng thành một thư mục"
+        },
+        {
+          "slide": 34,
+          "timestamp": "16:54",
+          "title": "Ba mức nạp của một skill"
+        }
+      ],
+      "keywords": [
+        "tool va quy trinh khi can",
+        "retrieval va context engineering",
+        "mcp",
+        "mot chuan de tool va du lieu di vao ngu canh",
+        "mo ta tool cung ton cho trong cua so",
+        "skill",
+        "mot quy trinh dong thanh mot thu muc",
+        "ba muc nap cua mot skill"
+      ],
+      "text": "MCP đưa tool và dữ liệu đến; mô tả tool và kết quả tool đều tốn ngữ cảnh. Skill đóng quy trình thành một thư mục, nạp theo ba mức. Mô tả ngắn luôn có mặt; phần đầy đủ chỉ vào khi cần. Các mốc chi tiết trong bài: MCP: một chuẩn để tool và dữ liệu đi vào ngữ cảnh (15:08); Mô tả tool cũng tốn chỗ trong cửa sổ (15:45); Skill: một quy trình đóng thành một thư mục (16:17); Ba mức nạp của một skill (16:54)."
+    },
+    {
+      "code": "D07-S06",
+      "lesson": "Day07",
+      "day": "Day07",
+      "slide": 37,
+      "lesson_title": "Day 07 — Retrieval và Context Engineering",
+      "title": "Phần 06 · Memory và tổng kết",
+      "topic": "Phần 06 · Memory và tổng kết",
+      "video_title": "Phần 06 · Memory và tổng kết (18:34–22:23 · Slide 37)",
+      "timestamp": "18:34",
+      "end_timestamp": "22:23",
+      "sub_slides": [
+        {
+          "slide": 38,
+          "timestamp": "18:52",
+          "title": "Memory là dữ liệu, cộng luật, cộng cách lấy lại"
+        },
+        {
+          "slide": 39,
+          "timestamp": "19:21",
+          "title": "Vòng đời của memory: ghi nhận, lọc, lưu, lấy lại, sửa"
+        },
+        {
+          "slide": 40,
+          "timestamp": "19:52",
+          "title": "Phiên dài: nén, dọn, và ghi chú"
+        },
+        {
+          "slide": 42,
+          "timestamp": "20:56",
+          "title": "Trả lời câu hỏi đầu ngày: vì sao kho sạch mà vẫn sai?"
+        },
+        {
+          "slide": 43,
+          "timestamp": "21:36",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "memory va tong ket",
+        "retrieval va context engineering",
+        "memory la du lieu",
+        "cong luat",
+        "cong cach lay lai",
+        "vong doi cua memory",
+        "ghi nhan",
+        "loc",
+        "luu",
+        "lay lai",
+        "sua",
+        "phien dai",
+        "nen",
+        "don",
+        "va ghi chu",
+        "tra loi cau hoi dau ngay",
+        "vi sao kho sach ma van sai?",
+        "ban do ngay hoc"
+      ],
+      "text": "Ngữ cảnh là ngân sách: chia trước khi nạp. Đoạn mang đủ ngữ cảnh; đo bằng recall@k; lấy số đoạn nhỏ nhất. Tool và quy trình: mô tả ngắn luôn có, phần đầy đủ khi cần. Memory có luật ghi, sửa, quên; không phải lịch sử chat. Các mốc chi tiết trong bài: Memory là dữ liệu, cộng luật, cộng cách lấy lại (18:52); Vòng đời của memory: ghi nhận, lọc, lưu, lấy lại, sửa (19:21); Phiên dài: nén, dọn, và ghi chú (19:52); Trả lời câu hỏi đầu ngày: vì sao kho sạch mà vẫn sai? (20:56); Bản đồ ngày học (21:36)."
     },
     {
       "code": "D08-S01",
       "lesson": "Day08",
       "day": "Day08",
-      "program_lesson_id": "program-day08:from-workflows-to-agents",
-      "transcript_ref": "Day08/d08-r1-v01.txt@168",
-      "lesson_title": "Day 08 — From Workflows to Agents",
-      "title": "Nguyên tắc Simplest Solution First: Workflow cố định vs Agent",
-      "topic": "Nguyên tắc Simplest Solution First: Workflow cố định vs Agent",
-      "video_title": "d08-r1-v01 · Chọn giải pháp đơn giản nhất & Workflow vs Agent",
-      "timestamp": "02:48",
-      "kc_codes": ["simplest_solution_first", "workflow_vs_agent_control", "agent_shape_selection", "workflow_pattern_selection"],
-      "keywords": ["workflow", "agent", "multi agent", "simplest solution", "kiem soat", "hinh dang", "agent shape", "co dinh"],
-      "text": "Nguyên tắc cốt lõi khi chọn hình dạng hệ thống là 'simplest solution first': nếu bài toán giải gọn được bằng Workflow cố định (vd tra cứu → kiểm tra ngưỡng → tổng hợp) thì ưu tiên Workflow vì dễ kiểm soát, ít lỗi bất ngờ và ổn định chi phí token. Chỉ nâng lên Agent hoặc Multi-Agent khi đường đi thật sự biến động khó định trước."
+      "slide": 3,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 01 · Workflow hay agent",
+      "topic": "Phần 01 · Workflow hay agent",
+      "video_title": "Phần 01 · Workflow hay agent (01:11–04:40 · Slide 03)",
+      "timestamp": "01:11",
+      "end_timestamp": "04:40",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:03",
+          "title": "Một yêu cầu hoàn tiền, sáu bước"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:31",
+          "title": "Workflow hay agent: ai quyết định bước tiếp theo?"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:01",
+          "title": "Từ cố định đến tự chủ: bốn điểm trên một phổ"
+        }
+      ],
+      "keywords": [
+        "workflow hay agent",
+        "tu workflow den agent",
+        "mot yeu cau hoan tien",
+        "sau buoc",
+        "ai quyet dinh buoc tiep theo?",
+        "tu co dinh den tu chu",
+        "bon diem tren mot pho"
+      ],
+      "text": "Workflow: code quyết định bước tiếp theo. Agent: model quyết định. Càng tự chủ càng linh hoạt, nhưng khó đoán, đắt và khó kiểm thử hơn. Bắt đầu từ cách đơn giản nhất. Các mốc chi tiết trong bài: Một yêu cầu hoàn tiền, sáu bước (02:03); Workflow hay agent: ai quyết định bước tiếp theo? (02:31); Từ cố định đến tự chủ: bốn điểm trên một phổ (03:01)."
     },
     {
       "code": "D08-S02",
       "lesson": "Day08",
       "day": "Day08",
-      "program_lesson_id": "program-day08:from-workflows-to-agents",
-      "transcript_ref": "Day08/d08-r1-v05.txt@134",
-      "lesson_title": "Day 08 — From Workflows to Agents",
-      "title": "Cổng chặn trước tác động ra ngoài & Crash-safe Side Effects",
-      "topic": "Cổng chặn trước tác động ra ngoài & Crash-safe Side Effects",
-      "video_title": "d08-r1-v05 · An toàn tác động ra ngoài (Crash-safe Side Effects & Gate)",
-      "timestamp": "02:14",
-      "kc_codes": ["crash_safe_side_effects", "gate_before_side_effect"],
-      "keywords": ["side effect", "tac dong ra ngoai", "crash safe", "idempotent", "gate", "ban nhap", "gui tin", "cham diem"],
-      "text": "Bất kỳ hành động nào có tác động ra ngoài (gửi email/tin nhắn, sửa dữ liệu, ghi điểm) đều phải đi qua một cổng kiểm duyệt (gate before side effect — tạo bản nháp chờ người duyệt) và thiết kế an toàn khi crash hoặc retry (idempotent) để tránh gửi trùng hay sửa hỏng dữ liệu."
+      "slide": 9,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 02 · Năm khuôn workflow",
+      "topic": "Phần 02 · Năm khuôn workflow",
+      "video_title": "Phần 02 · Năm khuôn workflow (04:40–07:42 · Slide 09)",
+      "timestamp": "04:40",
+      "end_timestamp": "07:42",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "05:00",
+          "title": "Khuôn 1: chuỗi bước, có cổng kiểm ở giữa"
+        },
+        {
+          "slide": 11,
+          "timestamp": "05:25",
+          "title": "Khuôn 2 và 3: rẽ nhánh, và chạy song song"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:52",
+          "title": "Khuôn 4 và 5: làm rồi chấm, và chia việc lúc chạy"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:23",
+          "title": "Ghép khuôn: việc hoàn tiền vẫn chưa cần agent"
+        }
+      ],
+      "keywords": [
+        "nam khuon workflow",
+        "tu workflow den agent",
+        "khuon 1",
+        "chuoi buoc",
+        "co cong kiem o giua",
+        "khuon 2 va 3",
+        "re nhanh",
+        "va chay song song",
+        "khuon 4 va 5",
+        "lam roi cham",
+        "va chia viec luc chay",
+        "ghep khuon",
+        "viec hoan tien van chua can agent",
+        "5 khuon",
+        "nam khuon",
+        "prompt chaining",
+        "routing",
+        "parallelization"
+      ],
+      "text": "Năm khuôn: chuỗi bước, rẽ nhánh, song song, làm rồi chấm, chia việc lúc chạy. Cổng kiểm bằng code đặt ngay trước bước có tác động. Ghép khuôn trước; agent chỉ dành cho ca không rơi vào nhánh nào. Các mốc chi tiết trong bài: Khuôn 1: chuỗi bước, có cổng kiểm ở giữa (05:00); Khuôn 2 và 3: rẽ nhánh, và chạy song song (05:25); Khuôn 4 và 5: làm rồi chấm, và chia việc lúc chạy (05:52); Ghép khuôn: việc hoàn tiền vẫn chưa cần agent (06:23)."
+    },
+    {
+      "code": "D08-S03",
+      "lesson": "Day08",
+      "day": "Day08",
+      "slide": 16,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 03 · Khi nào cần nhiều agent",
+      "topic": "Phần 03 · Khi nào cần nhiều agent",
+      "video_title": "Phần 03 · Khi nào cần nhiều agent (07:42–11:23 · Slide 16)",
+      "timestamp": "07:42",
+      "end_timestamp": "11:23",
+      "sub_slides": [
+        {
+          "slide": 17,
+          "timestamp": "08:02",
+          "title": "Một agent ôm hết: bốn giới hạn"
+        },
+        {
+          "slide": 18,
+          "timestamp": "08:37",
+          "title": "Chia việc cho nhiều agent: khi nào nên, khi nào không"
+        },
+        {
+          "slide": 19,
+          "timestamp": "09:14",
+          "title": "Supervisor giữ luồng, worker giữ kỹ năng"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:45",
+          "title": "Một việc, bốn cách tổ chức"
+        }
+      ],
+      "keywords": [
+        "khi nao can nhieu agent",
+        "tu workflow den agent",
+        "mot agent om het",
+        "bon gioi han",
+        "chia viec cho nhieu agent",
+        "khi nao nen",
+        "khi nao khong",
+        "supervisor giu luong",
+        "worker giu ky nang",
+        "mot viec",
+        "bon cach to chuc"
+      ],
+      "text": "Một agent ôm hết thì nghẽn cửa sổ, ôm nhiều vai, chạy nối nhau, khó khoanh vùng lỗi. Chia việc khi các phần độc lập; đừng chia khi bước sau cần bước trước. Supervisor giữ luồng, worker giữ kỹ năng. Các mốc chi tiết trong bài: Một agent ôm hết: bốn giới hạn (08:02); Chia việc cho nhiều agent: khi nào nên, khi nào không (08:37); Supervisor giữ luồng, worker giữ kỹ năng (09:14); Một việc, bốn cách tổ chức (09:45)."
+    },
+    {
+      "code": "D08-S04",
+      "lesson": "Day08",
+      "day": "Day08",
+      "slide": 23,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 04 · Giao việc cho rõ",
+      "topic": "Phần 04 · Giao việc cho rõ",
+      "video_title": "Phần 04 · Giao việc cho rõ (11:23–14:13 · Slide 23)",
+      "timestamp": "11:23",
+      "end_timestamp": "14:13",
+      "sub_slides": [
+        {
+          "slide": 24,
+          "timestamp": "11:41",
+          "title": "Giao việc mơ hồ, lỗi lộ ra ở chỗ khác"
+        },
+        {
+          "slide": 25,
+          "timestamp": "12:07",
+          "title": "Một lời giao việc: việc, bối cảnh, khuôn đầu ra"
+        },
+        {
+          "slide": 26,
+          "timestamp": "12:36",
+          "title": "Mỗi hành động mang một quyết định ngầm"
+        }
+      ],
+      "keywords": [
+        "giao viec cho ro",
+        "tu workflow den agent",
+        "giao viec mo ho",
+        "loi lo ra o cho khac",
+        "mot loi giao viec",
+        "viec",
+        "boi canh",
+        "khuon dau ra",
+        "moi hanh dong mang mot quyet dinh ngam"
+      ],
+      "text": "Lời giao việc có ba phần: việc, bối cảnh, khuôn đầu ra. Lỗi giao việc thường lộ ra ở khâu khác, nên phải lần ngược lại. Cùng quyết định về một sản phẩm thì các worker phải thấy quyết định của nhau. Các mốc chi tiết trong bài: Giao việc mơ hồ, lỗi lộ ra ở chỗ khác (11:41); Một lời giao việc: việc, bối cảnh, khuôn đầu ra (12:07); Mỗi hành động mang một quyết định ngầm (12:36)."
+    },
+    {
+      "code": "D08-S05",
+      "lesson": "Day08",
+      "day": "Day08",
+      "slide": 29,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 05 · Sập giữa chừng",
+      "topic": "Phần 05 · Sập giữa chừng",
+      "video_title": "Phần 05 · Sập giữa chừng (14:13–18:12 · Slide 29)",
+      "timestamp": "14:13",
+      "end_timestamp": "18:12",
+      "sub_slides": [
+        {
+          "slide": 30,
+          "timestamp": "14:34",
+          "title": "Ba kiểu hỏng, ba nơi phát hiện"
+        },
+        {
+          "slide": 31,
+          "timestamp": "15:09",
+          "title": "Điểm lưu: đi tiếp từ bước đã xong"
+        },
+        {
+          "slide": 32,
+          "timestamp": "15:32",
+          "title": "Điểm lưu không cứu được bước đang chạy dở"
+        },
+        {
+          "slide": 33,
+          "timestamp": "16:04",
+          "title": "Khoá idempotency: chạy hai lần như chạy một lần"
+        },
+        {
+          "slide": 34,
+          "timestamp": "16:37",
+          "title": "Thử lại cũng là chạy hai lần"
+        }
+      ],
+      "keywords": [
+        "sap giua chung",
+        "tu workflow den agent",
+        "ba kieu hong",
+        "ba noi phat hien",
+        "diem luu",
+        "di tiep tu buoc da xong",
+        "diem luu khong cuu duoc buoc dang chay do",
+        "khoa idempotency",
+        "chay hai lan nhu chay mot lan",
+        "thu lai cung la chay hai lan",
+        "checkpoint",
+        "idempotency",
+        "idempotent",
+        "thu lai",
+        "retry"
+      ],
+      "text": "Ba kiểu hỏng: tool lỗi, worker hỏng, tiến trình sập. Điểm lưu giúp đi tiếp, nhưng bước đang chạy dở sẽ chạy lại. Bước có tác động cần khoá idempotency. Thử lại cũng là chạy hai lần. Các mốc chi tiết trong bài: Ba kiểu hỏng, ba nơi phát hiện (14:34); Điểm lưu: đi tiếp từ bước đã xong (15:09); Điểm lưu không cứu được bước đang chạy dở (15:32); Khoá idempotency: chạy hai lần như chạy một lần (16:04); Thử lại cũng là chạy hai lần (16:37)."
+    },
+    {
+      "code": "D08-S06",
+      "lesson": "Day08",
+      "day": "Day08",
+      "slide": 37,
+      "lesson_title": "Day 08 — Từ Workflow đến Agent",
+      "title": "Phần 06 · Đo rồi mới thêm agent",
+      "topic": "Phần 06 · Đo rồi mới thêm agent",
+      "video_title": "Phần 06 · Đo rồi mới thêm agent (18:12–22:07 · Slide 37)",
+      "timestamp": "18:12",
+      "end_timestamp": "22:07",
+      "sub_slides": [
+        {
+          "slide": 38,
+          "timestamp": "18:32",
+          "title": "Số đo hai chiều: tuỳ loại việc"
+        },
+        {
+          "slide": 39,
+          "timestamp": "19:03",
+          "title": "Cái giá của nhiều agent: token"
+        },
+        {
+          "slide": 40,
+          "timestamp": "19:35",
+          "title": "Không có trace thì không biết lỗi từ đâu"
+        },
+        {
+          "slide": 42,
+          "timestamp": "20:37",
+          "title": "Trả lời câu hỏi đầu ngày: thêm agent, vì sao tệ hơn?"
+        },
+        {
+          "slide": 43,
+          "timestamp": "21:17",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "do roi moi them agent",
+        "tu workflow den agent",
+        "so do hai chieu",
+        "tuy loai viec",
+        "cai gia cua nhieu agent",
+        "token",
+        "khong co trace thi khong biet loi tu dau",
+        "tra loi cau hoi dau ngay",
+        "them agent",
+        "vi sao te hon?",
+        "ban do ngay hoc",
+        "logix",
+        "chi phi token",
+        "trace",
+        "do roi moi them"
+      ],
+      "text": "Workflow: code quyết định. Agent: model quyết định. Bắt đầu đơn giản. Nhiều agent giúp việc chia được, hại việc tuần tự. Đo trước khi thêm. Giao việc đủ ba phần: việc, bối cảnh, khuôn đầu ra. Điểm lưu để đi tiếp; khoá idempotency cho bước có tác động. Các mốc chi tiết trong bài: Số đo hai chiều: tuỳ loại việc (18:32); Cái giá của nhiều agent: token (19:03); Không có trace thì không biết lỗi từ đâu (19:35); Trả lời câu hỏi đầu ngày: thêm agent, vì sao tệ hơn? (20:37); Bản đồ ngày học (21:17)."
     },
     {
       "code": "D09-S01",
       "lesson": "Day09",
       "day": "Day09",
-      "program_lesson_id": "program-day09:evaluation-failure-analysis",
-      "transcript_ref": "Day09/d09-r2-v01.txt@185",
-      "lesson_title": "Day 09 — Evaluation & Failure Analysis",
-      "title": "Quy trình phân loại lỗi (Failure Taxonomy) và kiểm chứng số Eval",
-      "topic": "Quy trình phân loại lỗi (Failure Taxonomy) và kiểm chứng số Eval",
-      "video_title": "d09-r2-v01 · Phân loại lỗi (Failure Taxonomy) và kiểm chứng số Eval",
-      "timestamp": "03:05",
-      "kc_codes": ["failure_taxonomy_process", "failure_note_first_error", "eval_number_evidence_checks"],
-      "keywords": ["evaluation", "eval", "bo cau thu", "doi prompt", "truoc va sau", "so sanh", "failure analysis", "failure taxonomy", "phan loai loi", "first error", "benchmark", "pass"],
-      "text": "Trước khi sửa đổi prompt hay luồng xử lý, cần có một bộ câu thử (benchmark) cố định để chạy đánh giá trước và sau thay đổi trên cùng tập câu hỏi; nhờ đó phát hiện khách quan xem bản mới thật sự cải thiện hay làm phát sinh lỗi mới. Khi phân tích lỗi (Failure Analysis), mở trace câu trượt, ghi lỗi đầu tiên (first error) và gom thành failure taxonomy để sửa đúng nút thắt."
+      "slide": 3,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 01 · Khi con số eval sai",
+      "topic": "Phần 01 · Khi con số eval sai",
+      "video_title": "Phần 01 · Khi con số eval sai (01:11–04:22 · Slide 03)",
+      "timestamp": "01:11",
+      "end_timestamp": "04:22",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:03",
+          "title": "Một con số chỉ là bằng chứng khi qua đủ ba câu hỏi"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:40",
+          "title": "Grader hỏng không hiếm, kể cả ở bộ đánh giá nổi tiếng"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:06",
+          "title": "Thứ tự của ngày: lỗi trước, rồi metric, rồi cổng"
+        }
+      ],
+      "keywords": [
+        "khi con so eval sai",
+        "danh gia va phan tich loi",
+        "grader hong khong hiem",
+        "ke ca o bo danh gia noi tieng",
+        "thu tu cua ngay",
+        "loi truoc",
+        "roi metric",
+        "roi cong",
+        "eval",
+        "evaluation",
+        "bo cau thu",
+        "doi prompt",
+        "grader",
+        "metric"
+      ],
+      "text": "Con số là bằng chứng khi đo đúng thứ, grader đã kiểm, có độ bất định. Grader cũng là code: chấm thử câu đã biết đáp án trước khi tin. Đi theo thứ tự: lỗi trước, rồi metric, rồi cổng. Bộ câu thử (benchmark) cố định dùng để đánh giá trước và sau khi đổi prompt/luồng trên cùng tập câu hỏi nhằm phát hiện cải thiện hay lỗi mới. Các mốc chi tiết trong bài: Một con số chỉ là bằng chứng khi qua đủ ba câu hỏi (02:03); Grader hỏng không hiếm, kể cả ở bộ đánh giá nổi tiếng (02:40); Thứ tự của ngày: lỗi trước, rồi metric, rồi cổng (03:06)."
     },
     {
       "code": "D09-S02",
       "lesson": "Day09",
       "day": "Day09",
-      "program_lesson_id": "program-day09:evaluation-failure-analysis",
-      "transcript_ref": "Day09/d09-r2-v02.txt@208",
-      "lesson_title": "Day 09 — Evaluation & Failure Analysis",
-      "title": "Hiệu chỉnh LLM-as-a-Judge, kiểm thử Grader và CI Eval Gate",
-      "topic": "Hiệu chỉnh LLM-as-a-Judge, kiểm thử Grader và CI Eval Gate",
-      "video_title": "d09-r2-v02 · Hiệu chỉnh LLM-as-Judge, kiểm thử Grader và CI Eval Gate",
-      "timestamp": "03:28",
-      "kc_codes": ["llm_judge_calibration", "grader_needs_testing", "ci_eval_gate"],
-      "keywords": ["llm judge", "calibration", "hieu chinh", "grader", "cham cheo", "ci eval gate", "metric spec", "dong thuan"],
-      "text": "Chính bộ chấm (grader) cũng cần được kiểm thử: khi dùng LLM-as-a-Judge hoặc rubric người chấm, phải hiệu chỉnh (calibration) bằng cách so chéo với chấm tay độc lập để đảm bảo độ đồng thuận cao. Khi đưa vào quy trình phát triển, đặt CI Eval Gate để chặn các thay đổi làm tụt chất lượng."
+      "slide": 9,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 02 · Đọc trace, gom lỗi",
+      "topic": "Phần 02 · Đọc trace, gom lỗi",
+      "video_title": "Phần 02 · Đọc trace, gom lỗi (04:22–08:00 · Slide 09)",
+      "timestamp": "04:22",
+      "end_timestamp": "08:00",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "04:43",
+          "title": "Đọc một trace: tìm lỗi đầu tiên"
+        },
+        {
+          "slide": 11,
+          "timestamp": "05:20",
+          "title": "Bốn bước: đọc, ghi, gom, đếm"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:51",
+          "title": "Gom 25 trace thành bảng đếm kiểu lỗi"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:17",
+          "title": "Năm tầng lỗi: biết ai sửa, sửa ở đâu"
+        },
+        {
+          "slide": 14,
+          "timestamp": "06:34",
+          "title": "Thẻ kiểu lỗi: phải chấm được đạt hay không đạt"
+        }
+      ],
+      "keywords": [
+        "doc trace",
+        "gom loi",
+        "danh gia va phan tich loi",
+        "doc mot trace",
+        "tim loi dau tien",
+        "bon buoc",
+        "doc",
+        "ghi",
+        "gom",
+        "dem",
+        "gom 25 trace thanh bang dem kieu loi",
+        "nam tang loi",
+        "biet ai sua",
+        "sua o dau",
+        "the kieu loi",
+        "phai cham duoc dat hay khong dat",
+        "failure analysis",
+        "failure taxonomy"
+      ],
+      "text": "Đọc trace, ghi lỗi đầu tiên bằng lời của mình. Gom thành kiểu lỗi, đếm, sửa kiểu nhiều nhất trước; kiểu an toàn phải về 0. Mỗi kiểu lỗi có định nghĩa đạt hay không đạt và một tầng. Các mốc chi tiết trong bài: Đọc một trace: tìm lỗi đầu tiên (04:43); Bốn bước: đọc, ghi, gom, đếm (05:20); Gom 25 trace thành bảng đếm kiểu lỗi (05:51); Năm tầng lỗi: biết ai sửa, sửa ở đâu (06:17); Thẻ kiểu lỗi: phải chấm được đạt hay không đạt (06:34)."
+    },
+    {
+      "code": "D09-S03",
+      "lesson": "Day09",
+      "day": "Day09",
+      "slide": 17,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 03 · Metric và eval harness",
+      "topic": "Phần 03 · Metric và eval harness",
+      "video_title": "Phần 03 · Metric và eval harness (08:00–11:41 · Slide 17)",
+      "timestamp": "08:00",
+      "end_timestamp": "11:41",
+      "sub_slides": [
+        {
+          "slide": 18,
+          "timestamp": "08:19",
+          "title": "Hai harness lồng nhau"
+        },
+        {
+          "slide": 19,
+          "timestamp": "08:46",
+          "title": "Từ unit test sang eval cho agent: năm thay đổi"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:15",
+          "title": "So từng chữ hay kiểm hành vi?"
+        },
+        {
+          "slide": 21,
+          "timestamp": "09:50",
+          "title": "Metric đi từ bảng kiểu lỗi, chia bốn cấp"
+        },
+        {
+          "slide": 22,
+          "timestamp": "10:10",
+          "title": "Metric năng lực và metric an toàn không bù trừ nhau"
+        }
+      ],
+      "keywords": [
+        "metric va eval harness",
+        "danh gia va phan tich loi",
+        "hai harness long nhau",
+        "tu unit test sang eval cho agent",
+        "nam thay doi",
+        "so tung chu hay kiem hanh vi?",
+        "metric di tu bang kieu loi",
+        "chia bon cap"
+      ],
+      "text": "Eval harness bọc ngoài agent: nhiều lần chạy, chấm, so hai phiên bản. Kiểm hành vi và state cuối, đừng so từng chữ. Metric an toàn tối đa 0 lần, đứng riêng, không bù trừ. Các mốc chi tiết trong bài: Hai harness lồng nhau (08:19); Từ unit test sang eval cho agent: năm thay đổi (08:46); So từng chữ hay kiểm hành vi? (09:15); Metric đi từ bảng kiểu lỗi, chia bốn cấp (09:50); Metric năng lực và metric an toàn không bù trừ nhau (10:10)."
+    },
+    {
+      "code": "D09-S04",
+      "lesson": "Day09",
+      "day": "Day09",
+      "slide": 25,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 04 · Kiểm giám khảo",
+      "topic": "Phần 04 · Kiểm giám khảo",
+      "video_title": "Phần 04 · Kiểm giám khảo (11:41–15:32 · Slide 25)",
+      "timestamp": "11:41",
+      "end_timestamp": "15:32",
+      "sub_slides": [
+        {
+          "slide": 26,
+          "timestamp": "12:03",
+          "title": "Ba loại grader, và thứ tự chọn"
+        },
+        {
+          "slide": 27,
+          "timestamp": "12:30",
+          "title": "Judge là một bộ phân loại: đọc ma trận nhầm lẫn"
+        },
+        {
+          "slide": 28,
+          "timestamp": "13:05",
+          "title": "Soi lại judge “helpful” của LogiX"
+        },
+        {
+          "slide": 29,
+          "timestamp": "13:46",
+          "title": "Ba thiên lệch của judge, và cách kiểm cho công bằng"
+        }
+      ],
+      "keywords": [
+        "kiem giam khao",
+        "danh gia va phan tich loi",
+        "ba loai grader",
+        "va thu tu chon",
+        "judge la mot bo phan loai",
+        "doc ma tran nham lan",
+        "soi lai judge “helpful” cua logix",
+        "ba thien lech cua judge",
+        "va cach kiem cho cong bang"
+      ],
+      "text": "Thứ code chấm được thì để code chấm; judge chỉ cho phần còn lại. Kiểm judge bằng nhãn người: precision, recall, kappa trên tập giữ riêng. Judge ưa dài dòng, ưa vị trí, ưa người nhà: rubric rõ, đổi thứ tự, đổi họ model. Các mốc chi tiết trong bài: Ba loại grader, và thứ tự chọn (12:03); Judge là một bộ phân loại: đọc ma trận nhầm lẫn (12:30); Soi lại judge “helpful” của LogiX (13:05); Ba thiên lệch của judge, và cách kiểm cho công bằng (13:46)."
+    },
+    {
+      "code": "D09-S05",
+      "lesson": "Day09",
+      "day": "Day09",
+      "slide": 32,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 05 · Chấm cả đường đi",
+      "topic": "Phần 05 · Chấm cả đường đi",
+      "video_title": "Phần 05 · Chấm cả đường đi (15:32–19:02 · Slide 32)",
+      "timestamp": "15:32",
+      "end_timestamp": "19:02",
+      "sub_slides": [
+        {
+          "slide": 33,
+          "timestamp": "15:54",
+          "title": "Câu trả lời nghe đúng, sổ ghi tiền thì sai"
+        },
+        {
+          "slide": 34,
+          "timestamp": "16:29",
+          "title": "Chấm ba thứ: state cuối, tool call, bất biến"
+        },
+        {
+          "slide": 35,
+          "timestamp": "17:01",
+          "title": "Bộ kiểm cũng là một bộ phân loại: phải đo nó"
+        },
+        {
+          "slide": 36,
+          "timestamp": "17:36",
+          "title": "Có lúc làm được, hay lần nào cũng đúng?"
+        }
+      ],
+      "keywords": [
+        "cham ca duong di",
+        "danh gia va phan tich loi",
+        "cau tra loi nghe dung",
+        "so ghi tien thi sai",
+        "cham ba thu",
+        "state cuoi",
+        "tool call",
+        "bat bien",
+        "bo kiem cung la mot bo phan loai",
+        "phai do no",
+        "co luc lam duoc",
+        "hay lan nao cung dung?"
+      ],
+      "text": "Chấm state cuối, tool call và bất biến, không chấm lời agent nói. Đo bộ kiểm bằng cặp trace sạch và trace gài lỗi: bắt được, báo nhầm. Việc không rút lại được thì cần lần nào cũng đúng. Các mốc chi tiết trong bài: Câu trả lời nghe đúng, sổ ghi tiền thì sai (15:54); Chấm ba thứ: state cuối, tool call, bất biến (16:29); Bộ kiểm cũng là một bộ phân loại: phải đo nó (17:01); Có lúc làm được, hay lần nào cũng đúng? (17:36)."
+    },
+    {
+      "code": "D09-S06",
+      "lesson": "Day09",
+      "day": "Day09",
+      "slide": 39,
+      "lesson_title": "Day 09 — Đánh giá và phân tích lỗi",
+      "title": "Phần 06 · So sánh và cổng CI",
+      "topic": "Phần 06 · So sánh và cổng CI",
+      "video_title": "Phần 06 · So sánh và cổng CI (19:02–23:29 · Slide 39)",
+      "timestamp": "19:02",
+      "end_timestamp": "23:29",
+      "sub_slides": [
+        {
+          "slide": 40,
+          "timestamp": "19:23",
+          "title": "Hai nguồn nhiễu khi so hai phiên bản"
+        },
+        {
+          "slide": 41,
+          "timestamp": "19:51",
+          "title": "So theo cặp bằng bootstrap: bốn bước"
+        },
+        {
+          "slide": 42,
+          "timestamp": "20:23",
+          "title": "Đọc khoảng tin cậy của chênh lệch"
+        },
+        {
+          "slide": 43,
+          "timestamp": "21:00",
+          "title": "Cổng CI: chặn bản kém trước khi merge"
+        },
+        {
+          "slide": 45,
+          "timestamp": "22:11",
+          "title": "Trả lời câu hỏi đầu ngày: tin 91% hay 9/50?"
+        },
+        {
+          "slide": 46,
+          "timestamp": "22:44",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "so sanh va cong ci",
+        "danh gia va phan tich loi",
+        "hai nguon nhieu khi so hai phien ban",
+        "so theo cap bang bootstrap",
+        "bon buoc",
+        "doc khoang tin cay cua chenh lech",
+        "cong ci",
+        "chan ban kem truoc khi merge",
+        "tra loi cau hoi dau ngay",
+        "tin 91% hay 9/50?"
+      ],
+      "text": "Đọc trace trước; metric chưa đối chiếu với trace thật chưa phải bằng chứng. Kiểu lỗi có tên, định nghĩa đạt hay không đạt, trace làm bằng chứng, một tầng. Kiểm hành vi và state cuối; metric an toàn không bù trừ. Kiểm judge bằng nhãn người: precision, recall, kappa trên tập giữ riêng. So theo cặp, có khoảng tin cậy; cổng CI chặn bản kém, cho bản sửa qua. Các mốc chi tiết trong bài: Hai nguồn nhiễu khi so hai phiên bản (19:23); So theo cặp bằng bootstrap: bốn bước (19:51); Đọc khoảng tin cậy của chênh lệch (20:23); Cổng CI: chặn bản kém trước khi merge (21:00); Trả lời câu hỏi đầu ngày: tin 91% hay 9/50? (22:11)."
     },
     {
       "code": "D10-S01",
       "lesson": "Day10",
       "day": "Day10",
-      "program_lesson_id": "program-day10:poc-to-pilot",
-      "transcript_ref": "Day10/d10-r2-v01.txt@51",
-      "lesson_title": "Day 10 — Project Delivery: From PoC to Pilot (Gate 1)",
-      "title": "Từ PoC sang Pilot: chốt chuẩn trước khi đo, Ops Readiness & Red-team",
-      "topic": "Từ PoC sang Pilot: chốt chuẩn trước khi đo, Ops Readiness & Red-team",
-      "video_title": "d10-r2-v01 · Khoảng cách Demo–Production, chốt tiêu chí trước khi đo & Red-team",
-      "timestamp": "00:51",
-      "kc_codes": ["demo_vs_production_gaps", "criteria_signed_before_measuring", "gate_decision_evidence", "pilot_ops_readiness", "red_team_prompt_injection"],
-      "keywords": ["poc", "pilot", "gate 1", "demo vs production", "chot tieu chi", "red team", "ops readiness", "confidence interval"],
-      "text": "Để vượt qua khoảng cách giữa bản demo chạy đẹp và bản Pilot dùng thật, nhóm phải chốt tiêu chí đạt TRƯỚC khi chạy đo lường (không sửa chuẩn cho khớp kết quả), kiểm tra chất lượng vượt ngoài accuracy (độ trễ, chi phí, an toàn), thử tấn công red-team prompt injection và chuẩn bị sẵn quy trình vận hành/xử lý sự cố."
+      "slide": 3,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 01 · Demo tốt chưa đủ",
+      "topic": "Phần 01 · Demo tốt chưa đủ",
+      "video_title": "Phần 01 · Demo tốt chưa đủ (01:07–04:44 · Slide 03)",
+      "timestamp": "01:07",
+      "end_timestamp": "04:44",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:06",
+          "title": "Demo và dùng thật khác nhau ở đâu?"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:49",
+          "title": "Ví dụ thật: demo tốt, chạy thật thì khác"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:18",
+          "title": "Năm khoảng trống ở LogiX-VN thành năm điều kiện"
+        }
+      ],
+      "keywords": [
+        "demo tot chua du",
+        "tu poc den pilot",
+        "demo va dung that khac nhau o dau?",
+        "vi du that",
+        "demo tot",
+        "chay that thi khac",
+        "nam khoang trong o logix",
+        "vn thanh nam dieu kien"
+      ],
+      "text": "Demo chứng minh làm được; dùng thật cần thêm nhiều thứ khác. Năm khoảng trống: bộ câu thử, chi phí, rủi ro, trách nhiệm, điều kiện dừng. Mỗi khoảng trống thành một điều kiện có con số. Các mốc chi tiết trong bài: Demo và dùng thật khác nhau ở đâu? (02:06); Ví dụ thật: demo tốt, chạy thật thì khác (02:49); Năm khoảng trống ở LogiX-VN thành năm điều kiện (03:18)."
+    },
+    {
+      "code": "D10-S02",
+      "lesson": "Day10",
+      "day": "Day10",
+      "slide": 9,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 02 · Bước đánh giá",
+      "topic": "Phần 02 · Bước đánh giá",
+      "video_title": "Phần 02 · Bước đánh giá (04:44–08:22 · Slide 09)",
+      "timestamp": "04:44",
+      "end_timestamp": "08:22",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "05:06",
+          "title": "Bước đánh giá là gì?"
+        },
+        {
+          "slide": 11,
+          "timestamp": "05:34",
+          "title": "Một bước đánh giá cần đủ năm thành phần"
+        },
+        {
+          "slide": 12,
+          "timestamp": "06:10",
+          "title": "Ba bước đánh giá của LogiX-VN"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:37",
+          "title": "Bốn quyết định, và khi nào được “tiếp tục”"
+        },
+        {
+          "slide": 14,
+          "timestamp": "07:09",
+          "title": "Cải tiến có kế hoạch, và dừng cũng là kết quả tốt"
+        }
+      ],
+      "keywords": [
+        "buoc danh gia",
+        "tu poc den pilot",
+        "buoc danh gia la gi?",
+        "mot buoc danh gia can du nam thanh phan",
+        "ba buoc danh gia cua logix",
+        "vn",
+        "bon quyet dinh",
+        "va khi nao duoc “tiep tuc”",
+        "cai tien co ke hoach",
+        "va dung cung la ket qua tot"
+      ],
+      "text": "Bước đánh giá: người làm trình bằng chứng, người có thẩm quyền quyết. Đủ năm thành phần: chỉ số, ngưỡng, người quyết, thời hạn, điều kiện dừng. Bắt buộc chưa đạt thì không tiếp tục; muốn đi thì thu hẹp. Các mốc chi tiết trong bài: Bước đánh giá là gì? (05:06); Một bước đánh giá cần đủ năm thành phần (05:34); Ba bước đánh giá của LogiX-VN (06:10); Bốn quyết định, và khi nào được “tiếp tục” (06:37); Cải tiến có kế hoạch, và dừng cũng là kết quả tốt (07:09)."
+    },
+    {
+      "code": "D10-S03",
+      "lesson": "Day10",
+      "day": "Day10",
+      "slide": 17,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 03 · Chốt tiêu chí, đọc con số",
+      "topic": "Phần 03 · Chốt tiêu chí, đọc con số",
+      "video_title": "Phần 03 · Chốt tiêu chí, đọc con số (08:22–11:32 · Slide 17)",
+      "timestamp": "08:22",
+      "end_timestamp": "11:32",
+      "sub_slides": [
+        {
+          "slide": 18,
+          "timestamp": "08:44",
+          "title": "Chốt tiêu chí trước khi đo"
+        },
+        {
+          "slide": 19,
+          "timestamp": "09:11",
+          "title": "Bản tiêu chí chấp nhận: ký ngày 06/11, trước lần đo"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:40",
+          "title": "Khoảng tin cậy 95% là gì?"
+        },
+        {
+          "slide": 21,
+          "timestamp": "10:09",
+          "title": "0.78 trên 120 câu: chưa đủ bằng chứng"
+        }
+      ],
+      "keywords": [
+        "chot tieu chi",
+        "doc con so",
+        "tu poc den pilot",
+        "chot tieu chi truoc khi do",
+        "ban tieu chi chap nhan",
+        "ky ngay 06/11",
+        "truoc lan do",
+        "khoang tin cay 95% la gi?",
+        "0.78 tren 120 cau",
+        "chua du bang chung"
+      ],
+      "text": "Ngưỡng được viết ra và ký trước lần đo; không dời sau khi thấy số. Mỗi dòng tiêu chí: bộ dữ liệu, cách tính, ngưỡng, người phụ trách. Khoảng tin cậy chứa ngưỡng thì chưa đủ bằng chứng. Các mốc chi tiết trong bài: Chốt tiêu chí trước khi đo (08:44); Bản tiêu chí chấp nhận: ký ngày 06/11, trước lần đo (09:11); Khoảng tin cậy 95% là gì? (09:40); 0.78 trên 120 câu: chưa đủ bằng chứng (10:09)."
+    },
+    {
+      "code": "D10-S04",
+      "lesson": "Day10",
+      "day": "Day10",
+      "slide": 24,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 04 · Chất lượng, dữ liệu, bảo mật",
+      "topic": "Phần 04 · Chất lượng, dữ liệu, bảo mật",
+      "video_title": "Phần 04 · Chất lượng, dữ liệu, bảo mật (11:32–15:09 · Slide 24)",
+      "timestamp": "11:32",
+      "end_timestamp": "15:09",
+      "sub_slides": [
+        {
+          "slide": 25,
+          "timestamp": "11:57",
+          "title": "Có kiểm tra vẫn lọt lỗi: cần nhiều lớp"
+        },
+        {
+          "slide": 26,
+          "timestamp": "12:24",
+          "title": "Checklist go-live: chín nhóm việc"
+        },
+        {
+          "slide": 27,
+          "timestamp": "12:43",
+          "title": "1 · Chất lượng: độ chính xác là chưa đủ"
+        },
+        {
+          "slide": 28,
+          "timestamp": "13:14",
+          "title": "2 · Dữ liệu: đúng, mới, và được phép dùng"
+        },
+        {
+          "slide": 29,
+          "timestamp": "13:44",
+          "title": "3 · Bảo mật: red team trước khi người dùng xấu làm thay"
+        }
+      ],
+      "keywords": [
+        "chat luong",
+        "du lieu",
+        "bao mat",
+        "tu poc den pilot",
+        "co kiem tra van lot loi",
+        "can nhieu lop",
+        "checklist go",
+        "live",
+        "chin nhom viec",
+        "1 · chat luong",
+        "do chinh xac la chua du",
+        "2 · du lieu",
+        "dung",
+        "moi",
+        "va duoc phep dung",
+        "3 · bao mat",
+        "red team truoc khi nguoi dung xau lam thay"
+      ],
+      "text": "Chất lượng có nhiều tiêu chí; biết từ chối quan trọng hơn vài điểm đúng. Dữ liệu cần chủ, đúng phiên bản, và lịch cập nhật. Red team trước mỗi bước đánh giá; nội dung khách nhập là dữ liệu. Các mốc chi tiết trong bài: Có kiểm tra vẫn lọt lỗi: cần nhiều lớp (11:57); Checklist go-live: chín nhóm việc (12:24); 1 · Chất lượng: độ chính xác là chưa đủ (12:43); 2 · Dữ liệu: đúng, mới, và được phép dùng (13:14); 3 · Bảo mật: red team trước khi người dùng xấu làm thay (13:44)."
+    },
+    {
+      "code": "D10-S05",
+      "lesson": "Day10",
+      "day": "Day10",
+      "slide": 32,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 05 · Quyền hạn, hiệu năng, chi phí",
+      "topic": "Phần 05 · Quyền hạn, hiệu năng, chi phí",
+      "video_title": "Phần 05 · Quyền hạn, hiệu năng, chi phí (15:09–18:11 · Slide 32)",
+      "timestamp": "15:09",
+      "end_timestamp": "18:11",
+      "sub_slides": [
+        {
+          "slide": 33,
+          "timestamp": "15:28",
+          "title": "4 · Quyền hạn: agent được tự làm gì?"
+        },
+        {
+          "slide": 34,
+          "timestamp": "15:57",
+          "title": "5 · Hiệu năng: đủ nhanh giờ cao điểm, gọi API hay tự host?"
+        },
+        {
+          "slide": 35,
+          "timestamp": "16:25",
+          "title": "Gọi API: tier, lỗi 429, và ngày nhà cung cấp sập"
+        },
+        {
+          "slide": 36,
+          "timestamp": "17:02",
+          "title": "6 · Chi phí: tính đủ các khoản"
+        }
+      ],
+      "keywords": [
+        "quyen han",
+        "hieu nang",
+        "chi phi",
+        "tu poc den pilot",
+        "4 · quyen han",
+        "agent duoc tu lam gi?",
+        "5 · hieu nang",
+        "du nhanh gio cao diem",
+        "goi api hay tu host?",
+        "goi api",
+        "tier",
+        "loi 429",
+        "va ngay nha cung cap sap",
+        "6 · chi phi",
+        "tinh du cac khoan"
+      ],
+      "text": "Tool ghi cần người duyệt, hoặc tắt khi pilot; luôn có nút tắt. Gọi API vẫn phải lo tier, lỗi 429, và dự phòng. Tính đủ chi phí: tiền API chỉ khoảng 40%. Các mốc chi tiết trong bài: 4 · Quyền hạn: agent được tự làm gì? (15:28); 5 · Hiệu năng: đủ nhanh giờ cao điểm, gọi API hay tự host? (15:57); Gọi API: tier, lỗi 429, và ngày nhà cung cấp sập (16:25); 6 · Chi phí: tính đủ các khoản (17:02)."
+    },
+    {
+      "code": "D10-S06",
+      "lesson": "Day10",
+      "day": "Day10",
+      "slide": 39,
+      "lesson_title": "Day 10 — Từ PoC đến pilot",
+      "title": "Phần 06 · Vận hành và quyết định",
+      "topic": "Phần 06 · Vận hành và quyết định",
+      "video_title": "Phần 06 · Vận hành và quyết định (18:11–21:52 · Slide 39)",
+      "timestamp": "18:11",
+      "end_timestamp": "21:52",
+      "sub_slides": [
+        {
+          "slide": 40,
+          "timestamp": "18:31",
+          "title": "7 · Vận hành: biết lỗi, và quay lui được"
+        },
+        {
+          "slide": 41,
+          "timestamp": "19:06",
+          "title": "Triển khai từng bước, bước nào cũng có điều kiện dừng"
+        },
+        {
+          "slide": 42,
+          "timestamp": "19:28",
+          "title": "8 · Ai chịu trách nhiệm câu trả lời?"
+        },
+        {
+          "slide": 43,
+          "timestamp": "19:56",
+          "title": "9 · Risk register: mỗi dòng phải đổi được một quyết định"
+        },
+        {
+          "slide": 44,
+          "timestamp": "20:14",
+          "title": "Báo cáo go/no-go: đề nghị trước, con số không làm tròn"
+        },
+        {
+          "slide": 46,
+          "timestamp": "20:50",
+          "title": "Quay lại tin nhắn thứ Sáu: trả lời giám đốc thế nào?"
+        },
+        {
+          "slide": 47,
+          "timestamp": "21:17",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "van hanh va quyet dinh",
+        "tu poc den pilot",
+        "7 · van hanh",
+        "biet loi",
+        "va quay lui duoc",
+        "trien khai tung buoc",
+        "buoc nao cung co dieu kien dung",
+        "8 · ai chiu trach nhiem cau tra loi?",
+        "9 · risk register",
+        "moi dong phai doi duoc mot quyet dinh",
+        "bao cao go/no",
+        "go",
+        "de nghi truoc",
+        "con so khong lam tron"
+      ],
+      "text": "Trước khi đo: viết tiêu chí, người tài trợ ký. Khi đọc số: nhiều lần chạy, có khoảng tin cậy. Ở mỗi bước đánh giá: chỉ số, ngưỡng, người quyết, điều kiện dừng. Trước go-live: đi đủ chín nhóm việc của checklist. Khi báo cáo: đề nghị trước, con số không làm tròn. Các mốc chi tiết trong bài: 7 · Vận hành: biết lỗi, và quay lui được (18:31); Triển khai từng bước, bước nào cũng có điều kiện dừng (19:06); 8 · Ai chịu trách nhiệm câu trả lời? (19:28); 9 · Risk register: mỗi dòng phải đổi được một quyết định (19:56); Báo cáo go/no-go: đề nghị trước, con số không làm tròn (20:14)."
     },
     {
       "code": "D11-S01",
       "lesson": "Day11",
       "day": "Day11",
-      "program_lesson_id": "program-day11:guardrails-hitl-responsible-ai",
-      "transcript_ref": "Day11/d11-r1-v01.txt@44",
-      "lesson_title": "Day 11 — Guardrails, HITL & Responsible AI",
-      "title": "Bộ ba nguy hiểm (Lethal Trifecta) và giảm Blast Radius",
-      "topic": "Bộ ba nguy hiểm (Lethal Trifecta) và giảm Blast Radius",
-      "video_title": "d11-r1-v01 · Lethal Trifecta, đầu vào không tin cậy & Blast Radius",
-      "timestamp": "00:44",
-      "kc_codes": ["lethal_trifecta", "untrusted_input_channels", "exfiltration_channels", "blast_radius_of_agent_actions"],
-      "keywords": ["lethal trifecta", "bo ba nguy hiem", "guardrails", "prompt injection", "untrusted input", "exfiltration", "blast radius", "responsible ai"],
-      "text": "Lethal Trifecta (bộ ba nguy hiểm) xảy ra khi một Agent đồng thời có: (1) quyền đọc dữ liệu riêng tư, (2) tiếp nhận nội dung từ nguồn không tin cậy (untrusted input dễ cài prompt injection), và (3) khả năng gửi dữ liệu ra ngoài (exfiltration). Để bảo vệ hệ thống, phải cắt ít nhất một cạnh của tam giác này và giới hạn nhỏ nhất bán kính thiệt hại (blast radius)."
+      "slide": 3,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 01 · Một ticket, ba chân",
+      "topic": "Phần 01 · Một ticket, ba chân",
+      "video_title": "Phần 01 · Một ticket, ba chân (01:06–04:05 · Slide 03)",
+      "timestamp": "01:06",
+      "end_timestamp": "04:05",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "01:57",
+          "title": "Chatbot nói sai, agent làm sai"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:24",
+          "title": "Bộ ba nguy hiểm, đặt lên bảy tool của LogiX"
+        },
+        {
+          "slide": 6,
+          "timestamp": "02:57",
+          "title": "Bỏ một chân, và cái giá phải trả"
+        }
+      ],
+      "keywords": [
+        "mot ticket",
+        "ba chan",
+        "guardrails",
+        "hitl va responsible ai",
+        "chatbot noi sai",
+        "agent lam sai",
+        "bo ba nguy hiem",
+        "dat len bay tool cua logix",
+        "bo mot chan",
+        "va cai gia phai tra",
+        "lethal trifecta",
+        "prompt injection",
+        "exfiltration"
+      ],
+      "text": "Agent làm sai chứ không chỉ nói sai; tự chủ càng cao, vùng thiệt hại càng rộng. Bộ ba nguy hiểm: dữ liệu riêng, nội dung không tin cậy, đường ra. Mỗi luồng việc bỏ hoặc tách một chân, và ghi rõ cái giá. Các mốc chi tiết trong bài: Chatbot nói sai, agent làm sai (01:57); Bộ ba nguy hiểm, đặt lên bảy tool của LogiX (02:24); Bỏ một chân, và cái giá phải trả (02:57)."
     },
     {
       "code": "D11-S02",
       "lesson": "Day11",
       "day": "Day11",
-      "program_lesson_id": "program-day11:guardrails-hitl-responsible-ai",
-      "transcript_ref": "Day11/d11-r1-v02.txt@133",
-      "lesson_title": "Day 11 — Guardrails, HITL & Responsible AI",
-      "title": "Ranh giới bảo mật tất định (Deterministic Boundary) & HITL Approval",
-      "topic": "Ranh giới bảo mật tất định (Deterministic Boundary) & HITL Approval",
-      "video_title": "d11-r1-v02 · Ranh giới bảo mật tất định & Màn hình duyệt HITL",
-      "timestamp": "02:13",
-      "kc_codes": ["deterministic_security_boundary", "deterministic_decision_procedure", "approval_screen_from_exact_action", "asr_utility_approval_metrics"],
-      "keywords": ["deterministic", "security boundary", "ranh gioi bao mat", "hitl", "approval screen", "asr", "utility", "guardrail"],
-      "text": "Không được chỉ dựa vào lời dặn trong prompt để bảo mật; các ranh giới quan trọng (quyền truy cập, chặn injection, giới hạn hành động) phải cưỡng chế bằng code tất định (deterministic security boundary). Khi cần người duyệt (HITL), màn hình duyệt phải hiển thị chính xác hành động và tham số sắp thực thi, và đánh giá cân bằng 3 chỉ số: ASR (tỉ lệ tấn công lọt), Utility (độ hữu ích) và tỉ lệ duyệt."
+      "slide": 9,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 02 · Chữ vào từ đâu, dữ liệu ra lối nào",
+      "topic": "Phần 02 · Chữ vào từ đâu, dữ liệu ra lối nào",
+      "video_title": "Phần 02 · Chữ vào từ đâu, dữ liệu ra lối nào (04:05–06:37 · Slide 09)",
+      "timestamp": "04:05",
+      "end_timestamp": "06:37",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "04:26",
+          "title": "Bốn đường vào, bốn đường ra"
+        },
+        {
+          "slide": 11,
+          "timestamp": "04:56",
+          "title": "Lần theo ticket lúc 21:40, từng bước"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:25",
+          "title": "Ví dụ thật: EchoLeak"
+        }
+      ],
+      "keywords": [
+        "chu vao tu dau",
+        "du lieu ra loi nao",
+        "guardrails",
+        "hitl va responsible ai",
+        "bon duong vao",
+        "bon duong ra",
+        "lan theo ticket luc 21",
+        "40",
+        "tung buoc",
+        "vi du that",
+        "echoleak"
+      ],
+      "text": "Chữ độc vào qua ticket, đoạn văn tìm về, kết quả tool, mô tả tool. Dữ liệu ra qua tin nhắn, link, ảnh hiển thị, tham số tool. Biết đã rò hay chưa: nhìn hộp thư đi, không nhìn câu trả lời. Các mốc chi tiết trong bài: Bốn đường vào, bốn đường ra (04:26); Lần theo ticket lúc 21:40, từng bước (04:56); Ví dụ thật: EchoLeak (05:25)."
+    },
+    {
+      "code": "D11-S03",
+      "lesson": "Day11",
+      "day": "Day11",
+      "slide": 15,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 03 · Ranh giới là code",
+      "topic": "Phần 03 · Ranh giới là code",
+      "video_title": "Phần 03 · Ranh giới là code (06:37–10:29 · Slide 15)",
+      "timestamp": "06:37",
+      "end_timestamp": "10:29",
+      "sub_slides": [
+        {
+          "slide": 16,
+          "timestamp": "06:59",
+          "title": "Lời dặn và bộ lọc: giảm rủi ro, không đóng rủi ro"
+        },
+        {
+          "slide": 17,
+          "timestamp": "07:34",
+          "title": "Ranh giới phải là code tất định"
+        },
+        {
+          "slide": 18,
+          "timestamp": "08:05",
+          "title": "CaMeL: tách luồng điều khiển khỏi luồng dữ liệu"
+        },
+        {
+          "slide": 19,
+          "timestamp": "08:32",
+          "title": "CaMeL-lite cho LogiX: kế hoạch không đọc ticket"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:01",
+          "title": "Model cách ly trả về trường có kiểu, không trả về lời"
+        },
+        {
+          "slide": 21,
+          "timestamp": "09:28",
+          "title": "Nhãn đi theo giá trị, chính sách đọc nhãn"
+        }
+      ],
+      "keywords": [
+        "ranh gioi la code",
+        "guardrails",
+        "hitl va responsible ai",
+        "loi dan va bo loc",
+        "giam rui ro",
+        "khong dong rui ro",
+        "ranh gioi phai la code tat dinh",
+        "camel",
+        "tach luong dieu khien khoi luong du lieu",
+        "lite cho logix",
+        "ke hoach khong doc ticket",
+        "model cach ly tra ve truong co kieu",
+        "khong tra ve loi"
+      ],
+      "text": "Prompt và bộ phân loại làm giảm rủi ro, không đóng được rủi ro. Ranh giới là code tất định: cùng đầu vào, luôn một kết quả. CaMeL-lite: kế hoạch không đọc ticket, trường có kiểu, nhãn theo giá trị. Các mốc chi tiết trong bài: Lời dặn và bộ lọc: giảm rủi ro, không đóng rủi ro (06:59); Ranh giới phải là code tất định (07:34); CaMeL: tách luồng điều khiển khỏi luồng dữ liệu (08:05); CaMeL-lite cho LogiX: kế hoạch không đọc ticket (08:32); Model cách ly trả về trường có kiểu, không trả về lời (09:01)."
+    },
+    {
+      "code": "D11-S04",
+      "lesson": "Day11",
+      "day": "Day11",
+      "slide": 24,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 04 · Một hàm quyết định, ba con số",
+      "topic": "Phần 04 · Một hàm quyết định, ba con số",
+      "video_title": "Phần 04 · Một hàm quyết định, ba con số (10:29–14:05 · Slide 24)",
+      "timestamp": "10:29",
+      "end_timestamp": "14:05",
+      "sub_slides": [
+        {
+          "slide": 25,
+          "timestamp": "10:53",
+          "title": "Một hàm quyết định cho bảy tool"
+        },
+        {
+          "slide": 26,
+          "timestamp": "11:22",
+          "title": "Giới hạn cộng dồn: hoàn tiền không vượt COD"
+        },
+        {
+          "slide": 27,
+          "timestamp": "11:51",
+          "title": "Hai ticket cùng lúc: giữ chỗ dưới khoá theo đơn"
+        },
+        {
+          "slide": 28,
+          "timestamp": "12:15",
+          "title": "Khoá idempotency, và lỗi không được thử lại"
+        },
+        {
+          "slide": 29,
+          "timestamp": "12:41",
+          "title": "Ba con số đi cùng nhau"
+        }
+      ],
+      "keywords": [
+        "mot ham quyet dinh",
+        "ba con so",
+        "guardrails",
+        "hitl va responsible ai",
+        "mot ham quyet dinh cho bay tool",
+        "gioi han cong don",
+        "hoan tien khong vuot cod",
+        "hai ticket cung luc",
+        "giu cho duoi khoa theo don",
+        "khoa idempotency",
+        "va loi khong duoc thu lai",
+        "ba con so di cung nhau"
+      ],
+      "text": "Một hàm quyết định cho mọi tool có tác động; hoàn tiền không bao giờ ALLOW. Cộng cả khoản giữ chỗ, kiểm dưới khoá theo đơn; vượt giới hạn thì không thử lại. Báo ASR cùng utility và số lần duyệt mỗi ticket. Các mốc chi tiết trong bài: Một hàm quyết định cho bảy tool (10:53); Giới hạn cộng dồn: hoàn tiền không vượt COD (11:22); Hai ticket cùng lúc: giữ chỗ dưới khoá theo đơn (11:51); Khoá idempotency, và lỗi không được thử lại (12:15); Ba con số đi cùng nhau (12:41)."
+    },
+    {
+      "code": "D11-S05",
+      "lesson": "Day11",
+      "day": "Day11",
+      "slide": 32,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 05 · Người duyệt thấy gì, hệ thống dừng ra sao",
+      "topic": "Phần 05 · Người duyệt thấy gì, hệ thống dừng ra sao",
+      "video_title": "Phần 05 · Người duyệt thấy gì, hệ thống dừng ra sao (14:05–17:48 · Slide 32)",
+      "timestamp": "14:05",
+      "end_timestamp": "17:48",
+      "sub_slides": [
+        {
+          "slide": 33,
+          "timestamp": "14:25",
+          "title": "Duyệt bản tóm tắt của model là không duyệt gì"
+        },
+        {
+          "slide": 34,
+          "timestamp": "14:53",
+          "title": "Màn duyệt dựng từ hành động bất biến"
+        },
+        {
+          "slide": 35,
+          "timestamp": "15:14",
+          "title": "Gánh nặng duyệt: tính trước khi bật"
+        },
+        {
+          "slide": 36,
+          "timestamp": "15:44",
+          "title": "Dừng chờ người: chạy tiếp thì cả nút chạy lại"
+        },
+        {
+          "slide": 37,
+          "timestamp": "16:13",
+          "title": "execute(ticket_id) : gọi bao nhiêu lần cũng vậy"
+        },
+        {
+          "slide": 38,
+          "timestamp": "16:39",
+          "title": "Rug pull: mô tả tool đổi sau khi đã duyệt"
+        }
+      ],
+      "keywords": [
+        "nguoi duyet thay gi",
+        "he thong dung ra sao",
+        "guardrails",
+        "hitl va responsible ai",
+        "duyet ban tom tat cua model la khong duyet gi",
+        "man duyet dung tu hanh dong bat bien",
+        "ganh nang duyet",
+        "tinh truoc khi bat",
+        "dung cho nguoi",
+        "chay tiep thi ca nut chay lai",
+        "execute",
+        "ticket_id",
+        "goi bao nhieu lan cung vay"
+      ],
+      "text": "Màn duyệt dựng từ hành động thật, có nguồn gốc; tính gánh nặng duyệt trước khi bật. Chạy tiếp thì cả nút chạy lại; execute không tạo yêu cầu trùng, không làm hai lần. Mô tả tool đổi thì hash đổi: chặn và duyệt lại. Các mốc chi tiết trong bài: Duyệt bản tóm tắt của model là không duyệt gì (14:25); Màn duyệt dựng từ hành động bất biến (14:53); Gánh nặng duyệt: tính trước khi bật (15:14); Dừng chờ người: chạy tiếp thì cả nút chạy lại (15:44); execute(ticket_id) : gọi bao nhiêu lần cũng vậy (16:13)."
+    },
+    {
+      "code": "D11-S06",
+      "lesson": "Day11",
+      "day": "Day11",
+      "slide": 41,
+      "lesson_title": "Day 11 — Guardrails, HITL và Responsible AI",
+      "title": "Phần 06 · Nghĩa vụ thành biện pháp và bằng chứng",
+      "topic": "Phần 06 · Nghĩa vụ thành biện pháp và bằng chứng",
+      "video_title": "Phần 06 · Nghĩa vụ thành biện pháp và bằng chứng (17:48–20:58 · Slide 41)",
+      "timestamp": "17:48",
+      "end_timestamp": "20:58",
+      "sub_slides": [
+        {
+          "slide": 42,
+          "timestamp": "18:10",
+          "title": "Mỗi nghĩa vụ đi thành ba cột"
+        },
+        {
+          "slide": 43,
+          "timestamp": "18:38",
+          "title": "Luật Trí tuệ nhân tạo: hai điều nối thẳng với hôm nay"
+        },
+        {
+          "slide": 44,
+          "timestamp": "19:10",
+          "title": "Risk register v2: mỗi dòng có biện pháp và bằng chứng"
+        },
+        {
+          "slide": 46,
+          "timestamp": "20:02",
+          "title": "Quay lại ticket lúc 21:40: chặn ở đâu thì chắc nhất?"
+        },
+        {
+          "slide": 47,
+          "timestamp": "20:30",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "nghia vu thanh bien phap va bang chung",
+        "guardrails",
+        "hitl va responsible ai",
+        "moi nghia vu di thanh ba cot",
+        "luat tri tue nhan tao",
+        "hai dieu noi thang voi hom nay",
+        "risk register v2",
+        "moi dong co bien phap va bang chung",
+        "quay lai ticket luc 21",
+        "40",
+        "chan o dau thi chac nhat?",
+        "ban do ngay hoc"
+      ],
+      "text": "Bộ ba nguy hiểm: bỏ hoặc tách một chân cho mỗi luồng việc. Ranh giới là code: kế hoạch không đọc ticket, một hàm quyết định. Đo bằng ba con số: ASR trên tấn công giữ kín, utility, số lần duyệt. Màn duyệt từ hành động thật; dừng, chạy tiếp, không làm hai lần. Mỗi nghĩa vụ có ba cột: nghĩa vụ, biện pháp, bằng chứng. Các mốc chi tiết trong bài: Mỗi nghĩa vụ đi thành ba cột (18:10); Luật Trí tuệ nhân tạo: hai điều nối thẳng với hôm nay (18:38); Risk register v2: mỗi dòng có biện pháp và bằng chứng (19:10); Quay lại ticket lúc 21:40: chặn ở đâu thì chắc nhất? (20:02); Bản đồ ngày học (20:30)."
     },
     {
       "code": "D12-S01",
       "lesson": "Day12",
       "day": "Day12",
-      "program_lesson_id": "program-day12:ai-sdlc-coding-agent",
-      "transcript_ref": "Day12/d12-r1-v01.txt@45",
-      "lesson_title": "Day 12 — AI SDLC & Coding Agent (Harness Engineering)",
-      "title": "Instructions vs Enforcement, Harness Engineering & Spec làm hợp đồng",
-      "topic": "Instructions vs Enforcement, Harness Engineering & Spec làm hợp đồng",
-      "video_title": "d12-r1-v01 · Instructions vs Enforcement, Harness & Spec làm hợp đồng",
-      "timestamp": "00:45",
-      "kc_codes": ["instructions_vs_enforcement", "harness_around_model", "spec_as_contract", "agent_tests_need_independent_oracle", "hook_exit_code_fail_closed"],
-      "keywords": ["coding agent", "ai sdlc", "harness", "instructions vs enforcement", "agents.md", "spec as contract", "oracle", "fail closed", "ci"],
-      "text": "Khi phát triển phần mềm cùng Coding Agent, tài liệu hướng dẫn như AGENTS.md chỉ là chỉ dẫn mềm (instructions); muốn đảm bảo chất lượng phải có cơ chế cưỡng chế tự động (enforcement) qua khung kiểm thử/hook fail-closed (harness engineering). Spec đóng vai trò hợp đồng rõ ràng, còn test do agent viết cần đối chiếu bằng oracle độc lập và CI quyết định."
+      "slide": 4,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 01 · Hai giờ và một bug",
+      "topic": "Phần 01 · Hai giờ và một bug",
+      "video_title": "Phần 01 · Hai giờ và một bug (01:41–04:35 · Slide 04)",
+      "timestamp": "01:41",
+      "end_timestamp": "04:35",
+      "sub_slides": [
+        {
+          "slide": 5,
+          "timestamp": "02:29",
+          "title": "Ba thời kỳ: đơn vị công việc lớn dần"
+        },
+        {
+          "slide": 6,
+          "timestamp": "02:59",
+          "title": "Chỗ nghẽn dời sang đặc tả và kiểm chứng"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:29",
+          "title": "Harness: phần bao quanh model"
+        }
+      ],
+      "keywords": [
+        "hai gio va mot bug",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "ba thoi ky",
+        "don vi cong viec lon dan",
+        "cho nghen doi sang dac ta va kiem chung",
+        "harness",
+        "phan bao quanh model"
+      ],
+      "text": "Thời kỳ 3: agent tự sửa, tự chạy test, tự mở PR cho cả tính năng. Chỗ nghẽn chuyển sang đặc tả và kiểm chứng. Harness có thứ model tự quyết, và thứ harness thi hành. Các mốc chi tiết trong bài: Ba thời kỳ: đơn vị công việc lớn dần (02:29); Chỗ nghẽn dời sang đặc tả và kiểm chứng (02:59); Harness: phần bao quanh model (03:29)."
+    },
+    {
+      "code": "D12-S02",
+      "lesson": "Day12",
+      "day": "Day12",
+      "slide": 10,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 02 · Lời dặn và ổ khoá",
+      "topic": "Phần 02 · Lời dặn và ổ khoá",
+      "video_title": "Phần 02 · Lời dặn và ổ khoá (04:35–08:08 · Slide 10)",
+      "timestamp": "04:35",
+      "end_timestamp": "08:08",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "04:55",
+          "title": "AGENTS.md lồng nhau: tệp gần nhất thắng"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:24",
+          "title": "“Ghi đè” chỉ là đứng sau trong prompt"
+        },
+        {
+          "slide": 13,
+          "timestamp": "05:54",
+          "title": "Hook: harness chạy ở mốc cố định, chặn bằng mã thoát"
+        },
+        {
+          "slide": 14,
+          "timestamp": "06:34",
+          "title": "Hook một cửa trước mỗi commit"
+        },
+        {
+          "slide": 15,
+          "timestamp": "06:58",
+          "title": "Lời dặn hay hook: chọn chỗ cho từng quy tắc"
+        }
+      ],
+      "keywords": [
+        "loi dan va o khoa",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "agents.md long nhau",
+        "tep gan nhat thang",
+        "“ghi de” chi la dung sau trong prompt",
+        "hook",
+        "harness chay o moc co dinh",
+        "chan bang ma thoat",
+        "hook mot cua truoc moi commit",
+        "loi dan hay hook",
+        "chon cho cho tung quy tac",
+        "agents.md",
+        "instructions vs enforcement",
+        "harness",
+        "fail"
+      ],
+      "text": "AGENTS.md gần nhất thắng, nhưng chỉ là context. Hook chặn bằng mã 2; hook hỏng thì phải chặn. Không có ngoại lệ: hook, luật quyền, CI. Có ngoại lệ: lời dặn, skill. Các mốc chi tiết trong bài: AGENTS.md lồng nhau: tệp gần nhất thắng (04:55); “Ghi đè” chỉ là đứng sau trong prompt (05:24); Hook: harness chạy ở mốc cố định, chặn bằng mã thoát (05:54); Hook một cửa trước mỗi commit (06:34); Lời dặn hay hook: chọn chỗ cho từng quy tắc (06:58)."
+    },
+    {
+      "code": "D12-S03",
+      "lesson": "Day12",
+      "day": "Day12",
+      "slide": 18,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 03 · Spec trước code",
+      "topic": "Phần 03 · Spec trước code",
+      "video_title": "Phần 03 · Spec trước code (08:08–11:18 · Slide 18)",
+      "timestamp": "08:08",
+      "end_timestamp": "11:18",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "08:26",
+          "title": "Spec là hợp đồng, viết trước khi có code"
+        },
+        {
+          "slide": 20,
+          "timestamp": "08:57",
+          "title": "Viết yêu cầu kiểm được"
+        },
+        {
+          "slide": 21,
+          "timestamp": "09:29",
+          "title": "Một trang spec, rồi danh sách việc có mã"
+        },
+        {
+          "slide": 22,
+          "timestamp": "09:51",
+          "title": "Mã yêu cầu đi suốt dây chuyền"
+        },
+        {
+          "slide": 23,
+          "timestamp": "10:12",
+          "title": "Tính thử truy vết cho PR #41"
+        }
+      ],
+      "keywords": [
+        "spec truoc code",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "spec la hop dong",
+        "viet truoc khi co code",
+        "viet yeu cau kiem duoc",
+        "mot trang spec",
+        "roi danh sach viec co ma",
+        "ma yeu cau di suot day chuyen",
+        "tinh thu truy vet cho pr #41"
+      ],
+      "text": "Spec là hợp đồng, viết và review trước khi có code. Yêu cầu kiểm được có con số, mốc tính và ví dụ ở biên. Mỗi mã có ít nhất một test; truy vết không nói test tốt. Các mốc chi tiết trong bài: Spec là hợp đồng, viết trước khi có code (08:26); Viết yêu cầu kiểm được (08:57); Một trang spec, rồi danh sách việc có mã (09:29); Mã yêu cầu đi suốt dây chuyền (09:51); Tính thử truy vết cho PR #41 (10:12)."
+    },
+    {
+      "code": "D12-S04",
+      "lesson": "Day12",
+      "day": "Day12",
+      "slide": 26,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 04 · Ai chấm bài của agent",
+      "topic": "Phần 04 · Ai chấm bài của agent",
+      "video_title": "Phần 04 · Ai chấm bài của agent (11:18–15:08 · Slide 26)",
+      "timestamp": "11:18",
+      "end_timestamp": "15:08",
+      "sub_slides": [
+        {
+          "slide": 27,
+          "timestamp": "11:41",
+          "title": "Test khẳng định bug: vì sao nó xanh"
+        },
+        {
+          "slide": 28,
+          "timestamp": "12:08",
+          "title": "Trọng tài độc lập: test chấp nhận viết từ spec, giữ kín"
+        },
+        {
+          "slide": 29,
+          "timestamp": "12:42",
+          "title": "Mutation testing: sửa sai code một chút, xem test có kêu"
+        },
+        {
+          "slide": 30,
+          "timestamp": "13:14",
+          "title": "Tính mutation score trên hàm dời lịch"
+        },
+        {
+          "slide": 31,
+          "timestamp": "13:47",
+          "title": "Test từ spec giết mutant, và giới hạn của ngưỡng"
+        }
+      ],
+      "keywords": [
+        "ai cham bai cua agent",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "test khang dinh bug",
+        "vi sao no xanh",
+        "trong tai doc lap",
+        "test chap nhan viet tu spec",
+        "giu kin",
+        "mutation testing",
+        "sua sai code mot chut",
+        "xem test co keu",
+        "tinh mutation score tren ham doi lich",
+        "test tu spec giet mutant",
+        "va gioi han cua nguong"
+      ],
+      "text": "Test agent viết từ chính code có thể khẳng định bug. Trọng tài là test chấp nhận viết từ spec, giữ kín. Coverage nói code đã chạy; mutation score nói test có để ý. Các mốc chi tiết trong bài: Test khẳng định bug: vì sao nó xanh (11:41); Trọng tài độc lập: test chấp nhận viết từ spec, giữ kín (12:08); Mutation testing: sửa sai code một chút, xem test có kêu (12:42); Tính mutation score trên hàm dời lịch (13:14); Test từ spec giết mutant, và giới hạn của ngưỡng (13:47)."
+    },
+    {
+      "code": "D12-S05",
+      "lesson": "Day12",
+      "day": "Day12",
+      "slide": 34,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 05 · Nhiều agent và nhà máy",
+      "topic": "Phần 05 · Nhiều agent và nhà máy",
+      "video_title": "Phần 05 · Nhiều agent và nhà máy (15:08–18:31 · Slide 34)",
+      "timestamp": "15:08",
+      "end_timestamp": "18:31",
+      "sub_slides": [
+        {
+          "slide": 35,
+          "timestamp": "15:27",
+          "title": "Mỗi agent một worktree, cùng một repo"
+        },
+        {
+          "slide": 36,
+          "timestamp": "15:58",
+          "title": "Thêm agent, thêm việc cho người review"
+        },
+        {
+          "slide": 37,
+          "timestamp": "16:28",
+          "title": "Vòng lặp chạy lâu: điều kiện dừng phải ở bên ngoài"
+        },
+        {
+          "slide": 38,
+          "timestamp": "16:54",
+          "title": "Dây chuyền: người giữ spec, agent làm, CI quyết định"
+        },
+        {
+          "slide": 39,
+          "timestamp": "17:24",
+          "title": "Decision log: nhận hay từ chối PR của agent"
+        }
+      ],
+      "keywords": [
+        "nhieu agent va nha may",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "moi agent mot worktree",
+        "cung mot repo",
+        "them agent",
+        "them viec cho nguoi review",
+        "vong lap chay lau",
+        "dieu kien dung phai o ben ngoai",
+        "day chuyen",
+        "nguoi giu spec",
+        "agent lam",
+        "ci quyet dinh",
+        "decision log",
+        "nhan hay tu choi pr cua agent"
+      ],
+      "text": "Worktree cô lập lúc làm; xung đột hiện ra lúc gộp. Thêm agent thêm việc review; điều kiện dừng phải ở bên ngoài. Người giữ spec và decision log, agent tạo thay đổi, CI quyết định. Các mốc chi tiết trong bài: Mỗi agent một worktree, cùng một repo (15:27); Thêm agent, thêm việc cho người review (15:58); Vòng lặp chạy lâu: điều kiện dừng phải ở bên ngoài (16:28); Dây chuyền: người giữ spec, agent làm, CI quyết định (16:54); Decision log: nhận hay từ chối PR của agent (17:24)."
+    },
+    {
+      "code": "D12-S06",
+      "lesson": "Day12",
+      "day": "Day12",
+      "slide": 42,
+      "lesson_title": "Day 12 — AI SDLC: coding agent, quy trình phần mềm, software factory",
+      "title": "Phần 06 · Đo cho đúng, giữ cho an toàn",
+      "topic": "Phần 06 · Đo cho đúng, giữ cho an toàn",
+      "video_title": "Phần 06 · Đo cho đúng, giữ cho an toàn (18:31–22:32 · Slide 42)",
+      "timestamp": "18:31",
+      "end_timestamp": "22:32",
+      "sub_slides": [
+        {
+          "slide": 43,
+          "timestamp": "18:52",
+          "title": "METR: cảm thấy nhanh hơn, đo thì chậm hơn"
+        },
+        {
+          "slide": 44,
+          "timestamp": "19:27",
+          "title": "Bốn câu hỏi cho mọi con số “nhanh hơn X%”"
+        },
+        {
+          "slide": 45,
+          "timestamp": "20:00",
+          "title": "Coding agent có đủ ba chân"
+        },
+        {
+          "slide": 46,
+          "timestamp": "20:29",
+          "title": "Bốn biện pháp tối thiểu"
+        },
+        {
+          "slide": 48,
+          "timestamp": "21:24",
+          "title": "Quay lại PR #41: điều gì lẽ ra bắt được bug?"
+        },
+        {
+          "slide": 49,
+          "timestamp": "22:02",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "do cho dung",
+        "giu cho an toan",
+        "ai sdlc",
+        "coding agent",
+        "quy trinh phan mem",
+        "software factory",
+        "metr",
+        "cam thay nhanh hon",
+        "do thi cham hon",
+        "bon cau hoi cho moi con so “nhanh hon x%”",
+        "coding agent co du ba chan",
+        "bon bien phap toi thieu",
+        "quay lai pr #41",
+        "dieu gi le ra bat duoc bug?"
+      ],
+      "text": "Chỗ nghẽn đã dời sang đặc tả và kiểm chứng. Lời dặn là gợi ý; hook, luật quyền, CI mới thi hành. Spec có mã viết trước code; mỗi mã có ít nhất một test. Trọng tài là test viết từ spec; mutation đo bộ test. Thêm agent thêm việc review; đọc số năng suất bằng thiết kế đo. Các mốc chi tiết trong bài: METR: cảm thấy nhanh hơn, đo thì chậm hơn (18:52); Bốn câu hỏi cho mọi con số “nhanh hơn X%” (19:27); Coding agent có đủ ba chân (20:00); Bốn biện pháp tối thiểu (20:29); Quay lại PR #41: điều gì lẽ ra bắt được bug? (21:24)."
     },
     {
       "code": "D13-S01",
       "lesson": "Day13",
       "day": "Day13",
-      "program_lesson_id": "program-day13:launch-economics",
-      "transcript_ref": "Day13/d13-r1-v01.txt@126",
+      "slide": 3,
       "lesson_title": "Day 13 — Launch & Economics",
-      "title": "Chi phí mỗi tác vụ thành công (Cost per Successful Task) & Bounded Retry",
-      "topic": "Chi phí mỗi tác vụ thành công (Cost per Successful Task) & Bounded Retry",
-      "video_title": "d13-r1-v01 · Cost per Successful Task, Bounded Retry & Đòn bẩy chi phí",
-      "timestamp": "02:06",
-      "kc_codes": ["cost_per_successful_task", "cost_lever_sensitivity", "bounded_retry_cost", "value_case_baseline_pricing", "adoption_vs_outcome_metrics"],
-      "keywords": ["launch economics", "chi phi", "cost per successful task", "task thanh cong", "bounded retry", "cost lever", "persona", "usage", "simulate", "adoption", "outcome"],
-      "text": "Chi phí vận hành thật không chỉ tính theo 1 lần gọi model mà phải tính trên mỗi tác vụ thành công (cost per successful task = chi phí trung bình mỗi phiên chia cho tỉ lệ đạt), dùng số token đo thật từ trường usage của API. Cần giới hạn số lần retry (bounded retry) tránh nổ chi phí, phân tích đòn bẩy giảm giá và phân biệt lượt dùng (adoption) với giá trị kết quả (outcome)."
+      "title": "Phần 01 · Hoá đơn thật của một ticket",
+      "topic": "Phần 01 · Hoá đơn thật của một ticket",
+      "video_title": "Phần 01 · Hoá đơn thật của một ticket (01:18–04:52 · Slide 03)",
+      "timestamp": "01:18",
+      "end_timestamp": "04:52",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "02:06",
+          "title": "Chi phí mỗi việc thành công"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:33",
+          "title": "Tính tay hoá đơn của 1.000 ticket"
+        },
+        {
+          "slide": 6,
+          "timestamp": "03:09",
+          "title": "Phút của người cũng là chi phí của hệ thống"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:36",
+          "title": "Chạy lại: bao nhiêu lần chạy cho một việc xong?"
+        }
+      ],
+      "keywords": [
+        "hoa don that cua mot ticket",
+        "launch & economics",
+        "chi phi moi viec thanh cong",
+        "tinh tay hoa don cua 1.000 ticket",
+        "phut cua nguoi cung la chi phi cua he thong",
+        "chay lai",
+        "bao nhieu lan chay cho mot viec xong?",
+        "cost per successful task",
+        "chi phi",
+        "hoa don",
+        "token",
+        "launch economics"
+      ],
+      "text": "Chi phí mỗi việc thành công: cộng mọi khoản, chia cho việc thật sự xong. Mỗi việc thành công vẫn tốn 1/p lần chạy, có giới hạn hay không. Phút duyệt và phút làm lại là chi phí của hệ thống, ghi nhãn số mô phỏng. Các mốc chi tiết trong bài: Chi phí mỗi việc thành công (02:06); Tính tay hoá đơn của 1.000 ticket (02:33); Phút của người cũng là chi phí của hệ thống (03:09); Chạy lại: bao nhiêu lần chạy cho một việc xong? (03:36)."
+    },
+    {
+      "code": "D13-S02",
+      "lesson": "Day13",
+      "day": "Day13",
+      "slide": 10,
+      "lesson_title": "Day 13 — Launch & Economics",
+      "title": "Phần 02 · Đòn bẩy và giá trị",
+      "topic": "Phần 02 · Đòn bẩy và giá trị",
+      "video_title": "Phần 02 · Đòn bẩy và giá trị (04:52–08:16 · Slide 10)",
+      "timestamp": "04:52",
+      "end_timestamp": "08:16",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "05:14",
+          "title": "Bảng độ nhạy: đổi từng tham số một"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:46",
+          "title": "Cái bẫy của model rẻ"
+        },
+        {
+          "slide": 13,
+          "timestamp": "06:14",
+          "title": "Giá trị bằng cách làm cũ trừ cách làm mới"
+        },
+        {
+          "slide": 14,
+          "timestamp": "06:42",
+          "title": "Điểm hoà vốn: trợ lý phải giải quyết tối thiểu bao nhiêu?"
+        },
+        {
+          "slide": 15,
+          "timestamp": "07:08",
+          "title": "Ba cách tính giá, và ai chịu rủi ro"
+        }
+      ],
+      "keywords": [
+        "don bay va gia tri",
+        "launch & economics",
+        "bang do nhay",
+        "doi tung tham so mot",
+        "cai bay cua model re",
+        "gia tri bang cach lam cu tru cach lam moi",
+        "diem hoa von",
+        "tro ly phai giai quyet toi thieu bao nhieu?",
+        "ba cach tinh gia",
+        "va ai chiu rui ro"
+      ],
+      "text": "Lập bảng độ nhạy trước khi tối ưu; ở LogiX, tham số của người đứng đầu. Model rẻ có thể làm hệ thống đắt hơn; giữ chất lượng cố định khi kéo đòn bẩy. Giá trị là cách làm cũ trừ cách làm mới; LogiX hoà vốn ở khoảng 42%. Các mốc chi tiết trong bài: Bảng độ nhạy: đổi từng tham số một (05:14); Cái bẫy của model rẻ (05:46); Giá trị bằng cách làm cũ trừ cách làm mới (06:14); Điểm hoà vốn: trợ lý phải giải quyết tối thiểu bao nhiêu? (06:42); Ba cách tính giá, và ai chịu rủi ro (07:08)."
+    },
+    {
+      "code": "D13-S03",
+      "lesson": "Day13",
+      "day": "Day13",
+      "slide": 18,
+      "lesson_title": "Day 13 — Launch & Economics",
+      "title": "Phần 03 · Có dùng và có hiệu quả",
+      "topic": "Phần 03 · Có dùng và có hiệu quả",
+      "video_title": "Phần 03 · Có dùng và có hiệu quả (08:16–11:41 · Slide 18)",
+      "timestamp": "08:16",
+      "end_timestamp": "11:41",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "08:38",
+          "title": "“Dùng ở ≥ 60% ca” đo cái gì?"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:04",
+          "title": "Ba lớp metric"
+        },
+        {
+          "slide": 21,
+          "timestamp": "09:33",
+          "title": "DAU nói gì, và không nói gì"
+        },
+        {
+          "slide": 22,
+          "timestamp": "10:01",
+          "title": "Một metric chính, nối về chỉ số thành công của Ngày 2"
+        },
+        {
+          "slide": 23,
+          "timestamp": "10:30",
+          "title": "Từ tín hiệu tới sự kiện"
+        }
+      ],
+      "keywords": [
+        "co dung va co hieu qua",
+        "launch & economics",
+        "“dung o ≥ 60% ca” do cai gi?",
+        "ba lop metric",
+        "dau noi gi",
+        "va khong noi gi",
+        "mot metric chinh",
+        "noi ve chi so thanh cong cua ngay 2",
+        "tu tin hieu toi su kien"
+      ],
+      "text": "“Dùng” là hành vi; metric chính của pilot phải là outcome. Ba lớp: adoption, outcome, guardrail; chi phí là một guardrail kinh tế. Định nghĩa sự kiện trước, nối với trace bằng trace_id . Các mốc chi tiết trong bài: “Dùng ở ≥ 60% ca” đo cái gì? (08:38); Ba lớp metric (09:04); DAU nói gì, và không nói gì (09:33); Một metric chính, nối về chỉ số thành công của Ngày 2 (10:01); Từ tín hiệu tới sự kiện (10:30)."
+    },
+    {
+      "code": "D13-S04",
+      "lesson": "Day13",
+      "day": "Day13",
+      "slide": 26,
+      "lesson_title": "Day 13 — Launch & Economics",
+      "title": "Phần 04 · Khi trợ lý hỏng",
+      "topic": "Phần 04 · Khi trợ lý hỏng",
+      "video_title": "Phần 04 · Khi trợ lý hỏng (11:41–14:51 · Slide 26)",
+      "timestamp": "11:41",
+      "end_timestamp": "14:51",
+      "sub_slides": [
+        {
+          "slide": 27,
+          "timestamp": "12:01",
+          "title": "Không phải lỗi nào cũng là lỗi model"
+        },
+        {
+          "slide": 28,
+          "timestamp": "12:31",
+          "title": "Năm loại lỗi của PAIR, đặt lên LogiX"
+        },
+        {
+          "slide": 29,
+          "timestamp": "13:05",
+          "title": "Mỗi loại lỗi một đường phục hồi"
+        },
+        {
+          "slide": 30,
+          "timestamp": "13:36",
+          "title": "Thất bại êm không phải một câu xin lỗi"
+        }
+      ],
+      "keywords": [
+        "khi tro ly hong",
+        "launch & economics",
+        "khong phai loi nao cung la loi model",
+        "nam loai loi cua pair",
+        "dat len logix",
+        "moi loai loi mot duong phuc hoi",
+        "that bai em khong phai mot cau xin loi"
+      ],
+      "text": "Đọc trace trước khi đổi model: nhiều lỗi là ngữ cảnh, giới hạn, hoặc lỗi chìm. Mỗi loại lỗi có một đường phục hồi và một người nhận. Thất bại êm được thiết kế trước; việc không hoàn tác được thì phục hồi đặt trước hành động. Các mốc chi tiết trong bài: Không phải lỗi nào cũng là lỗi model (12:01); Năm loại lỗi của PAIR, đặt lên LogiX (12:31); Mỗi loại lỗi một đường phục hồi (13:05); Thất bại êm không phải một câu xin lỗi (13:36)."
+    },
+    {
+      "code": "D13-S05",
+      "lesson": "Day13",
+      "day": "Day13",
+      "slide": 33,
+      "lesson_title": "Day 13 — Launch & Economics",
+      "title": "Phần 05 · Pilot đo được",
+      "topic": "Phần 05 · Pilot đo được",
+      "video_title": "Phần 05 · Pilot đo được (14:51–19:08 · Slide 33)",
+      "timestamp": "14:51",
+      "end_timestamp": "19:08",
+      "sub_slides": [
+        {
+          "slide": 34,
+          "timestamp": "15:11",
+          "title": "Bật thử cho mọi người không ra được quyết định"
+        },
+        {
+          "slide": 35,
+          "timestamp": "15:39",
+          "title": "Sáu thành phần của một pilot"
+        },
+        {
+          "slide": 36,
+          "timestamp": "16:12",
+          "title": "Chia nhóm theo đơn vị nào?"
+        },
+        {
+          "slide": 37,
+          "timestamp": "16:39",
+          "title": "Cần bao nhiêu ticket?"
+        },
+        {
+          "slide": 38,
+          "timestamp": "17:17",
+          "title": "Ticket trong cùng một nhân viên-ngày giống nhau"
+        },
+        {
+          "slide": 39,
+          "timestamp": "17:49",
+          "title": "Nhìn kết quả mỗi ngày: cái bẫy peeking"
+        }
+      ],
+      "keywords": [
+        "pilot do duoc",
+        "launch & economics",
+        "sau thanh phan cua mot pilot",
+        "chia nhom theo don vi nao?",
+        "can bao nhieu ticket?",
+        "ticket trong cung mot nhan vien",
+        "ngay giong nhau"
+      ],
+      "text": "Pilot là thí nghiệm: đối chứng, luật dừng viết trước, một người quyết, một ngày quyết. Chia theo nhân viên-ngày; nhân hệ số thiết kế: 1.251 thành 3.103 ticket. Không báo thắng sớm: phân tích một lần, sau khi đủ mẫu. Các mốc chi tiết trong bài: Bật thử cho mọi người không ra được quyết định (15:11); Sáu thành phần của một pilot (15:39); Chia nhóm theo đơn vị nào? (16:12); Cần bao nhiêu ticket? (16:39); Ticket trong cùng một nhân viên-ngày giống nhau (17:17)."
+    },
+    {
+      "code": "D13-S06",
+      "lesson": "Day13",
+      "day": "Day13",
+      "slide": 42,
+      "lesson_title": "Day 13 — Launch & Economics",
+      "title": "Phần 06 · Launch review",
+      "topic": "Phần 06 · Launch review",
+      "video_title": "Phần 06 · Launch review (19:08–22:34 · Slide 42)",
+      "timestamp": "19:08",
+      "end_timestamp": "22:34",
+      "sub_slides": [
+        {
+          "slide": 43,
+          "timestamp": "19:26",
+          "title": "Launch pack v0, và cái gì bị khoá ở Gate 2a"
+        },
+        {
+          "slide": 44,
+          "timestamp": "19:57",
+          "title": "Ba quyết định"
+        },
+        {
+          "slide": 45,
+          "timestamp": "20:24",
+          "title": "Các dòng kinh tế trong risk register"
+        },
+        {
+          "slide": 47,
+          "timestamp": "21:20",
+          "title": "Quay lại câu hỏi đầu buổi: mỗi ticket tốn bao nhiêu?"
+        },
+        {
+          "slide": 48,
+          "timestamp": "21:58",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "launch review",
+        "launch & economics",
+        "launch pack v0",
+        "va cai gi bi khoa o gate 2a",
+        "ba quyet dinh",
+        "cac dong kinh te trong risk register",
+        "quay lai cau hoi dau buoi",
+        "moi ticket ton bao nhieu?",
+        "ban do ngay hoc"
+      ],
+      "text": "Chi phí không phải giá token: cộng đủ, chia cho việc thật sự xong. Lập bảng độ nhạy trước khi tối ưu; giữ chất lượng cố định khi kéo đòn bẩy. Giá trị là cách làm cũ trừ cách làm mới, so với mốc của chính mình. Adoption không phải outcome; metric tính từ sự kiện định nghĩa trước. Pilot có đối chứng, cỡ mẫu theo cụm, luật dừng viết trước, một người quyết. Các mốc chi tiết trong bài: Launch pack v0, và cái gì bị khoá ở Gate 2a (19:26); Ba quyết định (19:57); Các dòng kinh tế trong risk register (20:24); Quay lại câu hỏi đầu buổi: mỗi ticket tốn bao nhiêu? (21:20); Bản đồ ngày học (21:58)."
+    },
+    {
+      "code": "D14-S01",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 3,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 01 · 200 OK chưa phải là khoẻ",
+      "topic": "Phần 01 · 200 OK chưa phải là khoẻ",
+      "video_title": "Phần 01 · 200 OK chưa phải là khoẻ (01:06–04:31 · Slide 03)",
+      "timestamp": "01:06",
+      "end_timestamp": "04:31",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "01:50",
+          "title": "Lỗi truyền tải và lỗi hành vi"
+        },
+        {
+          "slide": 5,
+          "timestamp": "02:23",
+          "title": "Đơn vị phát hành: không chỉ là code"
+        },
+        {
+          "slide": 6,
+          "timestamp": "02:55",
+          "title": "Vì sao phải ghim mã model"
+        },
+        {
+          "slide": 7,
+          "timestamp": "03:19",
+          "title": "Đang chạy chưa chắc đã sẵn sàng"
+        }
+      ],
+      "keywords": [
+        "200 ok chua phai la khoe",
+        "deployment & observability",
+        "loi truyen tai va loi hanh vi",
+        "don vi phat hanh",
+        "khong chi la code",
+        "vi sao phai ghim ma model",
+        "dang chay chua chac da san sang"
+      ],
+      "text": "Lỗi hành vi vẫn trả 200: đo theo tên tool, kết quả cuối, phiên bản. Đơn vị phát hành gồm code, prompt, mã model, schema tool, cấu hình. Đang chạy chưa chắc sẵn sàng: kiểm cả phụ thuộc. Các mốc chi tiết trong bài: Lỗi truyền tải và lỗi hành vi (01:50); Đơn vị phát hành: không chỉ là code (02:23); Vì sao phải ghim mã model (02:55); Đang chạy chưa chắc đã sẵn sàng (03:19)."
+    },
+    {
+      "code": "D14-S02",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 10,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 02 · Đường lui khi nhà cung cấp chết",
+      "topic": "Phần 02 · Đường lui khi nhà cung cấp chết",
+      "video_title": "Phần 02 · Đường lui khi nhà cung cấp chết (04:31–07:42 · Slide 10)",
+      "timestamp": "04:31",
+      "end_timestamp": "07:42",
+      "sub_slides": [
+        {
+          "slide": 11,
+          "timestamp": "04:51",
+          "title": "Gateway đứng giữa agent và nhà cung cấp"
+        },
+        {
+          "slide": 12,
+          "timestamp": "05:17",
+          "title": "Tính giới hạn trên: bao lâu thì dự phòng phục vụ?"
+        },
+        {
+          "slide": 13,
+          "timestamp": "05:54",
+          "title": "Chờ ngắn quá thì chuyển nhầm"
+        },
+        {
+          "slide": 14,
+          "timestamp": "06:26",
+          "title": "Hai hiểu lầm ở gateway"
+        }
+      ],
+      "keywords": [
+        "duong lui khi nha cung cap chet",
+        "deployment & observability",
+        "gateway dung giua agent va nha cung cap",
+        "tinh gioi han tren",
+        "bao lau thi du phong phuc vu?",
+        "cho ngan qua thi chuyen nham",
+        "hai hieu lam o gateway"
+      ],
+      "text": "Thời gian xấu nhất ≈ (số lần thử lại + 1) × thời gian chờ. Thời gian chờ lớn hơn p99 lúc bình thường, kẻo chuyển nhầm. Ngân sách ở gateway phải đặt và kiểm; mặc định không chặn gì. Các mốc chi tiết trong bài: Gateway đứng giữa agent và nhà cung cấp (04:51); Tính giới hạn trên: bao lâu thì dự phòng phục vụ? (05:17); Chờ ngắn quá thì chuyển nhầm (05:54); Hai hiểu lầm ở gateway (06:26)."
+    },
+    {
+      "code": "D14-S03",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 17,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 03 · Benchmark rồi mới canary",
+      "topic": "Phần 03 · Benchmark rồi mới canary",
+      "video_title": "Phần 03 · Benchmark rồi mới canary (07:42–10:27 · Slide 17)",
+      "timestamp": "07:42",
+      "end_timestamp": "10:27",
+      "sub_slides": [
+        {
+          "slide": 18,
+          "timestamp": "08:02",
+          "title": "Benchmark trước khi bật: LogiX-Bench"
+        },
+        {
+          "slide": 19,
+          "timestamp": "08:33",
+          "title": "Canary: một phần nhỏ, có nút về 0"
+        },
+        {
+          "slide": 20,
+          "timestamp": "09:02",
+          "title": "Canary nhỏ thì chậm thấy lỗi nhỏ"
+        },
+        {
+          "slide": 21,
+          "timestamp": "09:32",
+          "title": "Canary an toàn vì nó nhỏ?"
+        }
+      ],
+      "keywords": [
+        "benchmark roi moi canary",
+        "deployment & observability",
+        "benchmark truoc khi bat",
+        "logix",
+        "bench",
+        "canary",
+        "mot phan nho",
+        "co nut ve 0",
+        "canary nho thi cham thay loi nho",
+        "canary an toan vi no nho?"
+      ],
+      "text": "Benchmark trên ca đã biết trước: chấm trạng thái cuối, báo pass^k. Canary: phần nhỏ, cố định theo khách, tiêu chí viết trước, về 0 khi trượt. Canary nhỏ thì chậm thấy lỗi nhỏ: tính trước cần bao nhiêu ticket. Các mốc chi tiết trong bài: Benchmark trước khi bật: LogiX-Bench (08:02); Canary: một phần nhỏ, có nút về 0 (08:33); Canary nhỏ thì chậm thấy lỗi nhỏ (09:02); Canary an toàn vì nó nhỏ? (09:32)."
+    },
+    {
+      "code": "D14-S04",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 24,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 04 · Nhìn vào bên trong một lượt",
+      "topic": "Phần 04 · Nhìn vào bên trong một lượt",
+      "video_title": "Phần 04 · Nhìn vào bên trong một lượt (10:27–13:54 · Slide 24)",
+      "timestamp": "10:27",
+      "end_timestamp": "13:54",
+      "sub_slides": [
+        {
+          "slide": 25,
+          "timestamp": "10:48",
+          "title": "Cây span của một lượt LogiX"
+        },
+        {
+          "slide": 26,
+          "timestamp": "11:19",
+          "title": "Quy ước GenAI: dùng, nhưng phải ghim phiên bản"
+        },
+        {
+          "slide": 27,
+          "timestamp": "11:42",
+          "title": "Trace qua MCP: truyền ngữ cảnh trong _meta"
+        },
+        {
+          "slide": 28,
+          "timestamp": "12:12",
+          "title": "Không ghi nội dung, và lọc PII trước khi xuất"
+        },
+        {
+          "slide": 29,
+          "timestamp": "12:46",
+          "title": "Panel lẽ ra đã bắt lỗi thứ Sáu"
+        }
+      ],
+      "keywords": [
+        "nhin vao ben trong mot luot",
+        "deployment & observability",
+        "cay span cua mot luot logix",
+        "quy uoc genai",
+        "dung",
+        "nhung phai ghim phien ban",
+        "trace qua mcp",
+        "truyen ngu canh trong _meta",
+        "khong ghi noi dung",
+        "va loc pii truoc khi xuat",
+        "panel le ra da bat loi thu sau"
+      ],
+      "text": "Một lượt là một cây span; MCP server phải nằm trong cùng trace. Ghim phiên bản quy ước GenAI; thêm thuộc tính phiên bản của mình. Không ghi nội dung; lọc PII ở Collector trước khi xuất. Các mốc chi tiết trong bài: Cây span của một lượt LogiX (10:48); Quy ước GenAI: dùng, nhưng phải ghim phiên bản (11:19); Trace qua MCP: truyền ngữ cảnh trong _meta (11:42); Không ghi nội dung, và lọc PII trước khi xuất (12:12); Panel lẽ ra đã bắt lỗi thứ Sáu (12:46)."
+    },
+    {
+      "code": "D14-S05",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 32,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 05 · Cảnh báo đúng lúc",
+      "topic": "Phần 05 · Cảnh báo đúng lúc",
+      "video_title": "Phần 05 · Cảnh báo đúng lúc (13:54–16:32 · Slide 32)",
+      "timestamp": "13:54",
+      "end_timestamp": "16:32",
+      "sub_slides": [
+        {
+          "slide": 33,
+          "timestamp": "14:10",
+          "title": "Bốn SLI cho trợ lý LogiX"
+        },
+        {
+          "slide": 34,
+          "timestamp": "14:32",
+          "title": "SLO, ngân sách lỗi, và tốc độ tiêu"
+        },
+        {
+          "slide": 35,
+          "timestamp": "14:58",
+          "title": "Hai cửa sổ, ba mức"
+        },
+        {
+          "slide": 36,
+          "timestamp": "15:24",
+          "title": "Mỗi cảnh báo nối với một trigger quay lui"
+        }
+      ],
+      "keywords": [
+        "canh bao dung luc",
+        "deployment & observability",
+        "bon sli cho tro ly logix",
+        "slo",
+        "ngan sach loi",
+        "va toc do tieu",
+        "hai cua so",
+        "ba muc",
+        "moi canh bao noi voi mot trigger quay lui"
+      ],
+      "text": "Đo cả SLI hành vi, như phép trộn lời gọi tool. Báo theo burn rate với hai cửa sổ, không báo theo từng lỗi. Mỗi cảnh báo có một trigger quay lui và một người nhận. Các mốc chi tiết trong bài: Bốn SLI cho trợ lý LogiX (14:10); SLO, ngân sách lỗi, và tốc độ tiêu (14:32); Hai cửa sổ, ba mức (14:58); Mỗi cảnh báo nối với một trigger quay lui (15:24)."
+    },
+    {
+      "code": "D14-S06",
+      "lesson": "Day14",
+      "day": "Day14",
+      "slide": 39,
+      "lesson_title": "Day 14 — Deployment & Observability",
+      "title": "Phần 06 · Từ sự cố đến Gate 2b",
+      "topic": "Phần 06 · Từ sự cố đến Gate 2b",
+      "video_title": "Phần 06 · Từ sự cố đến Gate 2b (16:32–20:46 · Slide 39)",
+      "timestamp": "16:32",
+      "end_timestamp": "20:46",
+      "sub_slides": [
+        {
+          "slide": 40,
+          "timestamp": "16:49",
+          "title": "Sự cố: khách được hoàn 350 đồng"
+        },
+        {
+          "slide": 41,
+          "timestamp": "17:31",
+          "title": "Máy chưa thay được người đọc trace"
+        },
+        {
+          "slide": 42,
+          "timestamp": "17:50",
+          "title": "Test đỏ trên bản lỗi, xanh trên bản sửa"
+        },
+        {
+          "slide": 43,
+          "timestamp": "18:24",
+          "title": "Kế hoạch, mô phỏng, và điều mô phỏng không trả lời được"
+        },
+        {
+          "slide": 44,
+          "timestamp": "18:56",
+          "title": "Gate 2b: diễn tập cả chuỗi trên stack của bạn"
+        },
+        {
+          "slide": 45,
+          "timestamp": "19:22",
+          "title": "Trả lời câu bỏ phiếu đầu buổi"
+        },
+        {
+          "slide": 47,
+          "timestamp": "20:11",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "tu su co den gate 2b",
+        "deployment & observability",
+        "su co",
+        "khach duoc hoan 350 dong",
+        "may chua thay duoc nguoi doc trace",
+        "test do tren ban loi",
+        "xanh tren ban sua",
+        "ke hoach",
+        "mo phong",
+        "va dieu mo phong khong tra loi duoc",
+        "gate 2b",
+        "dien tap ca chuoi tren stack cua ban"
+      ],
+      "text": "Đơn vị phát hành gồm code, prompt, mã model, schema tool, cấu hình. Tính được thời gian xấu nhất trước khi dự phòng phục vụ. Benchmark trước; canary có tiêu chí viết sẵn và nút về 0. Trace đủ cây qua MCP, không ghi nội dung, lọc PII. Cảnh báo hai cửa sổ nối với quay lui; sự cố thành test đỏ rồi xanh. Các mốc chi tiết trong bài: Sự cố: khách được hoàn 350 đồng (16:49); Máy chưa thay được người đọc trace (17:31); Test đỏ trên bản lỗi, xanh trên bản sửa (17:50); Kế hoạch, mô phỏng, và điều mô phỏng không trả lời được (18:24); Gate 2b: diễn tập cả chuỗi trên stack của bạn (18:56)."
+    },
+    {
+      "code": "D15-S01",
+      "lesson": "Day15",
+      "day": "Day15",
+      "slide": 3,
+      "lesson_title": "Day 15 — Capstone & Launch Review",
+      "title": "Phần 01 · Một ngày launch review",
+      "topic": "Phần 01 · Một ngày launch review",
+      "video_title": "Phần 01 · Một ngày launch review (00:47–03:11 · Slide 03)",
+      "timestamp": "00:47",
+      "end_timestamp": "03:11",
+      "sub_slides": [
+        {
+          "slide": 4,
+          "timestamp": "01:16",
+          "title": "Lịch của một ngày capstone"
+        },
+        {
+          "slide": 5,
+          "timestamp": "01:42",
+          "title": "Ghép bốn thành phần, rồi khoá"
+        },
+        {
+          "slide": 6,
+          "timestamp": "02:08",
+          "title": "Ghép sớm, ghép nhiều lần"
+        }
+      ],
+      "keywords": [
+        "mot ngay launch review",
+        "capstone & launch review",
+        "lich cua mot ngay capstone",
+        "ghep bon thanh phan",
+        "roi khoa",
+        "ghep som",
+        "ghep nhieu lan"
+      ],
+      "text": "Sáng ghép, 11:15 khoá code, chiều bảo vệ. Mỗi người mang một thành phần: Ngày 7, 8, 11, 14. Sau khi khoá, bằng chứng là những gì đã chạy; không sửa rồi đo lại. Các mốc chi tiết trong bài: Lịch của một ngày capstone (01:16); Ghép bốn thành phần, rồi khoá (01:42); Ghép sớm, ghép nhiều lần (02:08)."
+    },
+    {
+      "code": "D15-S02",
+      "lesson": "Day15",
+      "day": "Day15",
+      "slide": 9,
+      "lesson_title": "Day 15 — Capstone & Launch Review",
+      "title": "Phần 02 · Bằng chứng và ba kết luận",
+      "topic": "Phần 02 · Bằng chứng và ba kết luận",
+      "video_title": "Phần 02 · Bằng chứng và ba kết luận (03:11–06:32 · Slide 09)",
+      "timestamp": "03:11",
+      "end_timestamp": "06:32",
+      "sub_slides": [
+        {
+          "slide": 10,
+          "timestamp": "03:31",
+          "title": "Launch-review pack: chín hồ sơ"
+        },
+        {
+          "slide": 11,
+          "timestamp": "03:51",
+          "title": "Bảy điều kiện để được GO"
+        },
+        {
+          "slide": 12,
+          "timestamp": "04:12",
+          "title": "Ba kết luận được phép"
+        },
+        {
+          "slide": 13,
+          "timestamp": "04:45",
+          "title": "Ba nhóm, ba kết luận"
+        },
+        {
+          "slide": 14,
+          "timestamp": "05:14",
+          "title": "Ghi đúng nhãn cho con số"
+        },
+        {
+          "slide": 15,
+          "timestamp": "05:30",
+          "title": "“Production còn cần gì”: viết sao cho kiểm được"
+        }
+      ],
+      "keywords": [
+        "bang chung va ba ket luan",
+        "capstone & launch review",
+        "launch",
+        "review pack",
+        "chin ho so",
+        "bay dieu kien de duoc go",
+        "ba ket luan duoc phep",
+        "ba nhom",
+        "ba ket luan",
+        "ghi dung nhan cho con so"
+      ],
+      "text": "Pack chín hồ sơ, quan trọng nhất là đề xuất và “production còn cần gì”. Cùng đúng bảy điều kiện mới được GO; mạnh nhất là pilot giới hạn. Đề xuất khớp bằng chứng; con số ghi đúng nhãn. Các mốc chi tiết trong bài: Launch-review pack: chín hồ sơ (03:31); Bảy điều kiện để được GO (03:51); Ba kết luận được phép (04:12); Ba nhóm, ba kết luận (04:45); Ghi đúng nhãn cho con số (05:14)."
+    },
+    {
+      "code": "D15-S03",
+      "lesson": "Day15",
+      "day": "Day15",
+      "slide": 18,
+      "lesson_title": "Day 15 — Capstone & Launch Review",
+      "title": "Phần 03 · Bảo vệ phần của mình",
+      "topic": "Phần 03 · Bảo vệ phần của mình",
+      "video_title": "Phần 03 · Bảo vệ phần của mình (06:32–08:50 · Slide 18)",
+      "timestamp": "06:32",
+      "end_timestamp": "08:50",
+      "sub_slides": [
+        {
+          "slide": 19,
+          "timestamp": "06:46",
+          "title": "Câu hỏi cá nhân, và chuẩn bị thế nào"
+        },
+        {
+          "slide": 20,
+          "timestamp": "07:12",
+          "title": "Hội đồng hay hỏi gì về phần của bạn"
+        },
+        {
+          "slide": 21,
+          "timestamp": "07:37",
+          "title": "Trả lời câu bỏ phiếu, và sau Core"
+        },
+        {
+          "slide": 23,
+          "timestamp": "08:20",
+          "title": "Bản đồ ngày học"
+        }
+      ],
+      "keywords": [
+        "bao ve phan cua minh",
+        "capstone & launch review",
+        "cau hoi ca nhan",
+        "va chuan bi the nao",
+        "hoi dong hay hoi gi ve phan cua ban",
+        "tra loi cau bo phieu",
+        "va sau core",
+        "ban do ngay hoc"
+      ],
+      "text": "Khoá code lúc 11:15; bằng chứng là những gì đã chạy. Cùng đúng bảy điều kiện mới được GO. Mạnh nhất là GO cho pilot giới hạn; đề xuất khớp bằng chứng. Trước hội đồng: biết số của mình, nói rõ điều chưa đo. Các mốc chi tiết trong bài: Câu hỏi cá nhân, và chuẩn bị thế nào (06:46); Hội đồng hay hỏi gì về phần của bạn (07:12); Trả lời câu bỏ phiếu, và sau Core (07:37); Bản đồ ngày học (08:20)."
     }
   ]
 }
