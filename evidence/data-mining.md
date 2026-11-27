@@ -5,6 +5,7 @@
 
 ## 1. Cách đếm — viết TRƯỚC khi chạy
 
+- **Nguồn và cách tải về máy:** [Đề Track A và dữ liệu BTC](../data/README.md).
 - **Data dùng:** Bộ `data/preclass/` do BTC cấp (`learners.csv`, `events.csv`, `chat.csv`, `answers.csv`), dữ liệu từ **05/11/2026 đến 25/11/2026** (21 ngày, Day01 → Day13).
 - **Đếm gì · trên tập nào · lọc gì:**
   1. Quy mô thực tế: tổng tài khoản ở `learners.csv` vs số `hv` có ít nhất 1 dòng trong `events.csv`.
@@ -16,7 +17,7 @@
 - **Mẫu số là gì:** Ghi riêng rõ từng mẫu số ở bảng kết quả (436 học viên hoạt động / 1.260 lượt chat / 1.108 lượt `video_question` / 1.223 lượt chat đã chấm rubric / 137 lượt có ghi `ask_count` / 615 lượt `agent_replied` từ 13/11 trở đi / 145 học viên hỏi dưới video).
 - **Script:**
   ```bash
-  python evidence/count_preclass.py <duong-dan-toi-thu-muc-preclass>
+  python3 evidence/count_preclass.py data-btc/preclass
   ```
 
 ## 2. Đọc trước, đếm sau

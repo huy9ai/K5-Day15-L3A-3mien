@@ -2,6 +2,8 @@
 
 **Thành viên, lớp, track:** xem [TEAMS.md](TEAMS.md). **Điền TEAMS.md đúng format**: khi chấm và đánh giá, BTC quét file này để ghép điểm cho từng người.
 
+**Đề Track A1 và dữ liệu BTC:** xem [nguồn chính thức và cách chạy lại dữ liệu](data/README.md).
+
 *Lát cắt = phần nhỏ nhất làm xong được trong hackathon: một người dùng · một việc · một quyết định AI · một kết quả.*
 
 ---
