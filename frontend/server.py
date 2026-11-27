@@ -13,6 +13,7 @@ import mimetypes
 import os
 import re
 import sys
+import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import quote, unquote, urlparse
@@ -41,8 +42,17 @@ def _read_lessons() -> dict:
         return json.load(f)
 
 
-def _discover_lectures() -> dict:
-    """Quét tự động tất cả bài giảng trong data-btc/lectures/DayXX/ (và fallback data/lectures/DayXX/)."""
+_LECTURES_CACHE = None
+_LECTURES_CACHE_TS = 0.0
+_HTML_CACHE = {}
+
+
+def _discover_lectures(force: bool = False) -> dict:
+    """Quét tự động tất cả bài giảng trong data-btc/lectures/DayXX/ (cache 5s để tránh đọc đĩa lặp lại)."""
+    global _LECTURES_CACHE, _LECTURES_CACHE_TS
+    now = time.monotonic()
+    if not force and _LECTURES_CACHE is not None and (now - _LECTURES_CACHE_TS) < 5.0:
+        return _LECTURES_CACHE
     found = {}
     for root in LECTURE_ROOTS:
         if not os.path.isdir(root):
@@ -78,6 +88,8 @@ def _discover_lectures() -> dict:
                     "audio_url": ("/lectures/%s/voice/%s" % (quote(entry), quote(audio_file))) if audio_file else "",
                     "sprite_count": sprite_count,
                 }
+    _LECTURES_CACHE = found
+    _LECTURES_CACHE_TS = now
     return found
 
 
@@ -123,17 +135,22 @@ AUDIO_GUARD_HEAD_SCRIPT = (
     "<script data-3mien-audio-guard>"
     "(function(){"
     "var OrigAudio=window.Audio;"
-    "var pool=window.__3mienAudios=[];"
-    "function stopAll(except){"
-    "  for(var i=pool.length-1;i>=0;i--){"
-    "    var x=pool[i];"
-    "    if(!x||x===except) continue;"
-    "    try{OrigAudio.prototype.pause.call(x);}catch(e){}"
-    "  }"
-    "}"
-    "window.__3mienStopAllAudio=function(){stopAll(null);};"
     "var origPlay=OrigAudio.prototype.play;"
     "var origPause=OrigAudio.prototype.pause;"
+    "var pool=window.__3mienAudios=[];"
+    "var stopping=false;"
+    "function stopAll(except){"
+    "  if(stopping) return;"
+    "  stopping=true;"
+    "  try{"
+    "    for(var i=pool.length-1;i>=0;i--){"
+    "      var x=pool[i];"
+    "      if(!x||x===except) continue;"
+    "      try{origPause.call(x);}catch(e){}"
+    "    }"
+    "  }finally{stopping=false;}"
+    "}"
+    "window.__3mienStopAllAudio=function(){stopAll(null);};"
     "OrigAudio.prototype.play=function(){"
     "  if(pool.indexOf(this)<0) pool.push(this);"
     "  stopAll(this);"
@@ -141,7 +158,7 @@ AUDIO_GUARD_HEAD_SCRIPT = (
     "};"
     "OrigAudio.prototype.pause=function(){"
     "  var r=origPause.apply(this,arguments);"
-    "  if(window.VinTutor&&!window.VinTutor.playing) stopAll(null);"
+    "  if(!stopping&&window.VinTutor&&!window.VinTutor.playing) stopAll(null);"
     "  return r;"
     "};"
     "window.Audio=function(src){"
@@ -196,6 +213,9 @@ def _sanitize_saved_lecture_html(raw_bytes: bytes) -> bytes:
     return text.encode("utf-8")
 
 
+CHAT_LOCK = threading.Lock()
+
+
 class TutorHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         sys.stdout.write("[frontend] %s - %s\n" % (self.address_string(), format % args))
@@ -235,8 +255,8 @@ class TutorHandler(BaseHTTPRequestHandler):
             if alt_path.startswith(os.path.abspath(base_dir)) and os.path.isfile(alt_path):
                 full_path = alt_path
         if not os.path.isfile(full_path):
-            # Bo qua anh nen/favicon tuy chon khong duoc luu kem trang HTML de khoi bao 404 nhieu log
-            if rel.lower().endswith(("vinuni-campus.jpg", "favicon.ico")):
+            # Bo qua anh nen/font/favicon tuy chon khong duoc luu kem trang HTML de khoi bao 404 nhieu log
+            if rel.lower().endswith(("vinuni-campus.jpg", "favicon.ico", ".woff2", ".woff", ".ttf")):
                 self.send_response(204)
                 self.end_headers()
                 return
@@ -246,8 +266,14 @@ class TutorHandler(BaseHTTPRequestHandler):
         ctype = _guess_mime(full_path)
 
         if sanitize_lecture_html and full_path.lower().endswith((".html", ".htm")):
-            with open(full_path, "rb") as f:
-                content = _sanitize_saved_lecture_html(f.read())
+            mtime = os.path.getmtime(full_path)
+            cached = _HTML_CACHE.get(full_path)
+            if cached and cached[0] == mtime:
+                content = cached[1]
+            else:
+                with open(full_path, "rb") as f:
+                    content = _sanitize_saved_lecture_html(f.read())
+                _HTML_CACHE[full_path] = (mtime, content)
             self.send_response(200)
             self.send_header("Content-Type", ctype)
             self.send_header("Cache-Control", "no-store")
@@ -297,7 +323,7 @@ class TutorHandler(BaseHTTPRequestHandler):
             data = _read_lessons()
             segs = data.get("segments", [])
             days = sorted({s.get("day", "") for s in segs if s.get("day")})
-            lectures = _discover_lectures()
+            lectures = _discover_lectures(force=True)
             public_lectures = {
                 d: {
                     "day": v["day"],
@@ -334,7 +360,7 @@ class TutorHandler(BaseHTTPRequestHandler):
                 self.send_error(404, "Not Found")
                 return
             day_key, rel = unquote(parts[0]), parts[1]
-            lectures = _discover_lectures()
+            lectures = _discover_lectures(force=False)
             if day_key not in lectures:
                 self.send_error(404, "Lecture day not found")
                 return
@@ -364,26 +390,27 @@ class TutorHandler(BaseHTTPRequestHandler):
             return
 
         t0 = time.perf_counter()
-        tracing.begin("web")
-        try:
-            res = answer(message)
-            summary, events = tracing.end()
-            elapsed = round(time.perf_counter() - t0, 2)
-            output = res.get("output", "") if isinstance(res, dict) else str(res)
-            self._send_json(200, {
-                "output": output,
-                "branch": _detect_branch(events),
-                "elapsed_s": elapsed,
-                "summary": summary,
-                "events": events,
-            })
-        except Exception as e:
-            summary, events = tracing.end()
-            self._send_json(500, {
-                "error": "%s: %s" % (type(e).__name__, e),
-                "summary": summary,
-                "events": events,
-            })
+        with CHAT_LOCK:
+            tracing.begin("web")
+            try:
+                res = answer(message)
+                summary, events = tracing.end()
+                elapsed = round(time.perf_counter() - t0, 2)
+                output = res.get("output", "") if isinstance(res, dict) else str(res)
+                self._send_json(200, {
+                    "output": output,
+                    "branch": _detect_branch(events),
+                    "elapsed_s": elapsed,
+                    "summary": summary,
+                    "events": events,
+                })
+            except Exception as e:
+                summary, events = tracing.end()
+                self._send_json(500, {
+                    "error": "%s: %s" % (type(e).__name__, e),
+                    "summary": summary,
+                    "events": events,
+                })
 
 
 def main() -> int:
@@ -392,8 +419,9 @@ def main() -> int:
     parser.add_argument("--port", type=int, default=8000, help="Cổng chạy server (mặc định 8000)")
     args = parser.parse_args()
 
-    lectures = _discover_lectures()
+    lectures = _discover_lectures(force=True)
     server = ThreadingHTTPServer((args.host, args.port), TutorHandler)
+    server.daemon_threads = True
     url = "http://%s:%d" % (args.host, args.port)
     print("Giao diện Trợ giảng Pre-class 3mien đang chạy tại: %s" % url)
     print("Model hiện tại: provider=%s · model=%s" % (ai.MODEL_PROVIDER, ai.MODEL_NAME or "fake"))

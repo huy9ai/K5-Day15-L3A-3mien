@@ -548,19 +548,27 @@ async function sendMessage(text) {
   appendUserMessage(trimmed);
   const typingRow = appendTypingIndicator();
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 35000);
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: trimmed }),
+      signal: controller.signal,
     });
     const data = await res.json();
     typingRow.remove();
     appendAssistantMessage(data, !res.ok);
   } catch (err) {
     typingRow.remove();
-    appendAssistantMessage({ error: "Không thể kết nối server: " + err.message }, true);
+    const msg =
+      err && err.name === "AbortError"
+        ? "Quá thời gian chờ (35 giây). Kiểm tra lại cửa sổ PowerShell chạy `python frontend/server.py` (nhấn Enter/Esc nếu cửa sổ bị tạm dừng bôi đen) hoặc kết nối mạng tới OpenRouter."
+        : "Không thể kết nối server: " + err.message;
+    appendAssistantMessage({ error: msg }, true);
   } finally {
+    clearTimeout(timeoutId);
     state.isSending = false;
     els.btnSend.disabled = false;
     els.chatInput.focus();
