@@ -59,7 +59,34 @@ const els = {
   btnSend: document.getElementById("btnSend"),
   charCount: document.getElementById("charCount"),
   btnClearChat: document.getElementById("btnClearChat"),
+  activeContextText: document.getElementById("activeContextText"),
+  btnAskCurrent: document.getElementById("btnAskCurrent"),
 };
+
+function updateActiveContextBar() {
+  if (!els.activeContextText) return;
+  const seg = state.segmentByCode.get(String(state.activeCode || "").toUpperCase());
+  if (seg) {
+    els.activeContextText.textContent = `📌 Đang xem: ${seg.code} · ${seg.timestamp} — ${seg.title || seg.topic}`;
+  } else {
+    els.activeContextText.textContent = `📌 Đang xem: ${state.currentDay}`;
+  }
+}
+
+function buildTaDraftText(userQuestion, botOutput) {
+  const seg = state.segmentByCode.get(String(state.activeCode || "").toUpperCase());
+  const ctxLine = seg
+    ? `${seg.lesson_title} · [${seg.code} · ${seg.timestamp}] ${seg.title || seg.topic}`
+    : state.currentDay;
+  const shortNote = String(botOutput || "").replace(/\s+/g, " ").trim().slice(0, 140);
+  return [
+    "[Hỏi TA · Lớp L3 · Pre-class]",
+    `- Bài đang xem: ${ctxLine}`,
+    `- Câu hỏi của mình: ${userQuestion || "(chưa nhập)"}`,
+    `- Ghi chú từ trợ giảng AI: ${shortNote}`,
+    "- Nhờ TA giải đáp thêm giúp mình ạ!",
+  ].join("\n");
+}
 
 const BRANCH_LABELS = {
   grounded: { text: "Có căn cứ", cls: "badge-grounded" },
@@ -171,6 +198,10 @@ function selectLectureDay(day, initialSlide = 1) {
   }
 
   renderChapterTimeline(day);
+  if (sampleSeg && (!state.activeCode || !state.activeCode.startsWith(day.replace("Day", "D") + "-"))) {
+    state.activeCode = sampleSeg.code;
+  }
+  updateActiveContextBar();
 }
 
 function seekAudioToTime(timeStr, autoPlay = true) {
@@ -432,6 +463,7 @@ function inspectSegment(code, citedTime = "", shouldJumpPlayer = true) {
   els.citationMeta.textContent = `${seg.lesson_title} · ${seg.video_title || ""}`;
   els.citationTopic.textContent = seg.title || seg.topic;
   els.citationText.textContent = seg.text;
+  updateActiveContextBar();
 
   const target = resolveTargetSlide(seg, citedTime);
   if (target) {
@@ -481,7 +513,7 @@ function appendTypingIndicator() {
   return row;
 }
 
-function appendAssistantMessage(data, isError = false) {
+function appendAssistantMessage(data, isError = false, lastUserQuestion = "") {
   const row = document.createElement("div");
   row.className = "msg-row assistant" + (isError ? " error" : "");
 
@@ -508,6 +540,8 @@ function appendAssistantMessage(data, isError = false) {
         <span class="branch-badge ${branchInfo.cls}">${branchInfo.text}</span>
       </div>
       <div class="msg-body">${renderFormattedText(data.output || "")}</div>
+      <div class="action-chips"></div>
+      <div class="ta-draft-slot"></div>
       <div class="trace-bar">
         <span>Model: <strong>${escapeHtml(modelText)}</strong></span>
         <span>Tool: <strong>${s.tool_calls ?? 0}</strong></span>
@@ -522,7 +556,84 @@ function appendAssistantMessage(data, isError = false) {
     btn.addEventListener("click", () => inspectSegment(btn.dataset.cite, btn.dataset.time || "", true));
   });
 
-  if (citeButtons.length > 0) {
+  // Tính năng 2 & 3: Chip gợi ý bấm 1 chạm (HAX G9) + Nút tạo bản nháp gửi TA Discord (HITL)
+  const chipsWrap = row.querySelector(".action-chips");
+  const draftSlot = row.querySelector(".ta-draft-slot");
+
+  if (data.branch === "clarify") {
+    const suggestedCodes = [];
+    citeButtons.forEach((b) => {
+      if (!suggestedCodes.includes(b.dataset.cite)) suggestedCodes.push(b.dataset.cite);
+    });
+    suggestedCodes.slice(0, 3).forEach((code) => {
+      const seg = state.segmentByCode.get(code);
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "action-chip";
+      chip.textContent = seg ? `→ Hỏi về ${code}: ${(seg.title || "").slice(0, 26)}` : `→ Hỏi về ${code}`;
+      chip.addEventListener("click", () => sendMessage(`Giải thích giúp mình nội dung đoạn ${code}.`));
+      chipsWrap.appendChild(chip);
+    });
+    const curSeg = state.segmentByCode.get(String(state.activeCode || "").toUpperCase());
+    if (curSeg && !suggestedCodes.includes(curSeg.code)) {
+      const curChip = document.createElement("button");
+      curChip.type = "button";
+      curChip.className = "action-chip";
+      curChip.textContent = `📌 Đoạn đang xem (${curSeg.code})`;
+      curChip.addEventListener("click", () => sendMessage(`Giải thích giúp mình nội dung đoạn ${curSeg.code}.`));
+      chipsWrap.appendChild(curChip);
+    }
+  } else if (data.branch === "grounded" && citeButtons.length > 0) {
+    const firstCode = citeButtons[0].dataset.cite;
+    const simplerBtn = document.createElement("button");
+    simplerBtn.type = "button";
+    simplerBtn.className = "action-chip";
+    simplerBtn.textContent = "💡 Giải thích dễ hiểu hơn";
+    simplerBtn.addEventListener("click", () =>
+      sendMessage(`Giải thích lại đoạn ${firstCode} thật ngắn gọn, dễ hiểu hơn bằng gạch đầu dòng theo căn cứ bài học.`)
+    );
+    chipsWrap.appendChild(simplerBtn);
+  }
+
+  // Nút Tạo bản nháp gửi TA Discord (chỉ tạo bản nháp chờ người duyệt, KHÔNG tự gửi)
+  if (data.branch !== "guardrail") {
+    const taBtn = document.createElement("button");
+    taBtn.type = "button";
+    taBtn.className = "action-chip ta-chip";
+    taBtn.textContent = "📋 Tạo bản nháp hỏi TA Discord";
+    taBtn.addEventListener("click", () => {
+      if (draftSlot.innerHTML) {
+        draftSlot.innerHTML = "";
+        return;
+      }
+      const draftText = buildTaDraftText(lastUserQuestion, data.output || "");
+      draftSlot.innerHTML = `
+        <div class="ta-draft-box">
+          <div class="ta-draft-head">
+            <span>Bản nháp gửi TA (chỉ copy, không tự gửi)</span>
+            <button type="button" class="btn-copy-draft">📋 Sao chép</button>
+          </div>
+          <textarea>${escapeHtml(draftText)}</textarea>
+        </div>
+      `;
+      const copyBtn = draftSlot.querySelector(".btn-copy-draft");
+      const taArea = draftSlot.querySelector("textarea");
+      copyBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(taArea.value).then(() => {
+          copyBtn.textContent = "✓ Đã sao chép!";
+          setTimeout(() => { copyBtn.textContent = "📋 Sao chép"; }, 2000);
+        }).catch(() => {
+          taArea.select();
+          document.execCommand("copy");
+          copyBtn.textContent = "✓ Đã sao chép!";
+        });
+      });
+      scrollToBottom();
+    });
+    chipsWrap.appendChild(taBtn);
+  }
+
+  if (citeButtons.length > 0 && data.branch === "grounded") {
     const first = citeButtons[0];
     inspectSegment(first.dataset.cite, first.dataset.time || "", true);
   }
@@ -559,7 +670,7 @@ async function sendMessage(text) {
     });
     const data = await res.json();
     typingRow.remove();
-    appendAssistantMessage(data, !res.ok);
+    appendAssistantMessage(data, !res.ok, trimmed);
   } catch (err) {
     typingRow.remove();
     const msg =
@@ -630,6 +741,17 @@ els.btnToggleSidebar.addEventListener("click", () => {
 
 if (els.btnCloseSidebar) {
   els.btnCloseSidebar.addEventListener("click", () => els.sidebar.classList.remove("open"));
+}
+
+if (els.btnAskCurrent) {
+  els.btnAskCurrent.addEventListener("click", () => {
+    const seg = state.segmentByCode.get(String(state.activeCode || "").toUpperCase());
+    if (seg) {
+      sendMessage(`Giải thích ngắn gọn các ý chính của đoạn ${seg.code} (${seg.title || seg.topic}) giúp mình.`);
+    } else {
+      sendMessage(`Nội dung ${state.currentDay} gồm những phần nào?`);
+    }
+  });
 }
 
 // Init

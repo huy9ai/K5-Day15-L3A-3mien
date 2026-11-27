@@ -160,6 +160,11 @@
 
         <!-- Composer -->
         <form id="chatForm" class="composer">
+          <!-- Tính năng 1: Hỏi nhanh về phần đang xem (chống lỗi thiếu ngữ cảnh) -->
+          <div class="active-context-bar">
+            <span id="activeContextText" class="active-context-text">📌 Đang xem: D01-S01 · 00:41</span>
+            <button id="btnAskCurrent" class="btn-context-ask" type="button">Hỏi đoạn đang xem</button>
+          </div>
           <div class="composer-box">
             <textarea
               id="chatInput"

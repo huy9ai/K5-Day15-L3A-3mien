@@ -205,6 +205,22 @@ def get_available_lessons() -> list:
     return sorted({item["lesson_norm"] for item in indexed if item["lesson_norm"]})
 
 
+def get_valid_timestamps(code: str) -> set:
+    """Hàm nội bộ (không phải @tool): trả tập các mốc mm:ss hợp lệ của một mã đoạn (gồm mốc chính và sub_slides)."""
+    indexed, _ = _load_index()
+    upper = (code or "").strip().strip("[]").upper()
+    for item in indexed:
+        if item["code_upper"] == upper:
+            raw = item["raw"]
+            ts = {str(raw.get("timestamp") or "").strip()}
+            for sub in raw.get("sub_slides") or []:
+                t = str(sub.get("timestamp") or "").strip()
+                if t:
+                    ts.add(t)
+            return {t for t in ts if t}
+    return set()
+
+
 @tool
 def search_lesson(query: str, top_k: int = 3) -> list:
     """Tên: search_lesson — Tra cứu các đoạn bài giảng pre-class khớp với câu hỏi từ data/lessons.json.
