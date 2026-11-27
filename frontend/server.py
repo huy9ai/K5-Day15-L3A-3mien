@@ -119,6 +119,83 @@ def _guess_mime(full_path: str) -> str:
     return ctype
 
 
+AUDIO_GUARD_HEAD_SCRIPT = (
+    "<script data-3mien-audio-guard>"
+    "(function(){"
+    "var OrigAudio=window.Audio;"
+    "var pool=window.__3mienAudios=[];"
+    "function stopAll(except){"
+    "  for(var i=pool.length-1;i>=0;i--){"
+    "    var x=pool[i];"
+    "    if(!x||x===except) continue;"
+    "    try{OrigAudio.prototype.pause.call(x);}catch(e){}"
+    "  }"
+    "}"
+    "window.__3mienStopAllAudio=function(){stopAll(null);};"
+    "var origPlay=OrigAudio.prototype.play;"
+    "var origPause=OrigAudio.prototype.pause;"
+    "OrigAudio.prototype.play=function(){"
+    "  if(pool.indexOf(this)<0) pool.push(this);"
+    "  stopAll(this);"
+    "  return origPlay.apply(this,arguments);"
+    "};"
+    "OrigAudio.prototype.pause=function(){"
+    "  var r=origPause.apply(this,arguments);"
+    "  if(window.VinTutor&&!window.VinTutor.playing) stopAll(null);"
+    "  return r;"
+    "};"
+    "window.Audio=function(src){"
+    "  var a=src!==undefined?new OrigAudio(src):new OrigAudio();"
+    "  pool.push(a);"
+    "  if(pool.length>12) pool.shift();"
+    "  return a;"
+    "};"
+    "window.Audio.prototype=OrigAudio.prototype;"
+    "window.addEventListener('pagehide',function(){stopAll(null);});"
+    "})();"
+    "</script>"
+)
+
+PREBOOT_CLEANUP_SCRIPT = (
+    "<script data-3mien-cleanup>"
+    "(function(){"
+    "document.querySelectorAll('.tt-bar,.tt-start,.tt-cap,.tt-think,.tt-spot,.vin-black,.vin-toast,.vin-help,.vin-overview,#mttContainer').forEach(function(e){e.remove();});"
+    "document.documentElement.classList.remove('tutor','tt-playing','tt-idle','tt-rec');"
+    "document.querySelectorAll('.slide.is-active').forEach(function(s){s.classList.remove('is-active','tt-enter');});"
+    "document.querySelectorAll('.slide [data-step]').forEach(function(e){e.classList.remove('is-on','is-shown');});"
+    "document.querySelectorAll('.slide .is-current,.slide .is-answered').forEach(function(e){e.classList.remove('is-current','is-answered');});"
+    "document.querySelectorAll('.slide[data-step-now]').forEach(function(s){s.removeAttribute('data-step-now');});"
+    "})();"
+    "</script>"
+)
+
+
+def _sanitize_saved_lecture_html(raw_bytes: bytes) -> bytes:
+    """Làm sạch trạng thái DOM đã đóng băng khi lưu trang HTML bằng Chrome Save Page As,
+    và gắn lớp bảo vệ âm thanh (tránh 2 audio chạy song song hoặc dừng không tắt tiếng)."""
+    text = raw_bytes.decode("utf-8", errors="replace")
+    # Xoá các class runtime dính sẵn trên thẻ <html>
+    text = re.sub(
+        r"(<html\b[^>]*\bclass=\")([^\"]*)(\")",
+        lambda m: m.group(1)
+        + " ".join(c for c in m.group(2).split() if c not in ("tutor", "tt-playing", "tt-idle", "tt-rec"))
+        + m.group(3),
+        text,
+        count=1,
+        flags=re.IGNORECASE,
+    )
+    # Chèn audio guard ngay đầu <head> trước khi vinuni-tutor.js chạy
+    text = re.sub(r"(<head\b[^>]*>)", lambda m: m.group(1) + AUDIO_GUARD_HEAD_SCRIPT, text, count=1, flags=re.IGNORECASE)
+    # Chèn script dọn DOM chạy đồng bộ ngay trước </body> (trước khi DOMContentLoaded kích hoạt)
+    if "</body>" in text:
+        text = text.replace("</body>", PREBOOT_CLEANUP_SCRIPT + "</body>", 1)
+    elif "</BODY>" in text:
+        text = text.replace("</BODY>", PREBOOT_CLEANUP_SCRIPT + "</BODY>", 1)
+    else:
+        text += PREBOOT_CLEANUP_SCRIPT
+    return text.encode("utf-8")
+
+
 class TutorHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         sys.stdout.write("[frontend] %s - %s\n" % (self.address_string(), format % args))
@@ -142,18 +219,44 @@ class TutorHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
 
-    def _send_file(self, base_dir: str, rel_path: str) -> None:
+    def _send_file(self, base_dir: str, rel_path: str, sanitize_lecture_html: bool = False) -> None:
         rel = unquote(rel_path).lstrip("/")
         if ".." in rel.replace("\\", "/").split("/"):
             self.send_error(403, "Forbidden")
             return
         full_path = os.path.abspath(os.path.join(base_dir, rel))
-        if not full_path.startswith(os.path.abspath(base_dir)) or not os.path.isfile(full_path):
+        if not full_path.startswith(os.path.abspath(base_dir)):
+            self.send_error(403, "Forbidden")
+            return
+        # Chrome Save Page As luu anh logo phang trong ..._files/ thay vi ..._files/assets/
+        if not os.path.isfile(full_path) and "/assets/" in rel.replace("\\", "/"):
+            alt_rel = rel.replace("\\", "/").replace("/assets/", "/")
+            alt_path = os.path.abspath(os.path.join(base_dir, alt_rel))
+            if alt_path.startswith(os.path.abspath(base_dir)) and os.path.isfile(alt_path):
+                full_path = alt_path
+        if not os.path.isfile(full_path):
+            # Bo qua anh nen/favicon tuy chon khong duoc luu kem trang HTML de khoi bao 404 nhieu log
+            if rel.lower().endswith(("vinuni-campus.jpg", "favicon.ico")):
+                self.send_response(204)
+                self.end_headers()
+                return
             self.send_error(404, "Not Found")
             return
 
-        file_size = os.path.getsize(full_path)
         ctype = _guess_mime(full_path)
+
+        if sanitize_lecture_html and full_path.lower().endswith((".html", ".htm")):
+            with open(full_path, "rb") as f:
+                content = _sanitize_saved_lecture_html(f.read())
+            self.send_response(200)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(content)))
+            self.end_headers()
+            self.wfile.write(content)
+            return
+
+        file_size = os.path.getsize(full_path)
         range_hdr = self.headers.get("Range")
 
         # Hỗ trợ HTTP Range (206 Partial Content) để trình duyệt tua âm thanh MP3/MP4 mượt mà
@@ -205,7 +308,7 @@ class TutorHandler(BaseHTTPRequestHandler):
                 }
                 for d, v in lectures.items()
             }
-            default_day = "Day08" if "Day08" in public_lectures else (next(iter(public_lectures), ""))
+            default_day = "Day01" if "Day01" in public_lectures else (next(iter(public_lectures), ""))
             self._send_json(200, {
                 "team": "3mien",
                 "title": "Trợ giảng Pre-class có căn cứ",
@@ -235,7 +338,7 @@ class TutorHandler(BaseHTTPRequestHandler):
             if day_key not in lectures:
                 self.send_error(404, "Lecture day not found")
                 return
-            self._send_file(lectures[day_key]["dir"], rel)
+            self._send_file(lectures[day_key]["dir"], rel, sanitize_lecture_html=True)
             return
 
         rel = path.lstrip("/") or "index.html"

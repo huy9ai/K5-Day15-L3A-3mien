@@ -110,6 +110,8 @@ def call_openrouter(system: str, user: str, model_name: str) -> dict:
         "model": model_name,
         "messages": messages,
         "temperature": 0.2,
+        "max_tokens": 500,
+        "reasoning": {"effort": "minimal"},
     }
     data = post_json(URL_OPENROUTER, headers, body)
     if "error" in data:

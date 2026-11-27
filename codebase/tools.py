@@ -20,6 +20,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LESSONS_PATH = os.path.join(ROOT, "data", "lessons.json")
 
 _LESSONS_CACHE = None
+_LESSONS_MTIME = None
 
 # Từ hư / từ hỏi phổ biến trong tiếng Việt
 STOPWORDS = {
@@ -50,8 +51,28 @@ DOMAIN_UNIGRAMS = {
 }
 
 OVERVIEW_PHRASES = {
-    "noi dung", "hoc gi", "tom tat", "gom nhung gi", "co gi", "chu de", "tong quan",
+    "noi dung", "hoc gi", "hoc j", "tom tat", "gom nhung gi", "gom nhung j", "co gi", "co j",
+    "chu de", "tong quan", "muc luc", "cac muc", "cac phan", "nhung phan nao",
+    "mo bai", "mo day", "chuyen sang", "chuyen den", "sang bai", "sang day", "xem bai", "xem day", "den bai", "den day",
 }
+
+
+OVERVIEW_NOISE_TOKENS = {
+    "day", "ngay", "bai", "noi", "dung", "hoc", "gi", "tom", "tat", "gom", "nhung",
+    "chu", "de", "tong", "quan", "muc", "luc", "cac", "phan", "mo", "chuyen", "sang",
+    "den", "xem", "nay", "ve", "la", "co", "nao", "giai", "thich", "cho", "minh", "giup",
+}
+
+
+def _is_day_overview_query(norm_q: str, q_tokens: list) -> bool:
+    """Chỉ xem là câu hỏi tổng quan cả ngày khi KHÔNG chứa từ khoá khái niệm cụ thể (vd '5 khuôn workflow')."""
+    non_overview_tokens = [
+        t for t in q_tokens
+        if t not in OVERVIEW_NOISE_TOKENS and not re.match(r"^(?:day|ngay|bai|d)?0?\d{1,2}$", t)
+    ]
+    if non_overview_tokens:
+        return False
+    return any(p in norm_q for p in OVERVIEW_PHRASES) or len(q_tokens) <= 2
 
 
 def _strip_accents(text: str) -> str:
@@ -86,12 +107,13 @@ def _extract_day_hint(text: str) -> str:
 
 
 def _load_index() -> tuple:
-    """Đọc và cache chỉ mục đoạn bài giảng từ data/lessons.json."""
-    global _LESSONS_CACHE
-    if _LESSONS_CACHE is not None:
-        return _LESSONS_CACHE
+    """Đọc và cache chỉ mục đoạn bài giảng từ data/lessons.json (tự nạp lại khi file thay đổi)."""
+    global _LESSONS_CACHE, _LESSONS_MTIME
     if not os.path.exists(LESSONS_PATH):
         raise FileNotFoundError("Không tìm thấy kho bài giảng mẫu tại: %s" % LESSONS_PATH)
+    mtime = os.path.getmtime(LESSONS_PATH)
+    if _LESSONS_CACHE is not None and _LESSONS_MTIME == mtime:
+        return _LESSONS_CACHE
     with open(LESSONS_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
     segments = data.get("segments", [])
@@ -143,6 +165,7 @@ def _load_index() -> tuple:
     n_docs = max(len(indexed), 1)
     idf = {tok: math.log((n_docs + 1) / (df + 1)) + 1.0 for tok, df in doc_freq.items()}
     _LESSONS_CACHE = (indexed, idf)
+    _LESSONS_MTIME = mtime
     return _LESSONS_CACHE
 
 
@@ -199,10 +222,20 @@ def search_lesson(query: str, top_k: int = 3) -> list:
     q_bigrams = _bigrams(q_raw_tokens)
     day_filter = _extract_day_hint(cleaned)
 
-    # Nếu học viên hỏi tổng quan 1 ngày học cụ thể (vd "Day04 có những nội dung chính gì?")
-    if day_filter and any(p in norm_q for p in OVERVIEW_PHRASES):
+    # Nếu học viên nêu rõ cả ngày và số phần (vd "mở Day 7 phần 2", "xem phần 5 của Day 8") -> trả đúng đoạn Dxx-Syy
+    if day_filter:
+        part_m = re.search(r"\b(?:phan|muc|doan)\s*0?(\d{1,2})\b", norm_q)
+        if part_m:
+            day_num = int(day_filter.replace("Day", ""))
+            target_code = "D%02d-S%02d" % (day_num, int(part_m.group(1)))
+            for item in indexed:
+                if item["code_upper"] == target_code:
+                    return [_format_passage(item["raw"], 10.0)]
+
+    # Nếu học viên hỏi tổng quan cả ngày (không kèm khái niệm cụ thể) -> trả đầy đủ tất cả các phần chính của ngày đó
+    if day_filter and _is_day_overview_query(norm_q, q_tokens):
         day_segs = [item["raw"] for item in indexed if item["lesson_norm"].lower() == day_filter.lower()]
-        return [_format_passage(seg, 5.0) for seg in day_segs[: max(1, int(top_k))]]
+        return [_format_passage(seg, 5.0) for seg in day_segs]
 
     if not q_tokens:
         return []

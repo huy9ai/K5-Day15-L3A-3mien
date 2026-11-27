@@ -59,8 +59,8 @@
       <section class="stage-panel">
         <div class="stage-header">
           <div>
-            <span id="stagePhaseTag" class="phase-tag">PRE-CLASS · BÀI GIẢNG TƯƠNG TÁC</span>
-            <h2 id="stageTitle" class="stage-title">Day 08 — Từ Workflow đến Agent</h2>
+            <span id="stagePhaseTag" class="phase-tag">DAY01 · BÀI GIẢNG PRE-CLASS</span>
+            <h2 id="stageTitle" class="stage-title">Day 01 — AI & LLM Foundation</h2>
           </div>
           <div class="stage-controls">
             <select id="lectureSelect" class="lecture-select" title="Chọn bài giảng đã nạp trong data-btc/lectures/"></select>
@@ -101,14 +101,14 @@
           <div class="citation-card-head">
             <div class="citation-head-left">
               <span class="citation-kicker">Căn cứ trích dẫn đang chọn</span>
-              <span id="citationCode" class="code-chip">D08-S01 · 02:19</span>
+              <span id="citationCode" class="code-chip">D01-S01 · 00:41</span>
             </div>
             <button id="btnJumpSlide" class="btn btn-jump hidden" type="button">▶ Mở đúng mốc trên bài giảng</button>
           </div>
-          <p id="citationMeta" class="citation-meta">Day 08 — Từ Workflow đến Agent · Phần 01 (01:09–04:17 · Slide 05)</p>
-          <p id="citationTopic" class="citation-topic">Phần 01 · Workflow hay agent: ai quyết định bước tiếp theo?</p>
+          <p id="citationMeta" class="citation-meta">Day 01 — AI & LLM Foundation · Phần 01</p>
+          <p id="citationTopic" class="citation-topic">Phần 01 · AI là gì, vì sao giờ mới bùng nổ</p>
           <p id="citationText" class="citation-text">
-            Bấm vào bất kỳ mã đoạn màu xanh nào trong câu trả lời của trợ giảng (vd [D08-S02 · 04:32] hoặc [D08-S05 · 14:40]) để xem nội dung căn cứ và nhảy thẳng tới đúng slide bài giảng phía trên.
+            Bấm vào bất kỳ mã đoạn màu xanh nào trong câu trả lời của trợ giảng (vd [D01-S02 · 05:45], [D03-S02 · 03:54] hay [D08-S05 · 14:13]) để xem nội dung căn cứ và tự động chuyển đúng bài giảng + tua tới đúng mốc phía trên.
           </p>
         </section>
       </section>
@@ -118,29 +118,33 @@
         <div class="chat-panel-header">
           <div>
             <h2>Tương tác trợ giảng AI</h2>
-            <p class="muted">Câu trả lời được grounding theo nội dung bài học</p>
+            <p class="muted">Hỏi bất kỳ bài nào từ Day 01 → Day 15 · Tự chuyển bài & tua đúng mốc</p>
           </div>
         </div>
 
         <div id="chatMessages" class="chat-messages">
           <div id="welcomeCard" class="welcome-card">
-            <span class="welcome-tag">Thử hỏi ngay về Day 8</span>
+            <span class="welcome-tag">Phủ đủ 15 bài giảng (Day 01 → Day 15)</span>
             <p>
-              Hỏi bất kỳ ý nào trong bài giảng bên trái. Trợ giảng sẽ trả lời ngắn gọn kèm <strong>[mã đoạn · phút:giây]</strong> — bấm vào mã đó để bài giảng tự nhảy tới đúng chỗ!
+              Hỏi bất kỳ khái niệm nào hoặc yêu cầu mở một bài (vd: <em>"Chuyển sang Day 8 phần 2"</em>). Trợ giảng sẽ trả lời kèm <strong>[mã đoạn · phút:giây]</strong> và <strong>tự động mở đúng ngày + tua đúng slide</strong>!
             </p>
 
             <div class="quick-prompts">
+              <button class="quick-chip" data-prompt="Giải thích cách LLM sinh văn bản và giới hạn hallucination ở Day 1?" type="button">
+                <span class="chip-badge badge-grounded">Day01 · LLM Foundation</span>
+                <span>Cách LLM sinh văn bản và giới hạn hallucination ở Day 1?</span>
+              </button>
+              <button class="quick-chip" data-prompt="Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class?" type="button">
+                <span class="chip-badge badge-grounded">Day03 · Tự nhảy sang Day 3</span>
+                <span>Khác nhau giữa zero-shot và few-shot prompting?</span>
+              </button>
               <button class="quick-chip" data-prompt="Trong bài Day 8, 5 khuôn workflow gồm những gì và xem ở phút thứ mấy?" type="button">
-                <span class="chip-badge badge-grounded">Day08 · Mốc 04:32</span>
+                <span class="chip-badge badge-grounded">Day08 · Tự nhảy sang Day 8</span>
                 <span>5 khuôn workflow gồm những gì và xem ở phút thứ mấy?</span>
               </button>
-              <button class="quick-chip" data-prompt="Điểm lưu (checkpoint) và khoá idempotency trong bài Day 8 khác nhau thế nào khi hệ thống sập giữa chừng?" type="button">
-                <span class="chip-badge badge-grounded">Day08 · Mốc 13:47</span>
-                <span>Checkpoint và khoá idempotency khác nhau thế nào?</span>
-              </button>
-              <button class="quick-chip" data-prompt="Vì sao trong bài Day 8 LogiX thêm 4 agent mà hệ thống lại tệ hơn?" type="button">
-                <span class="chip-badge badge-grounded">Day08 · Mốc 17:23</span>
-                <span>Vì sao LogiX thêm 4 agent mà hệ thống tệ hơn?</span>
+              <button class="quick-chip" data-prompt="Canary release và SLO ngân sách lỗi ở Day 14 là gì?" type="button">
+                <span class="chip-badge badge-grounded">Day14 · Tự nhảy sang Day 14</span>
+                <span>Canary release và SLO ngân sách lỗi ở Day 14 là gì?</span>
               </button>
               <button class="quick-chip" data-prompt="Cái này khác gì?" type="button">
                 <span class="chip-badge badge-clarify">Hỏi ngược G10</span>
@@ -160,7 +164,7 @@
             <textarea
               id="chatInput"
               rows="1"
-              placeholder="Hỏi về Day 8 hoặc bất kỳ bài nào (vd: 5 khuôn workflow, idempotency, D08-S05)..."
+              placeholder="Hỏi bất kỳ bài nào Day 01–15 hoặc gõ: Mở bài Day 7 phần 2..."
               required
             ></textarea>
             <button id="btnSend" class="btn btn-primary" type="submit" aria-label="Gửi câu hỏi">

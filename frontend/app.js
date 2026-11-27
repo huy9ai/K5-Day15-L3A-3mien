@@ -2,8 +2,8 @@ const state = {
   segments: [],
   segmentByCode: new Map(),
   lectures: {},
-  currentDay: "Day08",
-  activeCode: "D08-S01",
+  currentDay: "Day01",
+  activeCode: "D01-S01",
   isSending: false,
 };
 
@@ -126,7 +126,22 @@ function renderChapterTimeline(day) {
   });
 }
 
+function stopIframeAudio() {
+  try {
+    const win = els.lectureFrame && els.lectureFrame.contentWindow;
+    if (win) {
+      if (win.VinTutor && typeof win.VinTutor.pause === "function") {
+        win.VinTutor.pause();
+      }
+      if (typeof win.__3mienStopAllAudio === "function") {
+        win.__3mienStopAllAudio();
+      }
+    }
+  } catch (e) {}
+}
+
 function selectLectureDay(day, initialSlide = 1) {
+  stopIframeAudio();
   state.currentDay = day;
   if (els.lectureSelect.value !== day && state.lectures[day]) {
     els.lectureSelect.value = day;
@@ -170,42 +185,88 @@ function seekAudioToTime(timeStr, autoPlay = true) {
   } catch (e) {}
 }
 
+let pendingSeek = null;
+
+function applyIframeSeek(day, targetSec, fallbackSlide, timeLabel, code, autoPlay) {
+  const trySeek = (attempt = 0) => {
+    try {
+      const win = els.lectureFrame.contentWindow;
+      if (!win || !win.location || !win.location.pathname.includes(`/lectures/${day}/`)) {
+        if (attempt < 25) setTimeout(() => trySeek(attempt + 1), 120);
+        return;
+      }
+      const T = win.VinTutor;
+      const D = win.VinDeck;
+      if (T && Array.isArray(T.cues) && T.cues.length > 0 && targetSec !== null) {
+        const targetMs = targetSec * 1000;
+        let best = 0;
+        for (let i = 0; i < T.cues.length; i++) {
+          if (T.cues[i].start <= targetMs) best = i;
+          else break;
+        }
+        if (!win.document.documentElement.classList.contains("tutor")) {
+          T.on(true);
+        }
+        const startOverlay = win.document.querySelector(".tt-start");
+        if (startOverlay) startOverlay.classList.remove("is-on");
+        if (typeof win.__3mienStopAllAudio === "function") {
+          win.__3mienStopAllAudio();
+        }
+        if (T.index !== best || !T.playing) {
+          T.pause();
+          T.cue(best);
+        }
+        if (autoPlay) T.play();
+        const slideNum = T.cues[best].slide + 1;
+        const timePart = timeLabel ? ` · ${timeLabel}` : "";
+        const codePart = code ? ` (${code})` : "";
+        els.playerJumpBadge.textContent = `Đang mở: ${day} Slide ${String(slideNum).padStart(2, "0")}${timePart}${codePart}`;
+        return;
+      }
+      if (D && D.ready && typeof D.go === "function") {
+        const sNum = Math.max(1, Number(fallbackSlide) || 1);
+        D.go(sNum - 1);
+        const timePart = timeLabel ? ` · ${timeLabel}` : "";
+        const codePart = code ? ` (${code})` : "";
+        els.playerJumpBadge.textContent = `Đang mở: ${day} Slide ${String(sNum).padStart(2, "0")}${timePart}${codePart}`;
+        return;
+      }
+      if (attempt < 30) {
+        setTimeout(() => trySeek(attempt + 1), 120);
+      }
+    } catch (e) {}
+  };
+  trySeek(0);
+}
+
 function jumpLectureToSlide(day, slideNum, timeLabel = "", code = "") {
   const lec = state.lectures[day];
   if (!lec || !lec.html_url) return;
 
-  const base = lec.html_url.split("#")[0];
+  const targetSec = parseTimeToSeconds(timeLabel);
   const num = Math.max(1, Number(slideNum) || 1);
 
-  if (state.currentDay !== day) {
+  if (state.currentDay !== day || !els.lectureFrame.getAttribute("src")) {
+    pendingSeek = { day, targetSec, slideNum: num, timeLabel, code, autoPlay: true };
     selectLectureDay(day, num);
   } else {
-    try {
-      const win = els.lectureFrame.contentWindow;
-      if (win && win.location && win.location.pathname.includes(`/lectures/${day}/`)) {
-        if (win.VinDeck && typeof win.VinDeck.go === "function") {
-          win.VinDeck.go(num - 1);
-        } else {
-          win.location.hash = `#${num}`;
-        }
-      } else {
-        els.lectureFrame.src = `${base}#${num}`;
-      }
-    } catch (e) {
-      els.lectureFrame.src = `${base}#${num}`;
-    }
+    applyIframeSeek(day, targetSec, num, timeLabel, code, true);
   }
 
   seekAudioToTime(timeLabel, true);
-
-  const timePart = timeLabel ? ` · ${timeLabel}` : "";
-  const codePart = code ? ` (${code})` : "";
-  els.playerJumpBadge.textContent = `Đang mở: ${day} Slide ${String(num).padStart(2, "0")}${timePart}${codePart}`;
 
   document.querySelectorAll(".chapter-pill").forEach((pill) => {
     pill.classList.toggle("active", pill.dataset.code === code);
   });
 }
+
+els.lectureFrame.addEventListener("load", () => {
+  if (pendingSeek) {
+    const p = pendingSeek;
+    pendingSeek = null;
+    applyIframeSeek(p.day, p.targetSec, p.slideNum, p.timeLabel, p.code, p.autoPlay);
+  }
+});
 
 async function loadInfo() {
   try {
@@ -246,8 +307,11 @@ async function loadLessons() {
     }
     renderLessons("");
     renderChapterTimeline(state.currentDay);
-    if (state.segmentByCode.has("D08-S01")) {
-      inspectSegment("D08-S01", "", false);
+    const defaultCode = `${state.currentDay.replace("Day", "D")}-S01`;
+    if (state.segmentByCode.has(defaultCode)) {
+      inspectSegment(defaultCode, "", false);
+    } else if (state.segmentByCode.has("D01-S01")) {
+      inspectSegment("D01-S01", "", false);
     }
   } catch (err) {
     els.lessonList.innerHTML = `<p class="muted" style="padding:12px;">Không tải được data/lessons.json.</p>`;
@@ -314,7 +378,13 @@ function renderLessons(filterText) {
       segList.appendChild(btn);
     }
 
-    header.addEventListener("click", () => card.classList.toggle("collapsed"));
+    header.addEventListener("click", () => {
+      const wasCollapsed = card.classList.contains("collapsed");
+      card.classList.toggle("collapsed");
+      if (wasCollapsed && state.lectures[day] && state.currentDay !== day) {
+        selectLectureDay(day, 1);
+      }
+    });
     card.appendChild(header);
     card.appendChild(segList);
     els.lessonList.appendChild(card);
@@ -324,17 +394,18 @@ function renderLessons(filterText) {
 function resolveTargetSlide(seg, citedTime) {
   const day = seg.day || seg.lesson;
   if (!state.lectures[day] || !state.lectures[day].html_url) return null;
-  if (day === "Day08") {
-    const cleanTime = (citedTime || "").trim();
-    if (cleanTime && DAY8_TIME_TO_SLIDE[cleanTime]) {
-      return { day, slide: DAY8_TIME_TO_SLIDE[cleanTime], time: cleanTime };
-    }
-    const upper = seg.code.toUpperCase();
-    if (DAY8_CODE_TO_SLIDE[upper]) {
-      return { day, ...DAY8_CODE_TO_SLIDE[upper] };
+  const cleanTime = (citedTime || "").trim();
+  // Ưu tiên khớp chính xác slide con trong sub_slides (áp dụng cho cả 15 ngày)
+  if (cleanTime && Array.isArray(seg.sub_slides)) {
+    const sub = seg.sub_slides.find((s) => s.timestamp === cleanTime);
+    if (sub) {
+      return { day, slide: sub.slide, time: cleanTime };
     }
   }
-  return { day, slide: 1, time: citedTime || seg.timestamp };
+  if (day === "Day08" && cleanTime && DAY8_TIME_TO_SLIDE[cleanTime]) {
+    return { day, slide: DAY8_TIME_TO_SLIDE[cleanTime], time: cleanTime };
+  }
+  return { day, slide: Number(seg.slide) || 1, time: cleanTime || seg.timestamp };
 }
 
 function inspectSegment(code, citedTime = "", shouldJumpPlayer = true) {
