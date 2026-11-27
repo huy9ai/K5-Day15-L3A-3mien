@@ -7,16 +7,18 @@
 
 Bộ log pre-class BTC đã ẩn danh được dùng để tái dựng các tình huống theo mã lượt chat. Log lưu độ dài, nhãn thiếu ngữ cảnh và số lượt hỏi lại. Câu chữ của bốn tình huống tái dựng do nhóm viết. Xem [nguồn dữ liệu](../data/README.md).
 
-Khi chấm câu cần trích dẫn, đối chiếu nội dung và mốc xem với `data/lessons.json`. Ba câu thường về prompting, RAG và eval chờ kiểm tra độ phủ khi Thịnh đưa bài mẫu lên.
+Khi chấm câu cần trích dẫn, đối chiếu nội dung và mốc xem với `data/lessons.json`. Kho bài mẫu của Thịnh có đoạn về prompting, RAG và eval cho ba câu thường CP2.
 
 ## 2. Bộ câu thử dựng ra sao
 
-- 12 câu gồm 3 thường, 6 khó và 3 từ chối. B11 và B12 kiểm việc từ chối chỉ dẫn chen trong câu hỏi và yêu cầu gắn nguồn tự đặt.
-- 4/12 câu dùng tình huống tái dựng từ log thật (B04–B07), 8 câu tự viết. Mỗi dòng tái dựng ghi mã lượt và tín hiệu quan sát được. Cần bổ sung câu nguyên văn đã ẩn danh khi có phỏng vấn.
+- CP3 có 21 câu gồm 9 thường, 8 khó và 4 từ chối. Giữ nguyên B01–B12 và thêm B13–B21. B11 và B12 kiểm việc từ chối chỉ dẫn chen trong câu hỏi và yêu cầu gắn nguồn tự đặt.
+- 7/21 câu dùng tình huống tái dựng từ log thật (B04–B07, B17–B19), 14 câu tự viết. Mỗi dòng tái dựng ghi mã lượt và tín hiệu quan sát được. Cần bổ sung câu nguyên văn đã ẩn danh khi có phỏng vấn.
 - Lưới độ phủ gồm độ rõ của câu hỏi, căn cứ trong kho, phạm vi yêu cầu và hành động kỳ vọng.
 - Đối chiếu `spec.md` §5: nguồn sự thật (B08, B12), mơ hồ (B04–B07), phạm vi hoặc thẩm quyền (B10–B11), xin đáp án (B09).
 
 ## 3. Metric và cách chấm
+
+Áp dụng metric đã khóa tại CP2. Câu thêm được chấm theo cùng quy tắc: trích nguồn B13–B16 và B18–B20, làm rõ B17, từ chối B21.
 
 | Metric | Cách chấm | Ngưỡng |
 |---|---|---|
@@ -32,17 +34,18 @@ Khi chấm câu cần trích dẫn, đối chiếu nội dung và mốc xem vớ
 
 - `python3 run.py check` kiểm định dạng, số câu và metric.
 - `python3 run.py eval --try` chạy thử 3 câu đầu.
+- Lượt 1 dùng `MODEL_PROVIDER=ollama MODEL_NAME=qwen3:4b-instruct-2507-q4_K_M python3 run.py eval`. Ollama và model cần có sẵn trên máy.
 - `python3 run.py eval` tạo `eval/run-N.csv` và `traces/run-N.jsonl`. Chấm cột `pass` theo `pass_criterion`, sau đó chạy `python3 run.py score eval/run-N.csv` để lấy kết quả tổng.
 
 ## 5. Đã chạy gì
 
 | Lượt | Run ID | Model | Cấu hình (prompt / công cụ / thay đổi) | Đạt / tổng | % | Đạt chuẩn? |
 |---|---|---|---|---|---|---|
-| 1 | | | | __/__ | | |
+| 1 | `run-1@20261127-172625` | `qwen3:4b-instruct-2507-q4_K_M` | Ollama cục bộ, kho bài mẫu và luồng đã merge ở `f320423` | 15/21 | 71,4% | Chưa đạt |
 | 2 | | | | __/__ | | |
 
 Lượt chạy lại vì lỗi kỹ thuật, lượt sau CP4: ghi thêm dòng, không sửa dòng cũ.
 
 ## 6. Lỗi chính
 
-Tóm 2–3 dòng từ `eval/report.md`: nhóm lỗi lớn nhất · đã sửa gì · còn lại gì.
+Lượt 1 có ba câu khẳng định vượt căn cứ, một câu sai mốc, một câu lộ đáp án và một câu bị chặn dù có bài liên quan. Xem [lỗi từng câu](report.md#2-lỗi-lượt-1).

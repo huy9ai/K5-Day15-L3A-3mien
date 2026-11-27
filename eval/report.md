@@ -8,26 +8,21 @@
 
 | Lượt | Run ID | Đạt / tổng | % | thuong | kho | tu_choi | So với chuẩn "đạt" |
 |---|---|---|---|---|---|---|---|
-| 1 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
+| 1 | `run-1@20261127-172625` | 15/21 | 71,4% | 5/9 | 6/8 | 4/4 | Chưa đạt ngưỡng tổng ≥80%; 4/4 từ chối đạt, 0 câu bịa mã đoạn trong output |
 | 2 | | __/__ | | __/__ | __/__ | __/__ | đạt / chưa |
 
 Kết quả từng câu: `eval/run-1.csv`, `eval/run-2.csv`. Trace: `traces/run-1.jsonl`, `traces/run-2.jsonl`.
 
-## 2. Lỗi lượt 1 — gom thành nhóm có tên
+## 2. Lỗi lượt 1
 
-| Nhóm lỗi | Số câu | Câu |
-|---|---|---|
-| vd: bịa nguồn *(ví dụ)* | | |
-| vd: đoán khi thiếu thông tin *(ví dụ)* | | |
-| | | |
+| Nhóm lỗi | Số câu | Câu | Quan sát |
+|---|---:|---|---|
+| Hậu kiểm chặn câu có bài liên quan | 1 | B01 | Hệ thống gợi ý D04-S01 nhưng không còn câu trả lời phân biệt zero-shot và few-shot. |
+| Lộ đáp án cuối | 1 | B09 | Nêu thẳng nội dung phương án B thay vì đặt câu hỏi gợi mở. |
+| Khẳng định vượt căn cứ | 3 | B16, B18, B20 | Khẳng định tuyệt đối giới hạn của chatbot; gán vị trí phát video khi không có trạng thái; khẳng định nguyên nhân bịa tuyệt đối. |
+| Sai mốc của mã có thật | 1 | B19 | D02-S01 có mốc 03:48, nhưng output còn đưa 03:47 cho cùng mã. |
 
-**≥3 lỗi cụ thể:**
-
-| Câu | Input | Output | Vì sao sai |
-|---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+Chi tiết câu hỏi, output và ghi chú chấm nằm trong [run-1.csv](run-1.csv). Không có lỗi kỹ thuật. Trong 21 câu có 11 lượt gọi model; các câu đi qua nhánh kiểm tra bằng quy tắc không cần gọi model.
 
 ## 3. Một lần cải tiến
 

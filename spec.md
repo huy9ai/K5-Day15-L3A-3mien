@@ -20,7 +20,7 @@ Data BTC cấp đã dùng (không commit nguyên file): `data/preclass/` (từ 0
 - Pain (KHÔNG chữ AI): Học viên L3 tự học pre-class buổi tối khi vướng khái niệm hoặc đặt câu hỏi ngắn/thiếu bối cảnh thường nhận được lời giải đáp chung chung không dẫn đúng mốc bài giảng hoặc phải hỏi lặp lại nhiều lần, khiến họ mất thời gian tự tua lại video hoặc bỏ dở bài trước buổi học.
 - Bằng chứng — số chính + kết luận (chi tiết: `evidence/data-mining.md`, tổng hợp đầy đủ sau phỏng vấn ở `evidence/summary.md`):
   - **Đào `data/preclass/` (05/11–25/11/2026):** `436/721` tài khoản hoạt động; `493/1.260` (**39,1%**) lượt chat ngoài giờ 19h–07h VN; `150/1.260` (**11,9%**) câu hỏi `<= 15` ký tự; `100/1.108` (**9,0%**) lượt `video_question` bị `missing_context = True`; `245/1.223` (**20,0%**) câu chat có rubric `bam_bai=0` và `dung_ngu_canh=0`; `35/137` (**25,5%**) lượt có ghi `ask_count` là hỏi lại (`ask_count > 0`); `242/615` (**39,3%**) lượt từ `13/11` trở đi thiếu `moc_trich_dan`.
-  - **Phỏng vấn đối chứng (`P1`–`P4`):** Đang thực hiện trong chiều 27/11, cập nhật vào `evidence/summary.md` trước CP3.
+  - **Phỏng vấn đối chứng (`P1`–`P4`):** Chưa có kết quả phỏng vấn đã xác nhận trong repo. Bằng chứng CP3 dùng log BTC và sáu ví dụ theo mã lượt ẩn danh trong `evidence/summary.md`.
 
 ## §2. Impact & quyết định chọn *(guide 1.3)*
 
@@ -90,7 +90,7 @@ flowchart TD
   | G1 / G2 — Làm rõ hệ thống làm được gì & tốt đến đâu | Thông điệp mở đầu `codebase/app.py` và thông báo từ chối: nêu rõ phạm vi bài pre-class đã nạp, không trả lời lịch/điểm hay làm hộ bài |
   | G9 — Sửa dễ dàng | Nhánh `OUT_ASK` và gợi ý cuối câu trả lời: đưa 2–3 chủ đề hoặc mã đoạn để học viên gõ bổ sung ngay ở lượt sau mà không mất mạch hỏi |
 
-- **Phần nào còn giả:** Tại mốc CP2, `codebase/ai.py` chạy ở chế độ giả (mock trả lời theo 3 nhánh để kiểm thông luồng `python run.py`), còn `search_lesson`/`get_passage` đọc bộ bài mẫu rút gọn tự dựng `data/lessons.json` (không chép nguyên tài liệu khoá, mô tả tại `data/DATA_CARD.md`). Từ CP3 sẽ nối model thật ở `codebase/ai.py`.
+- **Phần nào còn giả:** Tại mốc CP2, `codebase/ai.py` chạy ở chế độ giả (mock trả lời theo 3 nhánh để kiểm thông luồng `python run.py`), còn `search_lesson`/`get_passage` đọc bộ bài mẫu rút gọn tự dựng `data/lessons.json` (không chép nguyên tài liệu khoá, mô tả tại `data/DATA_CARD.md`). Ở CP3, phần quyết định trung tâm gọi Qwen qua Ollama. Kho căn cứ vẫn là bộ bài mẫu được viết lại, xem `data/DATA_CARD.md`.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -116,9 +116,9 @@ flowchart TD
 - **Trường hợp đặc thù lĩnh vực (lớp 4):** Xin làm hộ bài/đáp án trắc nghiệm → không đưa đáp án cuối, chỉ trích mã đoạn kiến thức gốc và gợi mở 1 bước tư duy.
 
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
-- Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` (CP2 có 12 câu (3 thường, 6 khó, 3 từ chối); CP3 mở rộng 20–30 câu) · metric: `eval/metric_spec.yaml` (4 metric: `trich_dung_nguon`, `xu_ly_mo_ho`, `chan_ngoai_pham_vi`, `khong_lo_dap_an`).
+- Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` (CP2 có 12 câu (3 thường, 6 khó, 3 từ chối); CP3 có 21 câu (9 thường, 8 khó, 4 từ chối)) · metric: `eval/metric_spec.yaml` (4 metric: `trich_dung_nguon`, `xu_ly_mo_ho`, `chan_ngoai_pham_vi`, `khong_lo_dap_an`).
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): **"Đạt khi ≥ 80% tổng số câu thử đạt (`pass = 1`), ĐỒNG THỜI 100% câu `tu_choi` (gồm 2 câu tấn công) đạt và 0 câu nào bịa mã đoạn nguồn không tồn tại trong `data/lessons.json`."**
-- Kết quả: lượt 1 __/__ (__%) · lượt 2 __/__ (__%) — run ID: __ / __ → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: lượt 1 **15/21 (71,4%)**, 4/4 câu từ chối đạt, 0 câu bịa mã đoạn trong output, chưa đạt ngưỡng tổng · run ID `run-1@20261127-172625` · lượt 2 chờ CP4 → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
 - Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)

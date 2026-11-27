@@ -1,48 +1,32 @@
-# Tổng hợp bằng chứng pain
+# Tổng hợp bằng chứng về vấn đề học pre-class
 
-> Điền ở guide bước 1.2, xong trước **CP3 10:00 Thứ Bảy 28/11**. Chấm ở rubric R1.
-> Ba nguồn ngang nhau — tối thiểu **≥1 nguồn đạt ngưỡng**. Mạnh nhất: đào data ra insight → hỏi người dùng để kiểm lại (hoặc ngược lại).
+## Nguồn và phương pháp
 
-## 1. Nguồn đã dùng
+Nguồn đạt ngưỡng là log hành vi pre-class của BTC từ 05–25/11/2026. Nhóm nối lượt chat, sự kiện và rubric theo mã lượt ẩn danh, lọc từng chỉ số theo tập có ghi trường tương ứng. Xem [cách đếm và mẫu số](data-mining.md) và [hướng dẫn lấy dữ liệu](../data/README.md). Chạy lại bằng `python3 evidence/count_preclass.py data-btc/preclass`.
 
-| Nguồn | Đạt ngưỡng? | File |
-|---|---|---|
-| Đào data (x/N, %, cách đếm chạy lại được, ≥5 ví dụ) | ☐ | `evidence/data-mining.md` |
-| Phỏng vấn (≥3 người ngoài nhóm, đúng người dùng) | ☐ | `evidence/interviews/P1.md`… |
-| Khảo sát (≥20 người ngoài nhóm, đúng người dùng) | ☐ | `evidence/survey/` |
+## Số liệu chính
 
-## 2. Số chính
+| Dấu hiệu | Kết quả |
+|---|---:|
+| Lượt chat trong khung 19:00–07:59 giờ Việt Nam | 493/1.260 (39,1%) |
+| Câu hỏi dưới video bị gắn cờ thiếu ngữ cảnh | 100/1.108 (9,0%) |
+| Lượt chat đã chấm có cả điểm bám bài và ngữ cảnh bằng 0 | 245/1.223 (20,0%) |
+| Lượt có hỏi lại trong tập ghi số lần hỏi lại | 35/137 (25,5%) |
+| Lượt thiếu mốc trích dẫn kể từ khi bắt đầu ghi trường này | 242/615 (39,3%) |
 
-- Đào data: __/__ (__%) …
-- Phỏng vấn: __/3 người gặp *(n nhỏ không ghi %)* · số lần / tháng: P1 __, P2 __, P3 __ · mỗi lần mất __–__ phút
-- Khảo sát: n = __ · __/__ (__%) …
+## Sáu ví dụ từ log đã ẩn danh
 
-Phỏng vấn nhiều vai thì đếm theo từng vai, không cộng chung.
+| Mã lượt chat | Quan sát |
+|---|---|
+| C00983 | Câu 29 ký tự dưới video Day01, bị gắn cờ thiếu ngữ cảnh và có điểm bám bài, ngữ cảnh đều bằng 0. |
+| C00837 | Câu 15 ký tự lúc 00:37 giờ Việt Nam, bị gắn cờ thiếu ngữ cảnh và có điểm bám bài, ngữ cảnh đều bằng 0. |
+| C00747 | Log ghi `ask_count=2` dưới video Day03. |
+| C00846 | Log ghi `ask_count=2` và hai mốc `@42`, `@139`. |
+| C01056 | Câu 2 ký tự, nhận phản hồi 171 ký tự và có điểm bám bài, ngữ cảnh đều bằng 0. |
+| C00378 | Lượt sau ngày bật log trích dẫn, phản hồi 696 ký tự có danh sách mốc rỗng. |
 
-| | Vai | Gặp pain? | Số lần / 1 tháng qua | Lần gần nhất mất | Đang xoay xở bằng |
-|---|---|---|---|---|---|
-| P1 | | | | | |
-| P2 | | | | | |
-| P3 | | | | | |
+Các ví dụ dùng trường quan sát được trong log. Bản BTC không có nguyên văn chat, nên chưa thể trích lời học viên. Phỏng vấn P1–P4 chưa có kết quả đã xác nhận trong repo.
 
-## 3. ≥5 trích dẫn hoặc ví dụ nguyên văn (có nguồn, bỏ tên)
+## Kết luận
 
-1. "…" — P_ / dòng data __ / phiếu khảo sát __
-2.
-3.
-4.
-5.
-
-## 4. Các nguồn có khớp nhau không
-
-Data nói __; người dùng nói __. Khớp / lệch ở đâu, vì sao: __
-
-## 5. Kết luận
-
-Giả thuyết ở `evidence/hypothesis.md`: **đúng / sai / phải đổi** — vì __. Điều vẫn chưa biết: __
-
-## Lịch hẹn (dùng cho CP2 — chỉ ghi vai và giờ, không tên)
-
-| Vai | Giờ hẹn | Đã xong? |
-|---|---|---|
-| | | |
+Log ủng hộ việc ưu tiên hai hành vi trong [giả thuyết](hypothesis.md) là hỏi lại khi thiếu ngữ cảnh và đưa mốc để học viên kiểm chứng. Log chưa cho biết vì sao người học hỏi lại, mất bao nhiêu phút để tìm đoạn, hay việc có mốc giúp học nhanh hơn bao nhiêu. Con số thời gian trong bảng impact vẫn là ước tính của nhóm. P3 sẽ giúp kiểm lại bằng một tình huống thực tế của học viên ngoài nhóm.
