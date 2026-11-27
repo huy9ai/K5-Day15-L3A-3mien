@@ -5,7 +5,7 @@
 | Nguồn | Ngưỡng | Đạt | File |
 |---|---|---|---|
 | **Nguồn 1 · Đào data BTC** (`05–25/11/2026`) | x/N, %, cách đếm chạy lại được, ≥5 ví dụ | ☑ | [`evidence/data-mining.md`](data-mining.md) · [`count_preclass.py`](count_preclass.py) |
-| **Nguồn 2 · Khảo sát học viên L3 ngoài nhóm** (`n = 28`) | ≥20 người ngoài nhóm, giữ đủ 9 câu & log từng phiếu đã ẩn danh | ☑ | [`evidence/survey/questions.md`](survey/questions.md) · [`results.csv`](survey/results.csv) · [`count_survey.py`](survey/count_survey.py) |
+| **Nguồn 2 · Khảo sát học viên L3 ngoài nhóm** (`n = 34`) | ≥20 người ngoài nhóm, giữ đủ 9 câu & log từng phiếu đã ẩn danh | ☑ | [`evidence/survey/questions.md`](survey/questions.md) · [`results.csv`](survey/results.csv) · [`count_survey.py`](survey/count_survey.py) |
 
 ---
 
@@ -34,30 +34,40 @@ Chạy lại bằng `python evidence/count_preclass.py <thu-muc-preclass>` (chi 
 
 ---
 
-## 3. Số liệu chính từ Nguồn 2 (khảo sát `n = 28` học viên L3)
+## 3. Số liệu chính từ Nguồn 2 (khảo sát `n = 34` học viên L3)
 
 Chạy lại bằng `python evidence/survey/count_survey.py`:
 
 | Chỉ số khảo sát | x / N | % | Ghi chú |
 |---|---:|---:|---|
-| Gặp vướng ≥1 lần trong tháng qua | 19 / 28 | 67,9% | `13/28` (46,4%) gặp ≥3 lần/tháng |
-| Lần gần nhất vướng khi **Xem video** | 11 / 28 | 39,3% | Cao nhất trong các bối cảnh |
-| Tìm trợ giúp bằng **Hỏi AI ngoài nền tảng** | 19 / 28 | 67,9% | Trong khi chỉ `10/28` (35,7%) dùng trợ giảng pre-class |
-| Kết quả **chưa giải quyết trọn vẹn** | 17 / 28 | 60,7% | Chưa hiểu rõ (8), phải chuyển kênh khác (6), bỏ qua (2), chưa giải quyết (1) |
-| Mất **≥5 phút** cho mỗi lần vướng | 19 / 28 | 67,9% | `5–15 phút`: 11/28 · `16–30 phút`: 6/28 · `31–60 phút`: 2/28 |
-| Chọn **Chỉ đúng đoạn cần xem** hoặc **Được hỏi lại để làm rõ** giúp làm tiếp | 17 / 28 | 60,7% | `Chỉ đúng đoạn cần xem`: 12/28 (42,9%) · `Được hỏi lại để làm rõ`: 11/28 (39,3%) |
-| Kiểm tra bằng **Đối chiếu bài học** | 13 / 28 | 46,4% | `10/28` (35,7%) hỏi nguồn khác · `5/28` (17,9%) không biết cách kiểm tra |
+| Gặp vướng ≥1 lần trong tháng qua | 22 / 34 | 64,7% | `13/34` (38,2%) gặp ≥3 lần/tháng |
+| Lần gần nhất vướng khi **Xem video** | 14 / 34 | 41,2% | Cao nhất trong các bối cảnh (`Trả lời câu hỏi`: `6/34 = 17,6%`) |
+| Tìm trợ giúp bằng **Hỏi AI ngoài nền tảng** | 21 / 34 | 61,8% | Trong khi chỉ `12/34` (35,3%) dùng trợ giảng pre-class |
+| Kết quả **chưa giải quyết trọn vẹn** | 19 / 34 | 55,9% | Chưa hiểu rõ (8), phải chuyển kênh khác (6), bỏ qua (4), chưa giải quyết (1) |
+| Mất **≥5 phút** cho mỗi lần vướng | 23 / 34 | 67,6% | `5–15 phút`: 15/34 · `16–30 phút`: 6/34 · `31–60 phút`: 2/34 |
+| Chọn **Chỉ đúng đoạn cần xem** hoặc **Được hỏi lại để làm rõ** giúp làm tiếp | 19 / 34 | 55,9% | `Chỉ đúng đoạn cần xem`: 14/34 (41,2%) · `Được hỏi lại để làm rõ`: 13/34 (38,2%) |
+| Kiểm tra bằng **Đối chiếu bài học** | 15 / 34 | 44,1% | `11/34` (32,4%) hỏi nguồn khác · `9/34` (26,5%) chưa kiểm tra · `5/34` (14,7%) không biết cách kiểm tra |
+
+*(Trên tập con `22` học viên báo gặp ≥1 lần ở Q1: `14/22 = 63,6%` chưa giải quyết trọn vẹn, `18/22 = 81,8%` mất `≥5 phút/lần`, `14/22 = 63,6%` cần chỉ đúng đoạn xem hoặc hỏi lại để làm rõ).*
+
+### Năm phản hồi nguyên văn điển hình từ khảo sát (ẩn danh)
+
+1. **Phiếu #1 (`27/11 16:24:04`, gặp `6–10 lần`, `5–15 phút`):** Chọn nguyên văn *"Phải chuyển sang cách hỗ trợ khác mới giải quyết được"*, kiểm tra bằng *"Hỏi nguồn khác / Không biết cách kiểm tra"*, và nêu điều giúp làm tiếp là *"Giải thích dễ hiểu, Chỉ đúng đoạn cần xem, Được hỏi lại để làm rõ"*.
+2. **Phiếu #5 (`27/11 16:40:59`, gặp `Trên 10 lần`, `5–15 phút`):** Tìm kiếm ở cả 6 kênh nhưng kết quả là *"Bỏ qua hoặc dừng học"*; chọn đầy đủ *"Chỉ đúng đoạn cần xem, Gợi ý từng bước, Được hỏi lại để làm rõ"*.
+3. **Phiếu #13 (`27/11 18:01:59`, gặp `6–10 lần`, `5–15 phút`):** Xảy ra khi *"Trao đổi với trợ giảng AI"*, *"Chưa kiểm tra"*, kết quả *"Phải chuyển sang cách hỗ trợ khác mới giải quyết được"*, cần *"Giải thích dễ hiểu, Có ví dụ sát bài, Được hỏi lại để làm rõ"*.
+4. **Phiếu #15 (`27/11 18:27:46`, gặp `1–2 lần`, `16–30 phút`):** Đang *"Xem video"*, điền câu trả lời tự do nguyên văn ở Q6 là `"k hiểu câu hỏi"`.
+5. **Phiếu #29 (`27/11 18:58:49`, gặp `1–2 lần`, `5–15 phút`):** Đang *"Trả lời câu hỏi"*, kết quả cuối cùng là *"Bỏ qua hoặc dừng học"*.
 
 ---
 
 ## 4. Đối chiếu khớp / lệch giữa hai nguồn
 
 - **Khớp nhau rất rõ:**
-  - Tỉ lệ học viên dùng trợ giảng pre-class tương đồng giữa log thật (`145/436 = 33,3%` học viên hoạt động từng chat) và khảo sát (`10/28 = 35,7%`).
-  - Log BTC cho thấy `39,3%` lượt thiếu mốc trích dẫn và `25,5%` phải hỏi lại; khảo sát lý giải nguyên nhân trực tiếp: `67,9%` phải chuyển sang AI ngoài nền tảng, `60,7%` chưa giải quyết trọn vẹn ở kênh ban đầu, và `60,7%` cho biết việc **chỉ đúng đoạn cần xem** (`42,9%`) hoặc **được hỏi lại để làm rõ** (`39,3%`) là yếu tố giúp làm tiếp.
-  - Khảo sát cũng cung cấp dữ liệu thật cho thời gian tốn mỗi lần vướng (`67,9%` mất `≥5 phút`, nhiều người mất `5–15 phút` hoặc `16–30 phút`), khớp với mức ước tính `~5 phút` ban đầu ở `spec.md` §2.
-- **Giới hạn đã nhận diện:** `5/28` phiếu chọn `Chưa gặp` ở Q1 nhưng vẫn trả lời Q2–Q9 do form chưa chia nhánh; dữ liệu log BTC không có nội dung chữ còn khảo sát chủ yếu câu đóng nên nhóm giữ nguyên toàn bộ log ẩn danh `results.csv` để minh bạch.
+  - Tỉ lệ học viên dùng trợ giảng pre-class tương đồng giữa log thật (`145/436 = 33,3%` học viên hoạt động từng chat) và khảo sát (`12/34 = 35,3%`).
+  - Log BTC cho thấy `39,3%` lượt thiếu mốc trích dẫn và `25,5%` phải hỏi lại; khảo sát lý giải nguyên nhân trực tiếp: `61,8%` phải chuyển sang AI ngoài nền tảng, `55,9%` chưa giải quyết trọn vẹn ở kênh ban đầu, và `55,9%` cho biết việc **chỉ đúng đoạn cần xem** (`41,2%`) hoặc **được hỏi lại để làm rõ** (`38,2%`) là yếu tố giúp làm tiếp.
+  - Khảo sát cũng cung cấp dữ liệu thật cho thời gian tốn mỗi lần vướng (`67,6%` mất `≥5 phút`, trong đó `15/34` mất `5–15 phút` và `8/34` mất `16–60 phút`), khẳng định mức ước tính thận trọng `5 phút/lần` ở `spec.md` §2.
+- **Giới hạn đã nhận diện:** `6/34` phiếu chọn `Chưa gặp` ở Q1 nhưng vẫn trả lời Q2–Q9 do form chưa chia nhánh; dữ liệu log BTC không có nội dung chữ còn khảo sát chủ yếu câu đóng nên nhóm giữ nguyên toàn bộ log ẩn danh `results.csv` để minh bạch.
 
 ## 5. Kết luận
 
-Cả hai nguồn bằng chứng (đào data + khảo sát `n = 28`) đều xác nhận [giả thuyết](hypothesis.md) và khẳng định việc ưu tiên 3 hành vi thiết kế trong `spec.md` §4: **trích đúng mã đoạn bài giảng để đối chiếu, hỏi ngược 1 câu khi câu hỏi mơ hồ, và từ chối rõ khi thiếu căn cứ**.
+Cả hai nguồn bằng chứng (đào data + khảo sát `n = 34`) đều xác nhận [giả thuyết](hypothesis.md) và khẳng định việc ưu tiên 3 hành vi thiết kế trong `spec.md` §4: **trích đúng mã đoạn bài giảng để đối chiếu, hỏi ngược 1 câu khi câu hỏi mơ hồ, và từ chối rõ khi thiếu căn cứ**.
