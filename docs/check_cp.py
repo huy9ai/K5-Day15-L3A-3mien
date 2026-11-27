@@ -168,12 +168,25 @@ def smoke_test_agent():
     return run_cmd([sys.executable, "-c", code], cwd=ROOT, env=env)
 
 
-def check_interviews():
+def check_second_evidence():
+    # Kiem tra nguon bang chung thu hai: khao sat (>=20 phieu) HOAC phong van (>=3 file)
+    survey_csv = ROOT / "evidence" / "survey" / "results.csv"
+    survey_q = ROOT / "evidence" / "survey" / "questions.md"
     iv_dir = ROOT / "evidence" / "interviews"
-    files = sorted(p for p in iv_dir.glob("P*.md")) if iv_dir.is_dir() else []
+    iv_files = sorted(p for p in iv_dir.glob("P*.md")) if iv_dir.is_dir() else []
+
+    if survey_csv.exists():
+        _, srows = read_csv_rows("evidence/survey/results.csv")
+        has_q = survey_q.exists()
+        if len(srows) >= 20 and has_q:
+            print_row("OK", "Ca nhom", f"Khao sat dat nguong R1 ({len(srows)} phieu >= 20, co questions.md)")
+            return
+        print_row("CANH BAO", "Ca nhom", f"Khao sat hien co {len(srows)} phieu (can >=20 va questions.md)")
+        return
+
     filled = []
     empty = []
-    for p in files:
+    for p in iv_files:
         txt = p.read_text(encoding="utf-8-sig", errors="replace")
         has_quote = bool(re.search(r'-\s*"[^…"\n]{5,}"', txt))
         has_notes = "- __" not in txt and "Lần gần nhất: __" not in txt
@@ -184,8 +197,8 @@ def check_interviews():
     if len(filled) >= 3:
         print_row("OK", "Ca nhom", f"Phong van dat nguong ({len(filled)} file co noi dung)", ", ".join(filled))
     else:
-        detail = f"co file: {[p.name for p in files]}; da dien: {filled or 'chua co'}; con trong: {empty or 'chua tao P2-P4'}"
-        print_row("CANH BAO", "Ca nhom", "Phong van P1-P4 (can >=3 nguoi ngoai nhom truoc CP3)", detail)
+        detail = f"co file: {[p.name for p in iv_files]}; da dien: {filled or 'chua co'}; con trong: {empty or 'chua tao P2-P4'}"
+        print_row("CANH BAO", "Ca nhom", "Nguon thu hai (can khao sat >=20 HOAC phong van >=3 truoc CP3)", detail)
 
 
 def check_cp2():
@@ -249,7 +262,7 @@ def check_cp2():
     else:
         print_row("CHUA DAT", "Hau", "eval/metric_spec.yaml chua dien du >=3 metric (con mau <...>)")
 
-    check_interviews()
+    check_second_evidence()
 
 
 def check_cp3():
