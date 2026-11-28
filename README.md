@@ -60,6 +60,7 @@ Trong README này lệnh viết là `python …`; máy nhóm cần `python3` hay
 | `python run.py simulate --try` | Thử mô phỏng chi phí 10 phiên (làm trước CP3) → `cost/simulate-try.csv` |
 | `python run.py simulate` | Mô phỏng chi phí khi dùng thật theo `cost/personas.yaml` (≥50 phiên) → `cost/simulate-N.csv` + `cost/simulate-N-summary.md` |
 | `python run.py simulate --rate-from eval/run-2.csv` | Như trên, lấy tỉ lệ đạt từ đúng lượt chỉ định. Không ghi thì khung lấy lượt `run-N` mới nhất đã chấm, cùng model, và ghi rõ đã lấy lượt nào trong bản tóm tắt |
+| `python frontend/server.py` | Mở giao diện web 3 cột tại `http://127.0.0.1:8000` (và phục vụ API cục bộ cho Chrome Extension ở `extension/`) |
 
 Gói miễn phí báo hết lượt: thêm `--wait 4` sau `eval` hoặc `simulate` (nghỉ 4 giây giữa hai lượt gọi). Sửa CSV bằng Excel: *File → Save As → CSV UTF-8*; Google Sheets: *Tệp → Tải xuống → CSV*.
 
@@ -83,15 +84,16 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (từ CP3) | Model lượt 1: `qwen3:4b-instruct-2507-q4_K_M` (qua Ollama cục bộ, `eval/run-1.csv`, Run ID `run-1@20261127-172625`); Đã thử OpenAI `gpt-6-luna`: 3 câu kết nối, 10 phiên mô phỏng không lỗi; eval `run-2@20261128-080820` đạt 19/21 (90,5%), đã được Hậu duyệt. Chi tiết `cost/cost-estimate.md` |
-| Tiền kiểm, 2 công cụ đọc (`search_lesson`, `get_passage`) & hậu kiểm mã đoạn | **Thật** | Code Python tất định chạy trên `data/lessons.json`, chặn tấn công và mã bịa (đã chặn mã bịa `D07-S01` ở câu `B01`) |
-| Kho bài giảng mẫu (`data/lessons.json`) | **Tự dựng / viết lại** | 27 đoạn tóm tắt (`synthetic`) phủ `Day01`–`Day13` bám khung `kc_code` & `transcript_ref` thật từ `data/preclass/` (xem `data/DATA_CARD.md`) |
+| Lời gọi AI ở quyết định trung tâm | **Thật** | Lượt 1: `qwen3:4b-instruct-2507-q4_K_M` (Ollama, `15/21`); Lượt 2: `gpt-6-luna` (OpenAI, `run-2@20261128-080820`, `19/21 = 90,5%`, 0 lỗi, 0 mã bịa). Chi tiết `eval/README.md`, `cost/cost-estimate.md` |
+| Tiền kiểm, 2 công cụ đọc (`search_lesson`, `get_passage`) & hậu kiểm mã đoạn | **Thật** | Code Python tất định chạy trên `data/lessons.json` (chặn 4/4 câu `tu_choi`, chặn mã bịa `D07-S01` ở lượt 1) |
+| Giao diện web 3 cột (`frontend/`) & Extension (`extension/`) | **Thật (chạy cục bộ)** | Chạy riêng tại `127.0.0.1:8000`; Extension chỉ là lớp phủ phía trình duyệt gọi server cục bộ, không sửa hay kết nối backend thật của `preclass-online.com` |
+| Kho bài giảng mẫu (`data/lessons.json`) | **Tự dựng / viết lại** | 86 đoạn tóm tắt (`synthetic`, nâng từ 27 đoạn ở CP2) phủ `Day01`–`Day15` bám khung mục lục và mốc thời gian thật (xem `data/DATA_CARD.md`) |
 
 ## Dùng AI vào việc gì
 
 2–3 dòng (bắt buộc): nhóm dùng công cụ AI nào để làm gì, người kiểm lại phần nào. Chi tiết: [docs/ai-usage.md](docs/ai-usage.md). Coding agent đọc [AGENTS.md](AGENTS.md).
 
-Nhóm sử dụng coding agent để hỗ trợ viết script phân tích dữ liệu (`evidence/count_preclass.py`), chuẩn hoá tài liệu khung và sẽ hỗ trợ code/review bản chạy thử. Toàn bộ số liệu đếm, định nghĩa tiêu chí đánh giá và dữ liệu phỏng vấn người dùng đều do thành viên trực tiếp thực hiện và kiểm chứng thủ công.
+Nhóm sử dụng coding agent để hỗ trợ viết script phân tích dữ liệu (`evidence/count_preclass.py`, `evidence/survey/count_survey.py`), chuẩn hoá tài liệu khung và hỗ trợ lập trình bản chạy thử + giao diện web/extension. Toàn bộ số liệu đếm, 34 phiếu khảo sát, chấm đánh giá 21/21 câu và đối chiếu chi phí đều do thành viên trực tiếp thực hiện và kiểm chứng thủ công.
 
 ## File mẫu — điền ở bước nào
 

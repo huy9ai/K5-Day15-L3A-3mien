@@ -90,7 +90,7 @@ flowchart TD
   | G1 / G2 — Làm rõ hệ thống làm được gì & tốt đến đâu | Thông điệp mở đầu `codebase/app.py` và thông báo từ chối: nêu rõ phạm vi bài pre-class đã nạp, không trả lời lịch/điểm hay làm hộ bài |
   | G9 — Sửa dễ dàng | Nhánh `OUT_ASK` và gợi ý cuối câu trả lời: đưa 2–3 chủ đề hoặc mã đoạn để học viên gõ bổ sung ngay ở lượt sau mà không mất mạch hỏi |
 
-- **Phần nào còn giả:** Tại mốc CP2, `codebase/ai.py` chạy ở chế độ giả (mock trả lời theo 3 nhánh để kiểm thông luồng `python run.py`), còn `search_lesson`/`get_passage` đọc bộ bài mẫu rút gọn tự dựng `data/lessons.json` (không chép nguyên tài liệu khoá, mô tả tại `data/DATA_CARD.md`). Ở CP3, phần quyết định trung tâm gọi Qwen qua Ollama. Kho căn cứ vẫn là bộ bài mẫu được viết lại, xem `data/DATA_CARD.md`.
+- **Phần nào còn giả:** Tại mốc CP2, `codebase/ai.py` chạy chế độ giả để kiểm thông luồng; ở CP3 lượt 1 gọi model thật `qwen3:4b-instruct-2507-q4_K_M` qua Ollama (`eval/run-1.csv`); ở CP4 lượt 2 gọi model thật `gpt-6-luna` qua OpenAI (`eval/run-2.csv`, đạt `19/21 = 90,5%`) trên kho bài nâng cấp `data/lessons.json` (`86` đoạn phủ `Day01`–`Day15`, trích lược tóm tắt từ khung mục lục/mốc thật, không chép nguyên văn tài liệu khoá — xem `data/DATA_CARD.md`). Giao diện web 3 cột (`frontend/server.py`) và Chrome Extension (`extension/`) đều là lớp phủ chạy cục bộ gọi `127.0.0.1:8000`, **không sửa và không kết nối vào backend thật** của `preclass-online.com`.
 
 ## §5. Chỗ khó — 4 lớp + ≥6 kịch bản + 2 tấn công *(guide 2.3)*
 
@@ -149,12 +149,11 @@ flowchart TD
 | 27/11 19:03 | Đổi nguồn bằng chứng thứ hai từ phỏng vấn P1–P4 sang khảo sát hành vi `n = 28` học viên L3 ngoài nhóm (`evidence/survey/`), xoá khung trống `P1.md`, cập nhật `canvas.md` & `evidence/summary.md` | Đạt đủ 2 nguồn vượt ngưỡng R1 (`≥20` phiếu khảo sát + đào data BTC) và đối chiếu khớp tỉ lệ dùng trợ giảng (`33,3%` vs `35,7%`) |
 | 27/11 19:15 | Cập nhật đồng bộ `spec.md` §0, §1, §2, §9 và `README.md` (giữ nguyên chuẩn "đạt" §7) | Thay ước tính thời gian `5 phút/lần` bằng dữ liệu thật Q8 khảo sát (`67,9%` mất `≥5 phút`) và ghi rõ phần thật/giả ở CP3 |
 | 27/11 23:20 | Cập nhật khảo sát đợt 2 từ `n = 28` lên `n = 34` (`evidence/survey/results.csv`) và gắn link video demo CP3 vào `README.md` | Bổ sung 6 phiếu mới hoàn thành vào tối 27/11; hoàn thiện đường dẫn video công khai nộp CP3 |
-
 | 28/11 08:10 | Cập nhật CP3 bằng kết quả OpenAI: thử 3 câu, mô phỏng thử 10 phiên và eval 21 câu GPT-6 Luna; đồng bộ cost/report/README | Các lượt không lỗi; eval `run-2@20261128-080820` chưa chấm nên chưa công bố tỷ lệ đạt hoặc chi phí/task thành công. Giữ nguyên file kết quả và chuẩn đạt |
-
 | 28/11 08:15 | Bổ sung bảng đối chiếu 21 output GPT-6 Luna trong eval/README.md, đề xuất 19/21 kèm lý do, chờ Hậu/nhóm duyệt | Đối chiếu theo metric đã khóa và mốc chính/slide con; không thay cột pass, kết quả chạy hay chuẩn đạt |
-
 | 28/11 08:23 | Ghi đối chiếu 5 output lượt 1 Hậu–Thái: 5/5 khớp, bảng và nguồn trong eval/README.md | Dùng nhãn Hậu đã lưu ở commit af4d815 và phiếu Thái được duyệt, không tạo lần chấm mù mới hay sửa điểm cũ |
+| 28/11 09:10 | Cập nhật link video demo gọi AI thật `democp3.mp4` vào `README.md` (`e677002`) | Hoàn thiện đường dẫn video công khai nộp CP3 |
+| 28/11 09:20 | Chuẩn hoá `spec.md` §4 & §10, cập nhật `README.md` lệnh chạy web/extension + trạng thái lượt 2, đồng bộ `docs/ai-usage.md` và viết `reflection/bui-gia-huy.md` | Hoàn thiện phần tài liệu và reflection cá nhân cho CP4 / 23:59 (giữ nguyên chuẩn đạt §7; §8 chờ kết quả `simulate ≥50` phiên của Thái) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
