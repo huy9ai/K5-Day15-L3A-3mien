@@ -10,11 +10,11 @@
 |---|---|
 | Dùng để làm gì | Nguồn tri thức cục bộ cho 2 công cụ đọc `search_lesson(query, top_k=3)` và `get_passage(code)` trong `codebase/tools.py`, phục vụ bản chạy thử Trợ giảng pre-class có căn cứ (`codebase/agent.py`) |
 | Từ đâu | **Khung mục lục, tiêu đề phần, ý chốt ngắn và mốc thời gian thực (`mm:ss`)** trích lược từ 15 bài giảng pre-class AI20K L3 (`Day01` → `Day15`), đối chiếu với log `data/preclass/` và `teaching-schedule.xlsx`. Không sao chép hay commit nguyên văn tài liệu/file HTML gốc của khoá |
-| Xử lý những bước gì | Chuẩn hoá mã đoạn duy nhất dạng `Dxx-Syy` (`D01-S01` → `D15-S03`) theo đúng `spec.md` §4 · gắn đầy đủ `code`, `lesson`, `slide`, `timestamp`, `end_timestamp`, `title`, `text`, `sub_slides`, `keywords` · kiểm tra JSON hợp lệ và chạy kiểm thử tra cứu 15/15 ngày bằng `codebase/tools.py` |
-| Số dòng / số đoạn | **86 đoạn** phủ đầy đủ **15 ngày học** (`Day01`: 5, `Day02`–`Day14`: 6 phần/ngày, `Day15`: 3) |
-| Phiên bản / ngày lấy | `v3.0-all-15-days` · 27/11/2026 |
+| Xử lý những bước gì | Chuẩn hoá mã đoạn duy nhất dạng `Dxx-Syy` (`D01-S01` → `D15-S03`) theo đúng `spec.md` §4 · tổ chức cấu trúc 2 tầng Cha–Con (Parent–Child): mỗi đoạn cha gắn đầy đủ `code`, `lesson`, `slide`, `timestamp`, `end_timestamp`, `title`, `text`, `keywords`, kèm danh sách `sub_slides` chi tiết từng slide (`slide`, `timestamp`, `title`, `summary` rút gọn) · kiểm tra JSON hợp lệ và chạy kiểm thử tra cứu 15/15 ngày bằng `codebase/tools.py` |
+| Số dòng / số đoạn | **86 đoạn cha** phủ đầy đủ **15 ngày học** (`Day01`: 5, `Day02`–`Day14`: 6 phần/ngày, `Day15`: 3) và **375 slide con (`sub_slides`)** có tóm tắt ý chính + mốc giây riêng |
+| Phiên bản / ngày lấy | `v3.1-all-15-days-parent-child` · 28/11/2026 |
 | Nhãn | `synthetic` (bản tóm tắt rút gọn) trên khung mục lục và mốc thời gian `thật` của 15 bài giảng |
-| Giới hạn | Mỗi đoạn mới tóm gọn các ý chốt chính và mốc slide con (3–5 câu), chưa chứa toàn bộ lời thoại chi tiết từng giây hay bài tập mini-lab |
+| Giới hạn | Mỗi `sub_slide` chỉ tóm gọn ý chốt chính trên slide (~200–340 ký tự), không lưu nguyên văn lời thoại từng giây hay đáp án bài quiz/mini-lab |
 
 **Data `synthetic` (phần văn bản tóm tắt):** Biên soạn/trích lược ngắn gọn theo từng phần chính bởi **Ngô Đức Thịnh**, không sinh ngẫu nhiên (không dùng seed); đã kiểm tra đủ **86/86 đoạn** về mã đoạn duy nhất `Dxx-Syy`, mốc thời gian và độ phủ tra cứu 15/15 ngày. Dữ liệu này chỉ phục vụ bản chạy thử và kiểm thử kỹ thuật, **không phải bằng chứng pain**.
 

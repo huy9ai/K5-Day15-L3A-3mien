@@ -333,11 +333,26 @@ def answer(text: str) -> dict:
     # BƯỚC 3: 1 LẦN GỌI MODEL (QUYẾT ĐỊNH TRUNG TÂM)
     # =========================================================================
     is_homework_ask = _is_homework_request(user_text, norm)
-    context = "\n".join(
-        "[%s · %s] (%s — %s): %s"
-        % (m["code"], m["timestamp"], m["lesson"], m["title"], m["text"])
-        for m in matches
-    )
+    context_blocks = []
+    for m in matches:
+        block = "[%s · %s] (%s — %s): %s" % (
+            m["code"],
+            m["timestamp"],
+            m["lesson"],
+            m["title"],
+            m["text"],
+        )
+        sub_lines = []
+        for sub in m.get("matched_slides") or []:
+            s_ts = sub.get("timestamp") or m["timestamp"]
+            s_title = sub.get("title") or ""
+            s_sum = sub.get("summary") or ""
+            if s_sum:
+                sub_lines.append("  · [%s · %s] %s: %s" % (m["code"], s_ts, s_title, s_sum))
+        if sub_lines:
+            block += "\n" + "\n".join(sub_lines)
+        context_blocks.append(block)
+    context = "\n".join(context_blocks)
     extra_rule = (
         "\nLƯU Ý ĐẶC BIỆT (chống lộ đáp án): Học viên đang hỏi đáp án quiz/bài tập. "
         "TUYỆT ĐỐI KHÔNG chọn chữ cái (A/B/C/D) và KHÔNG lặp nguyên văn nội dung bất kỳ phương án nào trong câu hỏi; "
