@@ -25,14 +25,14 @@ personas:
     turns_per_session: 1
     source: "Huy bàn giao; spec.md §2: 19,3%, 23,6 lượt/21 ngày quy đổi khoảng 34 lượt/tháng; 1 lượt = 1 phiên theo quy ước Thái duyệt."
 
-# Giá tham chiếu của BTC, không tự đổi model chạy thực tế.
+# Đơn giá OpenAI từ bảng BTC (không tự đổi model chạy thực tế: đang đo trên gpt-6-luna).
 # Phải ghi: đo token trên model X, tính giá model Y.
 prices:
-  - model: gemini-3.1-flash-lite
-    input: 0.25
-    output: 1.50
-    source: "Bảng BTC further-reading/model-prices.md, BTC tra 25/11/2026: https://ai.google.dev/gemini-api/docs/pricing ; đọc bản tài liệu 28/11/2026, chưa kiểm lại trực tuyến."
-  - model: gemini-4-hydrogen
-    input: 1.50
-    output: 7.50
-    source: "Bảng BTC further-reading/model-prices.md, BTC tra 25/11/2026: https://ai.google.dev/gemini-api/docs/pricing ; đọc bản tài liệu 28/11/2026, chưa kiểm lại trực tuyến."
+  - model: gpt-6-luna
+    input: 0.10
+    output: 0.50
+    source: "Bảng BTC further-reading/model-prices.md (tầng Nhỏ — đúng model chạy thật), BTC tra 25/11/2026: https://developers.openai.com/api/docs/pricing"
+  - model: gpt-6.2-sol
+    input: 2.00
+    output: 10.00
+    source: "Bảng BTC further-reading/model-prices.md (tầng Lớn — so sánh cùng hệ OpenAI), BTC tra 25/11/2026: https://developers.openai.com/api/docs/pricing"

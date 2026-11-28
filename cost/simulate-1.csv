@@ -1,0 +1,51 @@
+﻿run_id,session,persona,turns,inputs,model,model_calls,tool_calls,tokens_in,tokens_out,latency_s,error,tokens_by_model
+simulate-1@20261128-122624,S001,dung_vua,1,Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class.,gpt-6-luna,1,1,1408,144,4.179,,"{""gpt-6-luna"": {""in"": 1408, ""out"": 144}}"
+simulate-1@20261128-122624,S002,dung_vua,1,Giải thích nội dung tại mã D99-S05 giúp mình.,,0,1,0,0,0.003,,{}
+simulate-1@20261128-122624,S003,dung_it,1,??,,0,0,0,0,0.0,,{}
+simulate-1@20261128-122624,S004,dung_vua,1,Tại sao cần bộ câu thử trước khi đổi prompt?,gpt-6-luna,1,1,1591,144,2.119,,"{""gpt-6-luna"": {""in"": 1591, ""out"": 144}}"
+simulate-1@20261128-122624,S005,dung_vua,1,"Trong bài về RAG, bước truy xuất làm gì trước khi model trả lời?",gpt-6-luna,1,1,2109,42,2.228,,"{""gpt-6-luna"": {""in"": 2109, ""out"": 42}}"
+simulate-1@20261128-122624,S006,dung_it,1,"Mình hỏi tiếp nhé, vẫn chưa hiểu ý đó.",,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S007,dung_it,1,Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class.,gpt-6-luna,1,1,1408,198,2.21,,"{""gpt-6-luna"": {""in"": 1408, ""out"": 198}}"
+simulate-1@20261128-122624,S008,dung_vua,1,Ý đó là thế nào ạ? Mình chưa hiểu dù đã hỏi lại.,,0,1,0,0,0.072,,{}
+simulate-1@20261128-122624,S009,dung_it,1,Quiz về prompting: phương án nào là few-shot? A. Chỉ đưa yêu cầu. B. Kèm ba ví d,gpt-6-luna,1,1,2081,107,1.772,,"{""gpt-6-luna"": {""in"": 2081, ""out"": 107}}"
+simulate-1@20261128-122624,S010,dung_nhieu,1,Giải thích sự khác nhau giữa zero-shot và few-shot prompting theo bài pre-class.,gpt-6-luna,1,1,1408,170,2.226,,"{""gpt-6-luna"": {""in"": 1408, ""out"": 170}}"
+simulate-1@20261128-122624,S011,dung_vua,1,Phần này trong video nói gì vậy?,,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S012,dung_vua,1,"Trong bài Context Window, tại sao không nên đưa toàn bộ tài liệu dài vào prompt?",gpt-6-luna,1,1,1545,66,2.047,,"{""gpt-6-luna"": {""in"": 1545, ""out"": 66}}"
+simulate-1@20261128-122624,S013,dung_it,1,"Mình hỏi tiếp nhé, vẫn chưa hiểu ý đó.",,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S014,dung_nhieu,1,"Trong bài Context Window, tại sao không nên đưa toàn bộ tài liệu dài vào prompt?",gpt-6-luna,1,1,1545,100,2.61,,"{""gpt-6-luna"": {""in"": 1545, ""out"": 100}}"
+simulate-1@20261128-122624,S015,dung_it,1,"Trong bài về chatbot và workflow, cho mình biết sự khác nhau.",gpt-6-luna,1,1,1913,177,2.617,,"{""gpt-6-luna"": {""in"": 1913, ""out"": 177}}"
+simulate-1@20261128-122624,S016,dung_it,1,"Trong bài RAG, vì sao cần chia tài liệu thành đoạn trước khi truy xuất?",gpt-6-luna,1,1,2239,227,2.982,,"{""gpt-6-luna"": {""in"": 2239, ""out"": 227}}"
+simulate-1@20261128-122624,S017,dung_vua,1,"Trong bài về RAG, bước truy xuất làm gì trước khi model trả lời?",gpt-6-luna,1,1,2109,86,1.481,,"{""gpt-6-luna"": {""in"": 2109, ""out"": 86}}"
+simulate-1@20261128-122624,S018,dung_vua,1,??,,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S019,dung_nhieu,1,"Trong bài về chatbot và workflow, cho mình biết sự khác nhau.",gpt-6-luna,1,1,1913,261,2.695,,"{""gpt-6-luna"": {""in"": 1913, ""out"": 261}}"
+simulate-1@20261128-122624,S020,dung_it,1,"Trong bài về temperature, giảm temperature có bảo đảm câu trả lời đúng không?",gpt-6-luna,1,1,1812,36,1.2,,"{""gpt-6-luna"": {""in"": 1812, ""out"": 36}}"
+simulate-1@20261128-122624,S021,dung_nhieu,1,"Trong bài RAG, vì sao cần chia tài liệu thành đoạn trước khi truy xuất?",gpt-6-luna,1,1,2239,240,2.637,,"{""gpt-6-luna"": {""in"": 2239, ""out"": 240}}"
+simulate-1@20261128-122624,S022,dung_vua,1,Tại sao cần bộ câu thử trước khi đổi prompt?,gpt-6-luna,1,1,1591,161,2.08,,"{""gpt-6-luna"": {""in"": 1591, ""out"": 161}}"
+simulate-1@20261128-122624,S023,dung_it,1,Giải thích nội dung tại mã D99-S05 giúp mình.,,0,1,0,0,0.001,,{}
+simulate-1@20261128-122624,S024,dung_vua,1,Tại sao cần bộ câu thử trước khi đổi prompt?,gpt-6-luna,1,1,1591,188,2.239,,"{""gpt-6-luna"": {""in"": 1591, ""out"": 188}}"
+simulate-1@20261128-122624,S025,dung_nhieu,1,??,,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S026,dung_it,1,Giải thích cửa sổ ngữ cảnh trong bài và chỉ giúp mình đang ở phút nào để tua lại,gpt-6-luna,1,1,1531,232,2.489,,"{""gpt-6-luna"": {""in"": 1531, ""out"": 232}}"
+simulate-1@20261128-122624,S027,dung_vua,1,"Trong bài RAG, vì sao cần chia tài liệu thành đoạn trước khi truy xuất?",gpt-6-luna,1,1,2239,191,2.438,,"{""gpt-6-luna"": {""in"": 2239, ""out"": 191}}"
+simulate-1@20261128-122624,S028,dung_it,1,"Trong bài RAG, vì sao cần chia tài liệu thành đoạn trước khi truy xuất?",gpt-6-luna,1,1,2239,194,2.193,,"{""gpt-6-luna"": {""in"": 2239, ""out"": 194}}"
+simulate-1@20261128-122624,S029,dung_it,1,Quiz về prompting: phương án nào là few-shot? A. Chỉ đưa yêu cầu. B. Kèm ba ví d,gpt-6-luna,1,1,2081,146,2.039,,"{""gpt-6-luna"": {""in"": 2081, ""out"": 146}}"
+simulate-1@20261128-122624,S030,dung_vua,1,Tại sao cần bộ câu thử trước khi đổi prompt?,gpt-6-luna,1,1,1591,148,1.951,,"{""gpt-6-luna"": {""in"": 1591, ""out"": 148}}"
+simulate-1@20261128-122624,S031,dung_vua,1,Phần này trong video nói gì vậy?,,0,0,0,0,0.002,,{}
+simulate-1@20261128-122624,S032,dung_vua,1,Giải thích nội dung tại mã D99-S05 giúp mình.,,0,1,0,0,0.0,,{}
+simulate-1@20261128-122624,S033,dung_it,1,"Trong bài về chatbot và workflow, cho mình biết sự khác nhau.",gpt-6-luna,1,1,1913,276,3.846,,"{""gpt-6-luna"": {""in"": 1913, ""out"": 276}}"
+simulate-1@20261128-122624,S034,dung_it,1,Giải thích nội dung tại mã D99-S05 giúp mình.,,0,1,0,0,0.001,,{}
+simulate-1@20261128-122624,S035,dung_vua,1,"Trong bài về RAG, bước truy xuất làm gì trước khi model trả lời?",gpt-6-luna,1,1,2109,43,1.308,,"{""gpt-6-luna"": {""in"": 2109, ""out"": 43}}"
+simulate-1@20261128-122624,S036,dung_it,1,"Trong bài về RAG, bước truy xuất làm gì trước khi model trả lời?",gpt-6-luna,1,1,2109,90,1.478,,"{""gpt-6-luna"": {""in"": 2109, ""out"": 90}}"
+simulate-1@20261128-122624,S037,dung_vua,1,"Trong bài về chatbot và workflow, cho mình biết sự khác nhau.",gpt-6-luna,1,1,1913,282,3.171,,"{""gpt-6-luna"": {""in"": 1913, ""out"": 282}}"
+simulate-1@20261128-122624,S038,dung_it,1,"Mình hỏi tiếp nhé, vẫn chưa hiểu ý đó.",,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S039,dung_nhieu,1,"Trong bài Context Window, tại sao không nên đưa toàn bộ tài liệu dài vào prompt?",gpt-6-luna,1,1,1545,101,1.671,,"{""gpt-6-luna"": {""in"": 1545, ""out"": 101}}"
+simulate-1@20261128-122624,S040,dung_it,1,Đoạn Problem-first nói vì sao phải hiểu vấn đề trước khi chọn model? Cho mình mố,gpt-6-luna,1,1,1719,229,2.648,,"{""gpt-6-luna"": {""in"": 1719, ""out"": 229}}"
+simulate-1@20261128-122624,S041,dung_vua,1,Giải thích cửa sổ ngữ cảnh trong bài và chỉ giúp mình đang ở phút nào để tua lại,gpt-6-luna,1,1,1531,329,3.247,,"{""gpt-6-luna"": {""in"": 1531, ""out"": 329}}"
+simulate-1@20261128-122624,S042,dung_it,1,Chỗ này là sao,,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S043,dung_it,1,Quiz về prompting: phương án nào là few-shot? A. Chỉ đưa yêu cầu. B. Kèm ba ví d,gpt-6-luna,1,1,2081,51,1.351,,"{""gpt-6-luna"": {""in"": 2081, ""out"": 51}}"
+simulate-1@20261128-122624,S044,dung_vua,1,Ý đó là thế nào ạ? Mình chưa hiểu dù đã hỏi lại.,,0,1,0,0,0.037,,{}
+simulate-1@20261128-122624,S045,dung_nhieu,1,"Trong bài về chatbot và workflow, cho mình biết sự khác nhau.",gpt-6-luna,1,1,1913,305,4.415,,"{""gpt-6-luna"": {""in"": 1913, ""out"": 305}}"
+simulate-1@20261128-122624,S046,dung_it,1,Chỗ này là sao,,0,0,0,0,0.002,,{}
+simulate-1@20261128-122624,S047,dung_vua,1,Tại sao cần bộ câu thử trước khi đổi prompt?,gpt-6-luna,1,1,1591,109,1.922,,"{""gpt-6-luna"": {""in"": 1591, ""out"": 109}}"
+simulate-1@20261128-122624,S048,dung_vua,1,??,,0,0,0,0,0.001,,{}
+simulate-1@20261128-122624,S049,dung_it,1,Phần này trong video nói gì vậy?,,0,0,0,0,0.0,,{}
+simulate-1@20261128-122624,S050,dung_vua,1,Ý đó là thế nào ạ? Mình chưa hiểu dù đã hỏi lại.,,0,1,0,0,0.037,,{}

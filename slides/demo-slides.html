@@ -361,18 +361,18 @@
   <div class="body">
     <div>
       <div class="a group" data-step="1" style="--i:0">
-        <h3>Quy đổi theo bảng giá BTC <span class="badge">10 phiên thử</span></h3>
+        <h3>Bảng giá OpenAI (BTC 25/11) <span class="badge" style="background:var(--teal-soft);color:var(--teal)">50 phiên · GPT-6 Luna</span></h3>
         <table>
-          <tr><th>Đơn giá quy đổi</th><th>/ task thành công</th><th>145 người</th><th class="hl">436 người</th><th>721 người</th></tr>
-          <tr><td>Gemini 3.1 Flash Lite</td><td>0,00033 $</td><td>0,64 $</td><td class="hl">1,91 $</td><td>3,17 $</td></tr>
-          <tr><td>Gemini 4 Hydrogen</td><td>0,0018 $</td><td>3,54 $</td><td class="hl">10,65 $</td><td>17,60 $</td></tr>
+          <tr><th>Đơn giá OpenAI</th><th>/ task thành công</th><th>145 người</th><th class="hl">436 người</th><th>721 người</th></tr>
+          <tr><td>GPT-6 Luna (Nhỏ)</td><td>0,00018 $</td><td>0,32 $</td><td class="hl">0,97 $</td><td>1,60 $</td></tr>
+          <tr><td>GPT-6.2 Sol (Lớn)</td><td>0,0036 $</td><td>6,45 $</td><td class="hl">19,39 $</td><td>32,07 $</td></tr>
         </table>
-        <p class="cap">Chi phí / tháng theo ba kịch bản người dùng; token đo trên GPT-6 Luna.</p>
+        <p class="cap">Chi phí / tháng (3 kịch bản); 50 phiên chạy thật (seed 42, 0/50 lỗi), token đo trên GPT-6 Luna.</p>
       </div>
       <ul class="a group notes" data-step="2" style="--i:0">
-        <li>Tỷ lệ đạt dùng tính: <b>19/21</b>, không coi mọi câu trả lời là thành công.</li>
-        <li>Là quy đổi giá Gemini trên token GPT-6 Luna — <b>chưa phải</b> chi phí API OpenAI, chưa tính hosting và công người duyệt.</li>
-        <li>Mô phỏng ≥ 50 phiên với đơn giá triển khai đã chốt: <b>chưa chạy</b>.</li>
+        <li>Tỷ lệ đạt dùng tính: <b>19/21 (90,5%)</b> cùng model GPT-6 Luna (<code>eval/run-2.csv</code>), không coi mọi câu đều đạt.</li>
+        <li><b>So với impact (§2):</b> chỉ <b>0,0022 $/người/tháng</b> (GPT-6 Luna) so với ~<b>54,5 phút/người/tháng</b> tự tìm/hỏi lại.</li>
+        <li>Chưa gồm chi phí hosting và công TA xử lý các câu bị chuyển tiếp.</li>
       </ul>
     </div>
     <div class="a concl" data-step="3" style="--i:0">
@@ -386,7 +386,7 @@
       <div class="value">Giá trị cần chứng minh: học viên hiểu bài và tự kiểm lại được nguồn.</div>
     </div>
   </div>
-  <div class="foot">Nguồn: <code>cost/cost-estimate.md</code>, <code>cost/personas.yaml</code>, <code>cost/simulate-try.csv</code>, <code>eval/run-2.csv</code>. Số 10 phiên là kết quả thử CP3.</div>
+  <div class="foot">Nguồn: <code>cost/cost-estimate.md</code>, <code>cost/simulate-1.csv</code>, <code>cost/personas.yaml</code>, <code>eval/run-2.csv</code> · run ID <code>simulate-1@20261128-122624</code>.</div>
 </section>
 
 </main>

@@ -88,25 +88,23 @@ Chân slide: `eval/report.md`, `eval/run-1.csv`, `eval/run-2.csv`; run ID `run-1
 
 ### Nội dung trên slide
 
-**Bảng hiện có từ 10 phiên chạy thật, token đo trên GPT-6 Luna:**
+**Bảng từ 50 phiên chạy thật (`seed = 42`, 0/50 lỗi), token đo trên GPT-6 Luna (`simulate-1@20261128-122624`):**
 
-| Đơn giá quy đổi theo bảng BTC | Chi phí/task thành công | Chi phí/tháng, 436 người |
+| Đơn giá OpenAI (bảng BTC 25/11) | Chi phí/task thành công | Chi phí/tháng, 436 người |
 |---|---:|---:|
-| Gemini 3.1 Flash Lite | 0,00033 USD | 1,91 USD |
-| Gemini 4 Hydrogen | 0,0018 USD | 10,65 USD |
+| GPT-6 Luna (Nhỏ: 0,10 / 0,50 $/1M) | 0,00018 USD | 0,97 USD |
+| GPT-6.2 Sol (Lớn: 2,00 / 10,00 $/1M) | 0,0036 USD | 19,39 USD |
 
-- Tỷ lệ đạt dùng tính: **19/21**; ba kịch bản người dùng: **145 / 436 / 721**.
-- Bảng là quy đổi giá Gemini trên token GPT-6 Luna; chưa phải chi phí API OpenAI và chưa tính hosting/công người duyệt.
+- Tỷ lệ đạt dùng tính: **19/21 (90,5%)** cùng model; ba kịch bản người dùng: **145 / 436 / 721** (`0,32 / 0,97 / 1,60 USD` với GPT-6 Luna).
+- **So với impact (§2):** chỉ **0,0022 USD/người/tháng** (GPT-6 Luna) so với **~54,5 phút/người/tháng** tự tìm/hỏi lại; chưa gồm hosting và công TA xử lý câu chuyển tiếp.
 - **Kết luận đề xuất:** Tiếp tục thử nghiệm có kiểm soát; ưu tiên sửa truy xuất và giảm hỏi lại không cần thiết, đo thời gian học viên thực sự tiết kiệm được.
 
-Chân slide: `cost/cost-estimate.md`, `cost/personas.yaml`, `eval/run-2.csv`. Số 10 phiên là kết quả thử CP3.
+Chân slide: `cost/cost-estimate.md`, `cost/simulate-1.csv`, `cost/personas.yaml`, `eval/run-2.csv` · run ID `simulate-1@20261128-122624`.
 
 ### Lời nói gợi ý — 60 giây
 
-“Nhóm tính chi phí theo tần suất của ba nhóm người dùng và tỷ lệ đạt thực tế 19 trên 21, không coi mọi câu trả lời đều thành công. Kết quả hiện có đo token trên GPT-6 Luna rồi quy đổi theo hai mức giá trong bảng BTC, nên đây chưa phải số tiền OpenAI thu. Ở quy mô 436 người, hai mức quy đổi khoảng 1,91 và 10,65 đô mỗi tháng. Nhóm đề xuất tiếp tục thử nghiệm có kiểm soát: sửa hai lỗi còn lại và đo thời gian tiết kiệm thực tế. Giá trị cần chứng minh là học viên hiểu bài và tự kiểm lại được nguồn.”
+“Nhóm mô phỏng 50 phiên thật theo tần suất ba nhóm người dùng và tỷ lệ đạt 19 trên 21 của GPT-6 Luna, không coi mọi câu trả lời đều thành công. Tính theo bảng giá OpenAI của BTC, chi phí khoảng 0,00018 đô mỗi task thành công. Ở quy mô cơ sở 436 người, hết gần 1 đô mỗi tháng — tức chỉ 0,0022 đô mỗi người so với hơn 50 phút tự tìm kiếm. Nhóm đề xuất tiếp tục thử nghiệm có kiểm soát: sửa hai lỗi còn lại và đo thời gian tiết kiệm thực tế. Giá trị cần chứng minh là học viên hiểu bài và tự kiểm lại được nguồn.”
 
-### Cập nhật trước khi xuất PDF CP4
+### Trạng thái PDF CP4
 
-Thay bảng và lời nói của slide 4 bằng số từ lượt mô phỏng **≥50 phiên**, tỷ lệ eval cùng model và đơn giá triển khai đã chốt. Nếu chưa có, giữ đúng nhãn “10 phiên thử”, khai phần còn thiếu; không trình bày thành kết quả đã đủ yêu cầu CP4.
-
-Xuất đúng **4 trang** thành `demo-slides.pdf` tại thư mục gốc repo. Mỗi trang giữ một thông điệp, số chính và nguồn ngắn; phần lời nói, lịch trình, hướng dẫn cập nhật không đưa vào PDF.
+Đã cập nhật bảng 50 phiên và xuất đủ **4 trang** thành `demo-slides.pdf` tại thư mục gốc repo (và đồng bộ trong `slides/demo-slides.pdf`).

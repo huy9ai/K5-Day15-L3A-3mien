@@ -125,5 +125,5 @@ Nhóm sử dụng coding agent để hỗ trợ viết script phân tích dữ l
 | 4 | Bản chạy thử làm trọn lát cắt | `codebase/` · lệnh ở mục "Lệnh" |
 | 5 | Định nghĩa "tốt" + bộ câu thử | `data/DATA_CARD.md` · `eval/` |
 | 6 | Mô phỏng chi phí khi dùng thật | `cost/` |
-| 7 | Slide + demo + video dự phòng | slide trong repo (PDF, PPTX, HTML…) hoặc link slide ở form CP4 · video CP3: https://drive.google.com/file/d/1ssOCdRBvZ7lKgpqBNirjBrBqck09Y2Te/view |
+| 7 | Slide + demo + video dự phòng | `demo-slides.pdf` ở thư mục gốc repo (`slides/demo-slides.html`) · video CP3/dự phòng: https://drive.google.com/file/d/1ssOCdRBvZ7lKgpqBNirjBrBqck09Y2Te/view |
 | + | *Bonus:* người dùng thử | `validation/log.md` |

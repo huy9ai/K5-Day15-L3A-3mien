@@ -121,11 +121,12 @@ flowchart TD
 - Kết quả: lượt 1 **15/21 (71,4%)**, 4/4 câu từ chối đạt, 0 câu bịa mã đoạn trong output, chưa đạt ngưỡng tổng · run ID `run-1@20261127-172625` · lượt 2 **19/21 (90,5%)**, 4/4 từ chối đạt, 0 mã nguồn bịa, **đạt chuẩn**; model GPT-6 Luna (`run-2@20261128-080820`), Hậu duyệt ngày 28/11/2026 → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Cấu hình: `cost/personas.yaml`; chạy thử CP3: `cost/simulate-try.csv`, run ID `simulate-try@20261128-080727`, **10 phiên thật, 0 lỗi**, model `gpt-6-luna`.
-- Tổng token thử: **6.517 vào / 885 ra**, 6 lần gọi model. Hai mức giá Gemini được quy đổi trên token GPT-6 Luna; chi tiết `cost/cost-estimate.md`.
-- Kịch bản cơ sở 436 người: **1,91 USD/tháng** theo giá gemini-3.1-flash-lite; **10,65 USD/tháng** theo giá gemini-4-hydrogen. Đây là giá quy đổi, chưa phải hóa đơn OpenAI.
-- Chi phí/task thành công tính theo tỷ lệ GPT-6 Luna 19/21 đã duyệt và 10 phiên thật: bảng ở `cost/cost-estimate.md`; CP4 còn cần ≥50 phiên.
-- CP4 còn chạy ≥50 phiên cùng model với tỷ lệ lượt 2 đã duyệt và đơn giá triển khai được chốt, rồi đối chiếu với impact §2.
+- Cấu hình: `cost/personas.yaml` (3 persona `dung_it` 38,6% · 2 lượt/tháng, `dung_vua` 42,1% · 9 lượt/tháng, `dung_nhieu` 19,3% · 34 lượt/tháng; `seed = 42`); chạy thật **50 phiên, 0/50 lỗi**: `cost/simulate-1.csv`, `cost/simulate-1-summary.md`, `traces/simulate-1.jsonl`, run ID `simulate-1@20261128-122624`, model `gpt-6-luna`.
+- Tổng token đo thật trên `gpt-6-luna`: **56.607 token vào / 5.073 token ra**, **31 lần gọi model**, **38 lần gọi công cụ**. Tỉ lệ đạt dùng tính: **19/21 (90,5%)** của cùng model `gpt-6-luna` (`eval/run-2.csv`, `run-2@20261128-080820`).
+- **Chi phí / task thành công & 3 kịch bản (giá OpenAI từ bảng BTC 25/11/2026, `https://developers.openai.com/api/docs/pricing`):**
+  - `gpt-6-luna` (vào `$0.10` · ra `$0.50` / 1M token): **`$0.00018` / task thành công** (`$0.00016` / phiên); 3 kịch bản tháng: thấp (145 người) **`$0.3225`** · cơ sở (436 người) **`$0.9697`** (**`$0.0022` / người / tháng**) · cao (721 người) **`$1.60`**.
+  - `gpt-6.2-sol` (vào `$2.00` · ra `$10.00` / 1M token): **`$0.0036` / task thành công** (`$0.0033` / phiên); 3 kịch bản tháng: thấp **`$6.45`** · cơ sở **`$19.39`** (**`$0.0445` / người / tháng**) · cao **`$32.07`**.
+- **So với impact (§2):** chi phí API **`$0.0022` / người / tháng** (`gpt-6-luna`, kịch bản cơ sở 436 người) rất nhỏ so với **`~54,5 phút` / người / tháng** tự tua tìm/hỏi lại (`145 người × 10,9 lượt × 5 phút ≈ 132 giờ/tháng`) → đáng thử nghiệm có kiểm soát (chưa tính hosting và công TA xử lý câu chuyển tiếp). Chi tiết: `cost/cost-estimate.md`.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu: Chỉ dùng số tổng hợp & 6 ví dụ đã ẩn danh từ `data/preclass/` (không commit CSV gốc của BTC); log khảo sát `evidence/survey/results.csv` (`n = 34`) hoàn toàn không thu tên, email, MSSV hay SĐT; `data/lessons.json` là bài mẫu trích lược tự dựng (không chép nguyên tài liệu khoá); không đưa thông tin cá nhân người thật vào API gói miễn phí.
@@ -153,9 +154,10 @@ flowchart TD
 | 28/11 08:15 | Bổ sung bảng đối chiếu 21 output GPT-6 Luna trong eval/README.md, đề xuất 19/21 kèm lý do, chờ Hậu/nhóm duyệt | Đối chiếu theo metric đã khóa và mốc chính/slide con; không thay cột pass, kết quả chạy hay chuẩn đạt |
 | 28/11 08:23 | Ghi đối chiếu 5 output lượt 1 Hậu–Thái: 5/5 khớp, bảng và nguồn trong eval/README.md | Dùng nhãn Hậu đã lưu ở commit af4d815 và phiếu Thái được duyệt, không tạo lần chấm mù mới hay sửa điểm cũ |
 | 28/11 09:10 | Cập nhật link video demo gọi AI thật `democp3.mp4` vào `README.md` (`e677002`) | Hoàn thiện đường dẫn video công khai nộp CP3 |
-| 28/11 09:20 | Chuẩn hoá `spec.md` §4 & §10, cập nhật `README.md` lệnh chạy web/extension + trạng thái lượt 2, đồng bộ `docs/ai-usage.md` và viết `reflection/bui-gia-huy.md` | Hoàn thiện phần tài liệu và reflection cá nhân cho CP4 / 23:59 (giữ nguyên chuẩn đạt §7; §8 chờ kết quả `simulate ≥50` phiên của Thái) |
-
-| 28/11 09:03 | Thêm slides/better-ouline.md: 4 slide, 5 phút, demo giữa slide 2 và 3 | Theo bố cục nhóm yêu cầu; số eval lấy từ lượt đã duyệt, chi phí giữ rõ trạng thái 10 phiên và cần cập nhật số đủ CP4 |
+| 28/11 09:03 | Thêm `slides/better-ouline.md` và `slides/demo-slides.html/.pdf`: 4 slide, 5 phút, demo giữa slide 2 và 3 | Theo bố cục nhóm yêu cầu; số eval lấy từ lượt đã duyệt, bản đầu giữ rõ trạng thái 10 phiên chờ cập nhật số đủ CP4 |
+| 28/11 09:20 | Chuẩn hoá `spec.md` §4 & §10, cập nhật `README.md` lệnh chạy web/extension + trạng thái lượt 2, đồng bộ `docs/ai-usage.md` và viết `reflection/bui-gia-huy.md` | Hoàn thiện phần tài liệu và reflection cá nhân cho CP4 / 23:59 (giữ nguyên chuẩn đạt §7; §8 chờ kết quả `simulate ≥50` phiên) |
+| 28/11 11:30 | Thịnh nâng cấp kho bài `data/lessons.json` (`v3.1-all-15-days-parent-child`: 86 đoạn cha + 375 `sub_slides`) và `codebase/tools.py`, `agent.py`, `data/DATA_CARD.md` (PR #3, `b1765d2`) | Cải thiện truy xuất từng slide con cho bản demo/sử dụng thực tế; giữ nguyên kết quả `run-1` và `run-2` đã chốt trước đó |
+| 28/11 12:28 | Cập nhật đơn giá `gpt-6-luna` & `gpt-6.2-sol` (bảng BTC 25/11) vào `cost/personas.yaml`, chạy mô phỏng thật 50 phiên (`simulate-1@20261128-122624`, 0/50 lỗi), đồng bộ `cost/cost-estimate.md`, `spec.md` §8, `README.md`, Slide 4 và xuất `demo-slides.pdf` ra thư mục gốc repo | Hoàn thiện đầy đủ hạng mục CP4 R6 (≥50 phiên + so với impact §2) và R7 / Điều kiện cứng #4 (`demo-slides.pdf` tại root) |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
