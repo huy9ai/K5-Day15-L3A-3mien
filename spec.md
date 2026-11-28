@@ -1,4 +1,4 @@
-# AI SPEC — Trợ giảng pre-class có căn cứ · Nhóm 3mien · Phòng [chờ cập nhật] · Zone [chờ cập nhật]
+# AI SPEC — Trợ giảng pre-class có căn cứ · Nhóm 3mien · Phòng H209 · Zone 1
 
 > Mốc nộp: §7 chốt chuẩn "đạt" tại **CP2 19:30 Thứ Sáu 27/11** · §0–§7 nộp **CP3 10:00 Thứ Bảy 28/11** · đủ §0–§10 **CP4 14:30 Thứ Bảy 28/11** · §10 changelog ghi tiếp đến **23:59 Thứ Bảy 28/11**.
 
@@ -158,6 +158,7 @@ flowchart TD
 | 28/11 09:20 | Chuẩn hoá `spec.md` §4 & §10, cập nhật `README.md` lệnh chạy web/extension + trạng thái lượt 2, đồng bộ `docs/ai-usage.md` và viết `reflection/bui-gia-huy.md` | Hoàn thiện phần tài liệu và reflection cá nhân cho CP4 / 23:59 (giữ nguyên chuẩn đạt §7; §8 chờ kết quả `simulate ≥50` phiên) |
 | 28/11 11:30 | Thịnh nâng cấp kho bài `data/lessons.json` (`v3.1-all-15-days-parent-child`: 86 đoạn cha + 375 `sub_slides`) và `codebase/tools.py`, `agent.py`, `data/DATA_CARD.md` (PR #3, `b1765d2`) | Cải thiện truy xuất từng slide con cho bản demo/sử dụng thực tế; giữ nguyên kết quả `run-1` và `run-2` đã chốt trước đó |
 | 28/11 12:28 | Cập nhật đơn giá `gpt-6-luna` & `gpt-6.2-sol` (bảng BTC 25/11) vào `cost/personas.yaml`, chạy mô phỏng thật 50 phiên (`simulate-1@20261128-122624`, 0/50 lỗi), đồng bộ `cost/cost-estimate.md`, `spec.md` §8, `README.md`, Slide 4 và xuất `demo-slides.pdf` ra thư mục gốc repo | Hoàn thiện đầy đủ hạng mục CP4 R6 (≥50 phiên + so với impact §2) và R7 / Điều kiện cứng #4 (`demo-slides.pdf` tại root) |
+| 28/11 12:45 | Cập nhật thông tin Phòng H209 · Zone 1 vào dòng đầu `spec.md` | Hoàn thiện thông tin phòng demo cho CP4 |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
