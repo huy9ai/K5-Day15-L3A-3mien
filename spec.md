@@ -155,6 +155,8 @@ flowchart TD
 | 28/11 09:10 | Cập nhật link video demo gọi AI thật `democp3.mp4` vào `README.md` (`e677002`) | Hoàn thiện đường dẫn video công khai nộp CP3 |
 | 28/11 09:20 | Chuẩn hoá `spec.md` §4 & §10, cập nhật `README.md` lệnh chạy web/extension + trạng thái lượt 2, đồng bộ `docs/ai-usage.md` và viết `reflection/bui-gia-huy.md` | Hoàn thiện phần tài liệu và reflection cá nhân cho CP4 / 23:59 (giữ nguyên chuẩn đạt §7; §8 chờ kết quả `simulate ≥50` phiên của Thái) |
 
+| 28/11 09:03 | Thêm slides/better-ouline.md: 4 slide, 5 phút, demo giữa slide 2 và 3 | Theo bố cục nhóm yêu cầu; số eval lấy từ lượt đã duyệt, chi phí giữ rõ trạng thái 10 phiên và cần cập nhật số đủ CP4 |
+
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
 | Thời điểm | Đổi gì | Vì sao |
