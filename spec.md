@@ -156,6 +156,8 @@ flowchart TD
 
 | 28/11 08:23 | Ghi đối chiếu 5 output lượt 1 Hậu–Thái: 5/5 khớp, bảng và nguồn trong eval/README.md | Dùng nhãn Hậu đã lưu ở commit af4d815 và phiếu Thái được duyệt, không tạo lần chấm mù mới hay sửa điểm cũ |
 
+| 28/11 09:03 | Thêm slides/better-ouline.md: 4 slide, 5 phút, demo giữa slide 2 và 3 | Theo bố cục nhóm yêu cầu; số eval lấy từ lượt đã duyệt, chi phí giữ rõ trạng thái 10 phiên và cần cập nhật số đủ CP4 |
+
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 
 | Thời điểm | Đổi gì | Vì sao |
