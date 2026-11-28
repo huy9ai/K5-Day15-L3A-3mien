@@ -123,7 +123,7 @@ function renderLectureSelect() {
   if (days.length === 0) {
     const opt = document.createElement("option");
     opt.value = "";
-    opt.textContent = "Chưa có bài HTML trong data-btc/lectures/";
+    opt.textContent = "Chưa có bài HTML trong data/data-btc/lectures/";
     els.lectureSelect.appendChild(opt);
     return;
   }

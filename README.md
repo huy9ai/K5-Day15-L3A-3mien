@@ -83,7 +83,7 @@ Nhóm dùng stack khác (Node, Streamlit, notebook…): sửa hàm `run_app()` t
 
 | Thành phần | Thật / Giả | Ghi chú |
 |---|---|---|
-| Lời gọi AI ở quyết định trung tâm | **Thật** (từ CP3) | Model lượt 1: `qwen3:4b-instruct-2507-q4_K_M` (qua Ollama cục bộ, `eval/run-1.csv`, Run ID `run-1@20261127-172625`); `codebase/ai.py` hỗ trợ thêm OpenRouter / OpenAI / Anthropic |
+| Lời gọi AI ở quyết định trung tâm | **Thật** (từ CP3) | Model lượt 1: `qwen3:4b-instruct-2507-q4_K_M` (qua Ollama cục bộ, `eval/run-1.csv`, Run ID `run-1@20261127-172625`); Đã thử OpenAI `gpt-6-luna`: 3 câu kết nối, 10 phiên mô phỏng không lỗi; eval `run-2@20261128-080820` đạt 19/21 (90,5%), đã được Hậu duyệt. Chi tiết `cost/cost-estimate.md` |
 | Tiền kiểm, 2 công cụ đọc (`search_lesson`, `get_passage`) & hậu kiểm mã đoạn | **Thật** | Code Python tất định chạy trên `data/lessons.json`, chặn tấn công và mã bịa (đã chặn mã bịa `D07-S01` ở câu `B01`) |
 | Kho bài giảng mẫu (`data/lessons.json`) | **Tự dựng / viết lại** | 27 đoạn tóm tắt (`synthetic`) phủ `Day01`–`Day13` bám khung `kc_code` & `transcript_ref` thật từ `data/preclass/` (xem `data/DATA_CARD.md`) |
 
