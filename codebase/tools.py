@@ -35,19 +35,23 @@ STOPWORDS = {
     "vay", "ve", "vi", "viec", "voi", "vua", "xem", "xin",
 }
 
-# Thuật ngữ chuyên ngành đơn từ trong 13 ngày học L3 (đứng 1 mình vẫn mang nghĩa rõ)
+# Thuật ngữ chuyên ngành đơn từ trong 15 ngày học L3 (đứng 1 mình vẫn mang nghĩa rõ)
 DOMAIN_UNIGRAMS = {
     "llm", "hallucination", "token", "temperature", "transformer", "gpu", "autoregressive",
     "chatbot", "discovery", "baseline", "target", "hypothesis", "slice", "react", "trace",
     "thought", "action", "observation", "agentic", "prompt", "cot", "antipattern", "mcp",
     "schema", "docstring", "autonomy", "fallback", "prd", "uncertainty", "ingestion",
     "stale", "extraction", "cascade", "rag", "retrieval", "chunk", "chunking", "indexing",
-    "recall", "grounding", "workflow", "agent", "max_steps", "idempotent", "eval",
-    "evaluation", "taxonomy", "calibration", "grader", "metric", "benchmark", "poc",
-    "pilot", "trifecta", "guardrail", "guardrails", "injection", "exfiltration", "hitl",
-    "deterministic", "asr", "utility", "harness", "sdlc", "oracle", "mutation",
-    "economics", "retry", "simulate", "persona", "usage", "adoption", "outcome",
+    "recall", "grounding", "workflow", "agent", "max_steps", "idempotent", "idempotency",
+    "checkpoint", "eval", "evaluation", "taxonomy", "calibration", "grader", "metric",
+    "benchmark", "poc", "pilot", "trifecta", "guardrail", "guardrails", "injection",
+    "exfiltration", "hitl", "deterministic", "asr", "utility", "harness", "sdlc", "oracle",
+    "mutation", "economics", "retry", "simulate", "persona", "usage", "adoption", "outcome",
     "pii", "synthetic", "seed", "bias", "rubric", "g10", "preclass", "api",
+    "chaining", "routing", "parallelization", "orchestrator", "evaluator", "optimizer",
+    "discriminative", "generative", "gateway", "cooldown", "worktree", "sandbox", "hook",
+    "observability", "telemetry", "tracing", "latency", "slo", "sla", "canary", "rollback",
+    "deployment", "capstone", "shopbot", "zeroshot", "fewshot", "prompting",
 }
 
 OVERVIEW_PHRASES = {
@@ -146,7 +150,26 @@ def _load_index() -> tuple:
         for ph in kw_phrases:
             kw_bigrams |= _bigrams(_tokenize(ph, drop_stopwords=False))
 
-        for tok in all_tokens:
+        # Chỉ mục tầng con (Parent-Child) cho từng sub_slide có summary ngắn
+        sub_index = []
+        sub_all_tokens = set()
+        for sub in seg.get("sub_slides") or []:
+            sub_title = str(sub.get("title") or "")
+            sub_summary = str(sub.get("summary") or "")
+            st_raw = _tokenize(sub_title, drop_stopwords=False)
+            ss_raw = _tokenize(sub_summary, drop_stopwords=False)
+            st_toks = set(_tokenize(sub_title, drop_stopwords=True))
+            ss_toks = _tokenize(sub_summary, drop_stopwords=True)
+            sub_all_tokens |= st_toks | set(ss_toks)
+            sub_index.append({
+                "raw": sub,
+                "title_tokens": st_toks,
+                "summary_tf": Counter(ss_toks),
+                "title_bigrams": _bigrams(st_raw),
+                "summary_bigrams": _bigrams(ss_raw),
+            })
+
+        for tok in all_tokens | sub_all_tokens:
             doc_freq[tok] += 1
 
         indexed.append({
@@ -161,6 +184,7 @@ def _load_index() -> tuple:
             "body_tf": Counter(body_tokens),
             "title_bigrams": title_bigrams | kw_bigrams,
             "body_bigrams": body_bigrams,
+            "sub_index": sub_index,
         })
 
     n_docs = max(len(indexed), 1)
@@ -170,7 +194,16 @@ def _load_index() -> tuple:
     return _LESSONS_CACHE
 
 
-def _format_passage(seg: dict, score: float | None = None) -> dict:
+def _compact_sub_slide(sub: dict) -> dict:
+    return {
+        "slide": sub.get("slide"),
+        "timestamp": sub.get("timestamp", ""),
+        "title": sub.get("title", ""),
+        "summary": sub.get("summary", ""),
+    }
+
+
+def _format_passage(seg: dict, score: float | None = None, matched_slides: list | None = None) -> dict:
     item = {
         "code": seg["code"],
         "lesson": seg.get("lesson") or seg.get("day") or "",
@@ -178,6 +211,8 @@ def _format_passage(seg: dict, score: float | None = None) -> dict:
         "title": seg.get("title") or seg.get("topic") or "",
         "text": seg["text"],
     }
+    if matched_slides:
+        item["matched_slides"] = [_compact_sub_slide(s) for s in matched_slides]
     if score is not None:
         item["score"] = round(score, 2)
     return item
@@ -239,7 +274,7 @@ def search_lesson(query: str, top_k: int = 3) -> list:
     q_bigrams = _bigrams(q_raw_tokens)
     day_filter = _extract_day_hint(cleaned)
 
-    # Nếu học viên nêu rõ cả ngày và số phần (vd "mở Day 7 phần 2", "xem phần 5 của Day 8") -> trả đúng đoạn Dxx-Syy
+    # Nếu học viên nêu rõ cả ngày và số phần (vd "mở Day 7 phần 2", "xem phần 5 của Day 8") -> trả đúng đoạn Dxx-Syy + slide con
     if day_filter:
         part_m = re.search(r"\b(?:phan|muc|doan)\s*0?(\d{1,2})\b", norm_q)
         if part_m:
@@ -247,7 +282,8 @@ def search_lesson(query: str, top_k: int = 3) -> list:
             target_code = "D%02d-S%02d" % (day_num, int(part_m.group(1)))
             for item in indexed:
                 if item["code_upper"] == target_code:
-                    return [_format_passage(item["raw"], 10.0)]
+                    subs = [s for s in (item["raw"].get("sub_slides") or []) if s.get("summary")][:5]
+                    return [_format_passage(item["raw"], 10.0, matched_slides=subs)]
 
     # Nếu học viên hỏi tổng quan cả ngày (không kèm khái niệm cụ thể) -> trả đầy đủ tất cả các phần chính của ngày đó
     if day_filter and _is_day_overview_query(norm_q, q_tokens):
@@ -307,18 +343,66 @@ def search_lesson(query: str, top_k: int = 3) -> list:
                 elif item["body_tf"].get(tok, 0) > 0:
                     score += 0.25
 
+        # Tầng con (Parent-Child): chấm điểm từng sub_slide để bắt sát các câu hỏi chi tiết trong từng slide
+        child_scored = []
+        best_child_score = 0.0
+        best_child_strong = 0
+        for sub_item in item.get("sub_index") or []:
+            c_score = 0.0
+            c_strong = 0
+            for bg in q_bigrams:
+                bg_parts = bg.split()
+                if all(p in STOPWORDS for p in bg_parts):
+                    continue
+                if bg in sub_item["title_bigrams"]:
+                    c_score += 4.2
+                    c_strong += 1
+                elif bg in sub_item["summary_bigrams"]:
+                    c_score += 2.6
+                    c_strong += 1
+            for tok in q_token_set:
+                w = idf.get(tok, 1.0)
+                if tok in DOMAIN_UNIGRAMS:
+                    c_hit = False
+                    if tok in sub_item["title_tokens"]:
+                        c_score += 2.2 * w
+                        c_hit = True
+                    if sub_item["summary_tf"].get(tok, 0) > 0:
+                        c_score += 1.4 * w
+                        c_hit = True
+                    if c_hit:
+                        c_strong += 1
+                else:
+                    if tok in sub_item["title_tokens"]:
+                        c_score += 0.55
+                    elif sub_item["summary_tf"].get(tok, 0) > 0:
+                        c_score += 0.30
+            if c_score > 0:
+                child_scored.append((c_score, c_strong, sub_item["raw"]))
+                if c_score > best_child_score:
+                    best_child_score = c_score
+                    best_child_strong = c_strong
+
+        if best_child_score > 0:
+            score += best_child_score * 0.85
+            strong_hits += best_child_strong
+
         if strong_hits > 0 and score >= 3.0:
-            scored.append((score, strong_hits, item["raw"]))
+            child_scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+            top_children = [sub for sc, _, sub in child_scored if sc >= 0.9][:3]
+            if not top_children:
+                top_children = [s for s in (item["raw"].get("sub_slides") or []) if s.get("summary")][:2]
+            scored.append((score, strong_hits, item["raw"], top_children))
 
     scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
-    return [_format_passage(seg, sc) for sc, _, seg in scored[: max(1, int(top_k))]]
+    return [_format_passage(seg, sc, matched_slides=children) for sc, _, seg, children in scored[: max(1, int(top_k))]]
 
 
 @tool
 def get_passage(code: str) -> dict | None:
     """Tên: get_passage — Lấy nội dung đầy đủ và mốc giây của một đoạn bài giảng theo mã đoạn chuẩn (vd 'D01-S02').
     Input: code (str — mã đoạn dạng 'D01-S02', '[D01-S02]' hoặc đường dẫn transcript 'Day01/d01-r1-v02.txt@123').
-    Output: dict gồm {"code", "lesson", "timestamp", "title", "text"} nếu tìm thấy, hoặc None nếu không tồn tại.
+    Output: dict gồm {"code", "lesson", "timestamp", "title", "text", "matched_slides"} nếu tìm thấy, hoặc None nếu không tồn tại.
     Có tác động ra ngoài không: KHÔNG (chỉ đọc file cục bộ data/lessons.json)."""
     indexed, _ = _load_index()
     clean = (code or "").strip().strip("[]").strip()
@@ -328,5 +412,6 @@ def get_passage(code: str) -> dict | None:
     lower = clean.lower()
     for item in indexed:
         if item["code_upper"] == upper or item["transcript_ref_lower"] == lower:
-            return _format_passage(item["raw"])
+            subs = [s for s in (item["raw"].get("sub_slides") or []) if s.get("summary")][:5]
+            return _format_passage(item["raw"], matched_slides=subs)
     return None
