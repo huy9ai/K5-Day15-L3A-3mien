@@ -1,5 +1,5 @@
 """Web server cục bộ phục vụ giao diện sáng 3 cột (frontend/) nối thẳng với codebase/agent.py
-và tự động nạp nhiều bài giảng từ `data-btc/lectures/Day01` → `Day13` (hỗ trợ cả âm thanh MP3/MP4 có HTTP Range).
+và tự động nạp bài giảng từ `data/data-btc/lectures/Day01` → `Day15` (hỗ trợ cả âm thanh MP3/MP4 có HTTP Range).
 
 Chạy bằng:
     python frontend/server.py
@@ -23,6 +23,7 @@ ROOT_DIR = os.path.dirname(FRONTEND_DIR)
 CODEBASE_DIR = os.path.join(ROOT_DIR, "codebase")
 LESSONS_PATH = os.path.join(ROOT_DIR, "data", "lessons.json")
 LECTURE_ROOTS = [
+    os.path.join(ROOT_DIR, "data", "data-btc", "lectures"),
     os.path.join(ROOT_DIR, "data-btc", "lectures"),
     os.path.join(ROOT_DIR, "data", "lectures"),
 ]
@@ -48,7 +49,7 @@ _HTML_CACHE = {}
 
 
 def _discover_lectures(force: bool = False) -> dict:
-    """Quét tự động tất cả bài giảng trong data-btc/lectures/DayXX/ (cache 5s để tránh đọc đĩa lặp lại)."""
+    """Quét bài giảng trong các thư mục lectures/DayXX/ (cache 5s để tránh đọc đĩa lặp lại)."""
     global _LECTURES_CACHE, _LECTURES_CACHE_TS
     now = time.monotonic()
     if not force and _LECTURES_CACHE is not None and (now - _LECTURES_CACHE_TS) < 5.0:

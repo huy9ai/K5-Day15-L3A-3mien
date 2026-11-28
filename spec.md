@@ -118,13 +118,14 @@ flowchart TD
 ## §7. Đánh giá & chuẩn "đạt" *(guide 2.4, 4.1)*
 - Data card: `data/DATA_CARD.md` · bộ câu thử: `eval/benchmark.csv` (CP2 có 12 câu (3 thường, 6 khó, 3 từ chối); CP3 có 21 câu (9 thường, 8 khó, 4 từ chối)) · metric: `eval/metric_spec.yaml` (4 metric: `trich_dung_nguon`, `xu_ly_mo_ho`, `chan_ngoai_pham_vi`, `khong_lo_dap_an`).
 - **Chuẩn "đạt"** (chốt **trước 19:30 Thứ Sáu 27/11**, giữ nguyên đến 23:59 Thứ Bảy 28/11): **"Đạt khi ≥ 80% tổng số câu thử đạt (`pass = 1`), ĐỒNG THỜI 100% câu `tu_choi` (gồm 2 câu tấn công) đạt và 0 câu nào bịa mã đoạn nguồn không tồn tại trong `data/lessons.json`."**
-- Kết quả: lượt 1 **15/21 (71,4%)**, 4/4 câu từ chối đạt, 0 câu bịa mã đoạn trong output, chưa đạt ngưỡng tổng · run ID `run-1@20261127-172625` · lượt 2 chờ CP4 → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
+- Kết quả: lượt 1 **15/21 (71,4%)**, 4/4 câu từ chối đạt, 0 câu bịa mã đoạn trong output, chưa đạt ngưỡng tổng · run ID `run-1@20261127-172625` · lượt 2 **19/21 (90,5%)**, 4/4 từ chối đạt, 0 mã nguồn bịa, **đạt chuẩn**; model GPT-6 Luna (`run-2@20261128-080820`), Hậu duyệt ngày 28/11/2026 → chi tiết `eval/report.md`, hồ sơ `eval/README.md`
 
 ## §8. Chi phí khi dùng thật *(guide 4.2)*
-- Persona + giá: `cost/personas.yaml` · lượt mô phỏng: `cost/simulate-__.csv` (__ phiên)
-- Chi phí / task thành công: __ (model __) · __ (model __)
-- Chi phí / tháng ở quy mô thật: thấp __ · cơ sở __ · cao __ → chi tiết `cost/cost-estimate.md`
-- So với impact / người / tháng (§2): đáng làm không, vì sao:
+- Cấu hình: `cost/personas.yaml`; chạy thử CP3: `cost/simulate-try.csv`, run ID `simulate-try@20261128-080727`, **10 phiên thật, 0 lỗi**, model `gpt-6-luna`.
+- Tổng token thử: **6.517 vào / 885 ra**, 6 lần gọi model. Hai mức giá Gemini được quy đổi trên token GPT-6 Luna; chi tiết `cost/cost-estimate.md`.
+- Kịch bản cơ sở 436 người: **1,91 USD/tháng** theo giá gemini-3.1-flash-lite; **10,65 USD/tháng** theo giá gemini-4-hydrogen. Đây là giá quy đổi, chưa phải hóa đơn OpenAI.
+- Chi phí/task thành công tính theo tỷ lệ GPT-6 Luna 19/21 đã duyệt và 10 phiên thật: bảng ở `cost/cost-estimate.md`; CP4 còn cần ≥50 phiên.
+- CP4 còn chạy ≥50 phiên cùng model với tỷ lệ lượt 2 đã duyệt và đơn giá triển khai được chốt, rồi đối chiếu với impact §2.
 
 ## §9. Rủi ro & an toàn
 - Dữ liệu: Chỉ dùng số tổng hợp & 6 ví dụ đã ẩn danh từ `data/preclass/` (không commit CSV gốc của BTC); log khảo sát `evidence/survey/results.csv` (`n = 34`) hoàn toàn không thu tên, email, MSSV hay SĐT; `data/lessons.json` là bài mẫu trích lược tự dựng (không chép nguyên tài liệu khoá); không đưa thông tin cá nhân người thật vào API gói miễn phí.
@@ -148,6 +149,12 @@ flowchart TD
 | 27/11 19:03 | Đổi nguồn bằng chứng thứ hai từ phỏng vấn P1–P4 sang khảo sát hành vi `n = 28` học viên L3 ngoài nhóm (`evidence/survey/`), xoá khung trống `P1.md`, cập nhật `canvas.md` & `evidence/summary.md` | Đạt đủ 2 nguồn vượt ngưỡng R1 (`≥20` phiếu khảo sát + đào data BTC) và đối chiếu khớp tỉ lệ dùng trợ giảng (`33,3%` vs `35,7%`) |
 | 27/11 19:15 | Cập nhật đồng bộ `spec.md` §0, §1, §2, §9 và `README.md` (giữ nguyên chuẩn "đạt" §7) | Thay ước tính thời gian `5 phút/lần` bằng dữ liệu thật Q8 khảo sát (`67,9%` mất `≥5 phút`) và ghi rõ phần thật/giả ở CP3 |
 | 27/11 23:20 | Cập nhật khảo sát đợt 2 từ `n = 28` lên `n = 34` (`evidence/survey/results.csv`) và gắn link video demo CP3 vào `README.md` | Bổ sung 6 phiếu mới hoàn thành vào tối 27/11; hoàn thiện đường dẫn video công khai nộp CP3 |
+
+| 28/11 08:10 | Cập nhật CP3 bằng kết quả OpenAI: thử 3 câu, mô phỏng thử 10 phiên và eval 21 câu GPT-6 Luna; đồng bộ cost/report/README | Các lượt không lỗi; eval `run-2@20261128-080820` chưa chấm nên chưa công bố tỷ lệ đạt hoặc chi phí/task thành công. Giữ nguyên file kết quả và chuẩn đạt |
+
+| 28/11 08:15 | Bổ sung bảng đối chiếu 21 output GPT-6 Luna trong eval/README.md, đề xuất 19/21 kèm lý do, chờ Hậu/nhóm duyệt | Đối chiếu theo metric đã khóa và mốc chính/slide con; không thay cột pass, kết quả chạy hay chuẩn đạt |
+
+| 28/11 08:23 | Ghi đối chiếu 5 output lượt 1 Hậu–Thái: 5/5 khớp, bảng và nguồn trong eval/README.md | Dùng nhãn Hậu đã lưu ở commit af4d815 và phiếu Thái được duyệt, không tạo lần chấm mù mới hay sửa điểm cũ |
 
 **Sau CP4 (đến 23:59 Thứ Bảy 28/11)** (sửa theo góp ý — không sửa chuẩn "đạt", câu thử, số bằng chứng, kết quả các lượt đã chạy)
 

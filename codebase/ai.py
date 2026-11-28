@@ -141,7 +141,7 @@ def call_openai(system: str, user: str, model_name: str) -> dict:
     data = post_json(
         URL_OPENAI,
         {"Authorization": "Bearer " + API_KEY},
-        {"model": model_name, "messages": messages, "temperature": 0.2},
+        {"model": model_name, "messages": messages},
     )
     usage = data["usage"]
     return {
